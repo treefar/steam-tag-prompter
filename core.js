@@ -27,21 +27,21 @@ const BAN = new Set(["Software", "Utilities", "Design & Illustration", "Animatio
 "Video Production", "Audio Production", "Photo Editing", "Game Development", "Software Training",
 "Benchmark", "Hardware", "Desktop Companion", "360 Video", "Mod", "Gaming", "Education",
 "Sexual Content", "Nudity", "Hentai", "Free to Play", "Early Access", "Indie", "Remake", "Sequel",
-"Reboot", "Full Controller Support", "Controller", "Mouse Only", "Touch-Friendly", "Voice Control",
+"Reboot", "Controller", "Mouse Only", "Touch-Friendly", "Voice Control",
 "TrackIR", "Tutorial"]);
 
 /* 「保證可做」與「刻意衝突」額外排除：多人基礎建設龐大、需特殊裝備、或需大型系統支撐 */
-const HEAVY = new Set(["Multiplayer", "MMO", "MMORPG", "MOBA", "Battle Royale",
-"Massively Multiplayer", "VR", "Asymmetric VR", "Photorealistic", "Open World",
+const HEAVY = new Set(["Multiplayer", "MMORPG", "MOBA", "Battle Royale",
+"Massively Multiplayer", "VR", "Asymmetric VR", "Open World",
 "Character Customization", "Level Editor", "Moddable"]);
 
 /* 互斥組（非隨機模式生效）。待抉擇配對內部的互斥是刻意的，不受此限。 */
 const CONFLICT = [
 ["2D","3D"],["2D","VR"],["2D","First-Person"],["2D","Third Person"],["2.5D","2D"],["2.5D","3D"],
-["Pixel Graphics","Realistic"],["Pixel Graphics","Photorealistic"],["Pixel Graphics","Cel-Shaded"],
+["Pixel Graphics","Realistic"],
 ["Realistic","Cartoony"],["Realistic","Anime"],["Realistic","Cartoon"],["Realistic","Minimalist"],
 ["Roguelike","Roguelite"],["Traditional Roguelike","Action Roguelike"],
-["Singleplayer","Multiplayer"],["Singleplayer","MMO"],["Singleplayer","Massively Multiplayer"],
+["Singleplayer","Multiplayer"],["Singleplayer","Massively Multiplayer"],
 ["Casual","Difficult"],["Casual","Souls-like"],["Family Friendly","Gore"],["Family Friendly","Violent"],
 ["Family Friendly","Horror"],["Family Friendly","Dark"],
 ["Turn-Based Combat","Fast-Paced"],["Turn-Based","Real-Time"],["Turn-Based Combat","Real Time Tactics"],
@@ -81,10 +81,10 @@ const CLASH = [
    配對本身可以互斥（2D vs 3D 就是要你選一個），故不套用互斥檢查。 */
 const ASK_PAIRS = [
 ["Roguelike","Roguelite"],["Turn-Based Combat","Real Time Tactics"],["Turn-Based Tactics","RTS"],
-["Pixel Graphics","Anime"],["Pixel Graphics","Low Poly"],["Hand-drawn","Pixel Graphics"],
+["Pixel Graphics","Anime"],["Stylized","Realistic"],["Hand-drawn","Pixel Graphics"],
 ["2D","3D"],["Top-Down","Side Scroller"],["Isometric","Top-Down"],["First-Person","Third Person"],
 ["Horror","Psychological Horror"],["Survival","Survival Horror"],["Cozy","Difficult"],
-["Relaxing","Tense"],["Story Rich","Fast-Paced"],["Visual Novel","Point & Click"],
+["Relaxing","Thriller"],["Story Rich","Fast-Paced"],["Visual Novel","Point & Click"],
 ["Farming Sim","Life Sim"],["Metroidvania","Platformer"],["Souls-like","Action RPG"],
 ["JRPG","CRPG"],["Tower Defense","Auto Battler"],["Deckbuilding","Card Battler"],
 ["Singleplayer","Local Co-Op"],["Exploration","Score Attack"],["Perma Death","Replay Value"],
@@ -151,6 +151,10 @@ function rollTags(o) {
   const out = locked.map(s => ({ en: s.en, role: s.role, lock: true }));
   const has = en => out.some(x => x.en === en);
   const clash = en => strict && out.some(x => CFL[x.en] && CFL[x.en].has(en));
+  /* 配對表（CLASH／ASK_PAIRS）是用標籤名寫的，不會經過上面那個 pool 過濾，
+     所以要自己套一次同樣的條件——否則勾了「只抽精選」還是會被塞進非精選標籤。 */
+  const usable = en => Boolean(byEn[en]) && !BAN.has(en) && !has(en)
+                       && (!o.curatedOnly || byEn[en][6]);
   const take = cands => {
     const ok = cands.filter(t => !has(t[1]) && !clash(t[1]));
     return ok.length ? ok[rnd(ok.length)] : null;
@@ -160,9 +164,9 @@ function rollTags(o) {
   // ① 刻意衝突：反差配對當差異化核心。兩者都要可用且塞得進額度，否則整組不採用
   //    （只加半組會讓 💥 模式靜默退化成普通抽籤）
   if (mode === "clash") {
-    const usable = CLASH.filter(p => p.every(en => byEn[en] && !BAN.has(en) && !has(en)));
-    if (usable.length && out.length + 2 <= n) {
-      usable[rnd(usable.length)].forEach(en => out.push({ en: en, role: "diff", lock: false }));
+    const cands = CLASH.filter(p => p.every(usable));
+    if (cands.length && out.length + 2 <= n) {
+      cands[rnd(cands.length)].forEach(en => out.push({ en: en, role: "diff", lock: false }));
     } else if (out.length + 2 > n) {
       notice = `抽 ${n} 個放不下反差配對，請調高數量或解鎖幾個`;
     }
@@ -170,7 +174,7 @@ function rollTags(o) {
   // ② 留一組真的要二選一的待抉擇
   if (strict && out.length + 2 <= n) {
     const cands = ASK_PAIRS.filter(p =>
-      p.every(en => byEn[en] && !has(en) && !BAN.has(en) && !HEAVY.has(en)) && !p.some(en => clash(en)));
+      p.every(en => usable(en) && !HEAVY.has(en)) && !p.some(en => clash(en)));
     if (cands.length) cands[rnd(cands.length)].forEach(en => out.push({ en: en, role: "ask", lock: false }));
   }
   // ③ 必要維度補齊（已被待抉擇組覆蓋的維度視為已覆蓋）。

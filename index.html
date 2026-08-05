@@ -118,7 +118,6 @@ section.dim h2 .hint{font-size:12px;color:var(--ink-dim);font-weight:400}
 .chip[data-role="diff"] .badge{display:inline;background:var(--diff)}
 .chip[data-role="ask"] .badge{display:inline;background:var(--ask)}
 .chip.hidden{display:none}
-.chip .unof{font-size:10px;color:var(--amber);border:1px solid var(--amber);border-radius:4px;padding:0 3px}
 .note-tip{display:block;font-size:11.5px;color:var(--ink-dim);max-width:100%}
 
 /* 右側工單面板 */
@@ -231,9 +230,9 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
   </div>
   <div id="dims"></div>
   <footer class="src">
-    目前顯示 <b id="shown">0</b> 個標籤（庫內共 <b id="nAll">0</b>）。預設只顯示 <b id="nCur">0</b> 個精選標籤；勾選「顯示全部官方標籤」可展開全部。搜尋時一律搜全庫。<br>
-    資料來源：Steam 官方熱門標籤清單 <b id="nOff">0</b> 筆（<code>store.steampowered.com/tagdata/populartags</code>，中文名為 Valve 官方繁中譯名，抓取日期見 <code>data/raw/SOURCE.md</code>），併入十維度分類、標記與白話說明。說明文字為教學用途整理，非 Valve 官方定義。標籤名稱與官方譯名之著作權屬 Valve Corporation；本專案與 Valve 無關聯，未經其背書。<br>
-    標「非官方」的 <b id="nUn">0</b> 個標籤未出現在官方熱門清單中，多為社群慣用詞，商店頁可能無法選用，工單會註記該改掛哪個官方標籤。標記說明：🔥 大流量高競爭｜🎯 受眾精準利基｜⚠️ 使用注意。點標籤循環切換：核心 → 差異化 → 待抉擇 → 取消。
+    目前顯示 <b id="shown">0</b> 個標籤（共 <b id="nAll">0</b> 個，<b>全部都是 Steam 官方標籤</b>，可直接用在商店頁）。預設只顯示 <b id="nCur">0</b> 個定位常用的；勾選「顯示全部官方標籤」可展開全部。搜尋時一律搜全庫。<br>
+    資料來源：Steam 官方熱門標籤清單（<code>store.steampowered.com/tagdata/populartags</code>，中文名為 Valve 官方繁中譯名，抓取日期見 <code>data/raw/SOURCE.md</code>），併入十維度分類、標記與白話說明。本工具刻意不收官方清單以外的社群慣用詞——那些說法寫在最接近的官方標籤說明裡（搜「低多邊形」會找到 Stylized），官方沒有的美術或機制細節請寫在右側「一句話構想」欄。<br>
+    說明文字為教學用途整理，非 Valve 官方定義。標籤名稱與官方譯名之著作權屬 Valve Corporation；本專案與 Valve 無關聯，未經其背書。標記說明：🔥 大流量高競爭｜🎯 受眾精準利基｜⚠️ 使用注意。點標籤循環切換：核心 → 差異化 → 待抉擇 → 取消。
   </footer>
 </main>
 
@@ -366,9 +365,8 @@ const T=[
 [1,"Beat 'em up","帶狀捲軸動作","","亦稱「清版動作」。",4158,1],
 [1,"Hack and Slash","砍殺","","亦稱「砍殺動作」。",1646,1],
 [1,"Stealth","潛行","n","也是機制訊號",1687,1],
-[1,"Survival","生存","h","",1662,1],
+[1,"Survival","生存","h","社群也說：Survival Craft 生存製作（與 Crafting 併掛）。",1662,1],
 [1,"Survival Horror","生存恐怖","n","",3978,1],
-[1,"Survival Craft","生存製作","u","採集建造向。商店頁請改掛 Survival＋Crafting 兩個一起掛。",1353498,1],
 [1,"Open World Survival Craft","開放世界生存工藝","n","亦稱「開放世界生存製作」。Valheim 系，完整詞組",1100689,1],
 [1,"Battle Royale","大逃殺","w","多人基礎建設龐大",176981,1],
 [1,"MOBA","多人線上戰術競技","w","亦稱「多人線上競技」。多人基礎建設龐大",1718,1],
@@ -502,20 +500,18 @@ const T=[
 [2,"Split Screen","分割畫面","","本地多人連動",10816,1],
 [2,"6DOF","六自由度","","",4835,0],
 [3,"Pixel Graphics","像素風格","hn","亦稱「像素美術」。獨立遊戲大宗",3964,1],
-[3,"Anime","日本動畫","hn","亦稱「動漫風」。日系受眾精準",4085,1],
+[3,"Anime","日本動畫","hn","亦稱「動漫風」。日系受眾精準社群也說：日系校園（官方無 School 標籤，用 Anime＋Story Rich 表達）。",4085,1],
 [3,"Cartoony","卡通風格","","亦稱「卡通風」。",4195,1],
 [3,"Cartoon","卡通","","",4562,1],
 [3,"Hand-drawn","手繪","n","",6815,1],
-[3,"Stylized","風格化","","泛用",4252,1],
-[3,"Low Poly","低多邊形","u","社群慣用詞；資產庫最強項。商店頁請改掛 Stylized 或 Voxel。",1353493,1],
+[3,"Stylized","風格化","","泛用社群也說：Low Poly 低多邊形、Cel-Shaded 卡通渲染。",4252,1],
 [3,"Voxel","立體像素","","亦稱「體素」。",1732,1],
 [3,"Realistic","擬真","","亦稱「寫實」。",4175,1],
 [3,"Retro","復古","","",4004,1],
 [3,"Minimalist","極簡主義","n","亦稱「極簡」。",4094,1],
-[3,"Abstract","抽象","","",4400,1],
+[3,"Abstract","抽象","","社群也說：Artistic 藝術遊戲。",4400,1],
 [3,"Comic Book","漫畫","","亦稱「美漫風」。",1751,1],
 [3,"Noir","黑色","","亦稱「黑色電影」。",6052,1],
-[3,"Cel-Shaded","卡通渲染","u","社群慣用；RealToon 產出可對應。商店頁請改掛 Stylized 或 Cartoony。",1353488,1],
 [3,"Cinematic","電影感","","",4145,1],
 [3,"Colorful","色彩鮮艷","","",4305,0],
 [3,"Psychedelic","迷幻","","",1714,0],
@@ -546,7 +542,6 @@ const T=[
 [4,"Underwater","水底","","亦稱「水下」。",9157,1],
 [4,"Nature","自然","n","",30358,1],
 [4,"Agriculture","農業","","農場題材連動",22602,1],
-[4,"School","校園","u","社群慣用；日系校園＝Anime＋School＋Visual Novel 組合訊號。商店頁請改掛 Anime＋Story Rich 的組合。",1353496,1],
 [4,"Robots","機器人","","",5752,1],
 [4,"Mechs","機甲","n","",4821,1],
 [4,"Dinosaurs","恐龍","","",5160,1],
@@ -606,12 +601,10 @@ const T=[
 [4,"Capybaras","水豚","","",1352486,0],
 [4,"Wolves","狼","","",20486,0],
 [4,"Zoo","動物園","","",46348,0],
-[5,"Atmospheric","氛圍","hn","亦稱「氛圍系」。探索、恐怖必掛",4166,1],
+[5,"Atmospheric","氛圍","hn","亦稱「氛圍系」。探索、恐怖必掛社群也說：Creepy 毛骨悚然。",4166,1],
 [5,"Dark","黑暗","n","",4342,1],
 [5,"Horror","恐怖","h","",1667,1],
 [5,"Psychological Horror","心理恐怖","n","受眾極精準",1721,1],
-[5,"Creepy","毛骨悚然","u","商店頁請改掛 Horror 或 Atmospheric。",1353490,1],
-[5,"Tense","緊張","u","商店頁請改掛 Thriller 或 Atmospheric。",1353499,1],
 [5,"Gore","鮮血","w","亦稱「血腥」。分級與地區限制",4345,1],
 [5,"Violent","暴力","w","分級與地區限制",4667,1],
 [5,"Cute","可愛","hn","情緒與美術跨維度訊號",4726,1],
@@ -621,12 +614,11 @@ const T=[
 [5,"Funny","搞笑","","",4136,1],
 [5,"Comedy","歡樂","","亦稱「喜劇」。",1719,1],
 [5,"Emotional","感性","n","亦稱「催淚情感」。情感敘事對口",5608,1],
-[5,"Dramatic","戲劇性","u","商店頁請改掛 Narrative 或 Story Rich。",1353492,1],
 [5,"Surreal","超現實","n","藝術向",1710,1],
 [5,"Philosophical","哲理","","亦稱「哲學性」。",15277,1],
 [5,"Family Friendly","闔家","","亦稱「闔家適宜」。",5350,1],
 [5,"Difficult","低容錯","n","亦稱「高難度」。魂系、精準平台連動",4026,1],
-[5,"Thriller","驚悚","","",4064,0],
+[5,"Thriller","驚悚","","社群也說：Tense 緊張。",4064,0],
 [5,"Dark Humor","黑色幽默","","",5923,0],
 [5,"Memes","網路梗","","",10397,0],
 [5,"Dark Comedy","黑色喜劇","","",19995,0],
@@ -638,24 +630,20 @@ const T=[
 [5,"Nostalgia","懷舊","","",14720,0],
 [5,"Epic","巨作","","",3965,0],
 [5,"Jump Scare","突發驚嚇","","",42089,0],
-[6,"Story Rich","劇情豐富","hn","敘事遊戲核心標籤",1742,1],
+[6,"Story Rich","劇情豐富","hn","敘事遊戲核心標籤社群也說：Dramatic 戲劇性、Drama 劇情片式、Multiple Protagonists 多主角、Character Development 角色成長敘事。",1742,1],
 [6,"Choices Matter","選擇導向","n","亦稱「選擇有意義」。",6426,1],
 [6,"Multiple Endings","多結局","n","",6971,1],
 [6,"Nonlinear","非線性","","亦稱「分支敘事」。社群慣用社群常寫作「Branching Narrative」，官方標籤是 Nonlinear。",6869,1],
-[6,"Narration","旁白","u","商店頁請改掛 Dynamic Narration。",1353495,1],
 [6,"Text-Based","純文字","","亦稱「文字為主」。",31275,1],
 [6,"Romance","愛情","n","亦稱「戀愛」。",4947,1],
-[6,"Drama","劇情片式","u","商店頁請改掛 Narrative 或 Story Rich。",1353491,1],
 [6,"Female Protagonist","女主人翁","n","亦稱「女性主角」。有專屬瀏覽受眾",7208,1],
-[6,"Multiple Protagonists","多主角","u","商店頁請改掛 Story Rich（官方無此標籤）。",1353494,1],
 [6,"Silent Protagonist","無聲主角","","亦稱「沉默主角」。",15954,1],
-[6,"Character Development","角色成長敘事","u","社群慣用。商店頁請改掛 Lore-Rich 或 Story Rich。",1353489,1],
 [6,"Psychological","心理","n","亦稱「心理描寫」。",5186,1],
 [6,"LGBTQ+","LGBTQ+","n","亦稱「多元性向」。精準社群",44868,1],
 [6,"Linear","線性","","",7250,0],
 [6,"Lore-Rich","故事架構豐富","","",3854,0],
 [6,"Dialogue Heavy","對話導向","","",42152,0],
-[6,"Dynamic Narration","動態旁白","","",9592,0],
+[6,"Dynamic Narration","動態旁白","","社群也說：Narration 旁白。",9592,0],
 [6,"Narrative","敘事","","",7702,0],
 [6,"Remake","重製","","",5708,0],
 [6,"Episodic","影集","","",4242,0],
@@ -675,10 +663,9 @@ const T=[
 [7,"Exploration","探索","n","",3834,1],
 [7,"Procedural Generation","程序生成","n","亦稱「程序化生成」。",5125,1],
 [7,"Perma Death","永久死亡","n","",1759,1],
-[7,"Character Customization","自訂角色","nw","亦稱「角色自訂」。需 UMA 級系統支撐",4747,1],
+[7,"Character Customization","自訂角色","nw","亦稱「角色自訂」。需 UMA 級系統支撐社群也說：Skill Tree 技能樹。",4747,1],
 [7,"Loot","打寶","n","亦稱「刷寶掉落」。",4236,1],
 [7,"Class-Based","職業導向","","亦稱「職業系統」。",4155,1],
-[7,"Skill Tree","技能樹","u","社群慣用。商店頁請改掛 Character Customization 或 Class-Based。",1353497,1],
 [7,"Level Editor","關卡編輯","","亦稱「關卡編輯器」。",8122,1],
 [7,"Moddable","可製作模組","","亦稱「可改裝」。",1669,1],
 [7,"Physics","物理","n","亦稱「物理玩法」。",3968,1],
@@ -740,9 +727,8 @@ const T=[
 [8,"Local Co-Op","單機合作","n","亦稱「本地合作」。",3841,1],
 [8,"Local Multiplayer","單機多人","n","亦稱「本地多人」。",7368,1],
 [8,"4 Player Local","四人單機","","亦稱「四人同樂」。派對",4840,1],
-[8,"PvP","玩家對戰","","",1775,1],
+[8,"PvP","玩家對戰","","社群也說：Asymmetric 非對稱對抗（官方僅有 Asymmetric VR）。",1775,1],
 [8,"PvE","玩家合作","","亦稱「玩家對環境」。",6730,1],
-[8,"Asymmetric","非對稱對抗","u","社群慣用。商店頁請改掛 PvP（官方僅有 Asymmetric VR）。",1353487,1],
 [8,"Massively Multiplayer","大型多人","w","同 Multiplayer 警告社群常寫作「MMO」，官方標籤是 Massively Multiplayer。",128,1],
 [8,"Team-Based","團隊導向","","",5711,0],
 [8,"Co-op Campaign","合作戰役","","",4508,0],
@@ -753,7 +739,6 @@ const T=[
 [9,"Software","軟體","","亦稱「工具軟體」。非遊戲產品",8013,1],
 [9,"Utilities","工具","","亦稱「實用工具」。非遊戲產品",87,1],
 [9,"Experimental","試驗性","n","亦稱「實驗性」。研究原型可掛",13782,1],
-[9,"Artistic","藝術遊戲","u","社群慣用組合。商店頁請改掛 Abstract 或 Beautiful。",1353486,1],
 [9,"Sexual Content","色情內容","","",12095,0],
 [9,"Nudity","裸露","","",6650,0],
 [9,"Hentai","Hentai","","",9130,0],
@@ -773,7 +758,7 @@ const T=[
 ];
 /* 快速起手式：c=核心 q=待抉擇 d=差異化 */
 const PRESETS=[
-["日系校園（戀愛／恐怖）",{c:["Anime","Story Rich","First-Person","Singleplayer"],q:["Visual Novel","Psychological Horror"],d:["School"]}],
+["日系校園（戀愛／恐怖）",{c:["Anime","Story Rich","First-Person","Singleplayer"],q:["Visual Novel","Psychological Horror"],d:["Multiple Endings"]}],
 ["像素農場",{c:["Farming Sim","Pixel Graphics","Life Sim","Top-Down","Singleplayer"],q:[],d:["Relaxing","Cozy"]}],
 ["恐怖探索",{c:["Horror","Atmospheric","First-Person","Exploration","Singleplayer"],q:[],d:["Psychological Horror"]}],
 ["動作肉鴿",{c:["Roguelite","Action","Procedural Generation","Singleplayer"],q:["Top-Down","2D"],d:["Difficult"]}],
@@ -819,21 +804,21 @@ const BAN = new Set(["Software", "Utilities", "Design & Illustration", "Animatio
 "Video Production", "Audio Production", "Photo Editing", "Game Development", "Software Training",
 "Benchmark", "Hardware", "Desktop Companion", "360 Video", "Mod", "Gaming", "Education",
 "Sexual Content", "Nudity", "Hentai", "Free to Play", "Early Access", "Indie", "Remake", "Sequel",
-"Reboot", "Full Controller Support", "Controller", "Mouse Only", "Touch-Friendly", "Voice Control",
+"Reboot", "Controller", "Mouse Only", "Touch-Friendly", "Voice Control",
 "TrackIR", "Tutorial"]);
 
 /* 「保證可做」與「刻意衝突」額外排除：多人基礎建設龐大、需特殊裝備、或需大型系統支撐 */
-const HEAVY = new Set(["Multiplayer", "MMO", "MMORPG", "MOBA", "Battle Royale",
-"Massively Multiplayer", "VR", "Asymmetric VR", "Photorealistic", "Open World",
+const HEAVY = new Set(["Multiplayer", "MMORPG", "MOBA", "Battle Royale",
+"Massively Multiplayer", "VR", "Asymmetric VR", "Open World",
 "Character Customization", "Level Editor", "Moddable"]);
 
 /* 互斥組（非隨機模式生效）。待抉擇配對內部的互斥是刻意的，不受此限。 */
 const CONFLICT = [
 ["2D","3D"],["2D","VR"],["2D","First-Person"],["2D","Third Person"],["2.5D","2D"],["2.5D","3D"],
-["Pixel Graphics","Realistic"],["Pixel Graphics","Photorealistic"],["Pixel Graphics","Cel-Shaded"],
+["Pixel Graphics","Realistic"],
 ["Realistic","Cartoony"],["Realistic","Anime"],["Realistic","Cartoon"],["Realistic","Minimalist"],
 ["Roguelike","Roguelite"],["Traditional Roguelike","Action Roguelike"],
-["Singleplayer","Multiplayer"],["Singleplayer","MMO"],["Singleplayer","Massively Multiplayer"],
+["Singleplayer","Multiplayer"],["Singleplayer","Massively Multiplayer"],
 ["Casual","Difficult"],["Casual","Souls-like"],["Family Friendly","Gore"],["Family Friendly","Violent"],
 ["Family Friendly","Horror"],["Family Friendly","Dark"],
 ["Turn-Based Combat","Fast-Paced"],["Turn-Based","Real-Time"],["Turn-Based Combat","Real Time Tactics"],
@@ -873,10 +858,10 @@ const CLASH = [
    配對本身可以互斥（2D vs 3D 就是要你選一個），故不套用互斥檢查。 */
 const ASK_PAIRS = [
 ["Roguelike","Roguelite"],["Turn-Based Combat","Real Time Tactics"],["Turn-Based Tactics","RTS"],
-["Pixel Graphics","Anime"],["Pixel Graphics","Low Poly"],["Hand-drawn","Pixel Graphics"],
+["Pixel Graphics","Anime"],["Stylized","Realistic"],["Hand-drawn","Pixel Graphics"],
 ["2D","3D"],["Top-Down","Side Scroller"],["Isometric","Top-Down"],["First-Person","Third Person"],
 ["Horror","Psychological Horror"],["Survival","Survival Horror"],["Cozy","Difficult"],
-["Relaxing","Tense"],["Story Rich","Fast-Paced"],["Visual Novel","Point & Click"],
+["Relaxing","Thriller"],["Story Rich","Fast-Paced"],["Visual Novel","Point & Click"],
 ["Farming Sim","Life Sim"],["Metroidvania","Platformer"],["Souls-like","Action RPG"],
 ["JRPG","CRPG"],["Tower Defense","Auto Battler"],["Deckbuilding","Card Battler"],
 ["Singleplayer","Local Co-Op"],["Exploration","Score Attack"],["Perma Death","Replay Value"],
@@ -943,6 +928,10 @@ function rollTags(o) {
   const out = locked.map(s => ({ en: s.en, role: s.role, lock: true }));
   const has = en => out.some(x => x.en === en);
   const clash = en => strict && out.some(x => CFL[x.en] && CFL[x.en].has(en));
+  /* 配對表（CLASH／ASK_PAIRS）是用標籤名寫的，不會經過上面那個 pool 過濾，
+     所以要自己套一次同樣的條件——否則勾了「只抽精選」還是會被塞進非精選標籤。 */
+  const usable = en => Boolean(byEn[en]) && !BAN.has(en) && !has(en)
+                       && (!o.curatedOnly || byEn[en][6]);
   const take = cands => {
     const ok = cands.filter(t => !has(t[1]) && !clash(t[1]));
     return ok.length ? ok[rnd(ok.length)] : null;
@@ -952,9 +941,9 @@ function rollTags(o) {
   // ① 刻意衝突：反差配對當差異化核心。兩者都要可用且塞得進額度，否則整組不採用
   //    （只加半組會讓 💥 模式靜默退化成普通抽籤）
   if (mode === "clash") {
-    const usable = CLASH.filter(p => p.every(en => byEn[en] && !BAN.has(en) && !has(en)));
-    if (usable.length && out.length + 2 <= n) {
-      usable[rnd(usable.length)].forEach(en => out.push({ en: en, role: "diff", lock: false }));
+    const cands = CLASH.filter(p => p.every(usable));
+    if (cands.length && out.length + 2 <= n) {
+      cands[rnd(cands.length)].forEach(en => out.push({ en: en, role: "diff", lock: false }));
     } else if (out.length + 2 > n) {
       notice = `抽 ${n} 個放不下反差配對，請調高數量或解鎖幾個`;
     }
@@ -962,7 +951,7 @@ function rollTags(o) {
   // ② 留一組真的要二選一的待抉擇
   if (strict && out.length + 2 <= n) {
     const cands = ASK_PAIRS.filter(p =>
-      p.every(en => byEn[en] && !has(en) && !BAN.has(en) && !HEAVY.has(en)) && !p.some(en => clash(en)));
+      p.every(en => usable(en) && !HEAVY.has(en)) && !p.some(en => clash(en)));
     if (cands.length) cands[rnd(cands.length)].forEach(en => out.push({ en: en, role: "ask", lock: false }));
   }
   // ③ 必要維度補齊（已被待抉擇組覆蓋的維度視為已覆蓋）。
@@ -1100,14 +1089,12 @@ function buildDims(){
     h+=`<section class="dim" id="dim${i}"><h2>維度 ${i+1}：${d[0]}<span class="hint">${d[1]}</span></h2><div class="chips">`;
     T.filter(t=>t[0]===i).forEach(t=>{
       const mk=(t[3].includes("h")?"🔥":"")+(t[3].includes("n")?"🎯":"")+(t[3].includes("w")?"⚠️":"");
-      const tip=[t[4]||"",t[3].includes("u")?"未在官方熱門標籤清單中，商店頁可能無法選用":`官方標籤 ID ${t[5]}`]
-                .filter(Boolean).join("　·　");
+      const tip=[t[4]||"",`Steam 官方標籤 ID ${t[5]}`].filter(Boolean).join("　·　");
       // 用 <button> 而非 <span>：鍵盤可 Tab 進入、Enter／Space 可切換，螢幕閱讀器也讀得出狀態
       h+=`<button type="button" class="chip" data-en="${esc(t[1])}" data-cur="${t[6]}"`+
          ` aria-pressed="false" title="${esc(tip)}">`+
          `<b>${esc(t[1])}</b><span class="zh">${esc(t[2])}</span>`+
          (mk?`<span class="mk">${mk}</span>`:"")+
-         (t[3].includes("u")?`<span class="unof">非官方</span>`:"")+
          `<span class="badge"></span></button>`;
     });
     h+=`</div></section>`;
@@ -1396,8 +1383,6 @@ document.querySelectorAll("input[name=aud]").forEach(el=>el.addEventListener("ch
 /* footer 數字一律從 T 算，不寫死——否則跑過 build-tags.js --fetch 後會與實際不符 */
 $("nAll").textContent=T.length;
 $("nCur").textContent=T.filter(t=>t[6]).length;
-$("nUn").textContent=T.filter(t=>t[3].includes("u")).length;
-$("nOff").textContent=T.filter(t=>!t[3].includes("u")).length;
 
 buildDims();load();render();
 </script>

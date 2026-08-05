@@ -101,23 +101,23 @@ const ALIAS = {
   "Full Controller Support": "Controller",  // 官方標籤名為 Controller
 };
 
-/* ---- 未在官方清單、但概念上有用的標籤：註明商店頁該改掛什麼 ----
-   這些是官方真的沒有的缺口（非同義詞），保留供對齊方向用，但工單與 UI 會註記不可上架。 */
-const SUBSTITUTE = {
-  "Low Poly": "Stylized 或 Voxel",
-  "Cel-Shaded": "Stylized 或 Cartoony",
-  "School": "Anime＋Story Rich 的組合",
-  "Survival Craft": "Survival＋Crafting 兩個一起掛",
-  "Creepy": "Horror 或 Atmospheric",
-  "Tense": "Thriller 或 Atmospheric",
-  "Dramatic": "Narrative 或 Story Rich",
-  "Drama": "Narrative 或 Story Rich",
-  "Multiple Protagonists": "Story Rich（官方無此標籤）",
-  "Character Development": "Lore-Rich 或 Story Rich",
-  "Skill Tree": "Character Customization 或 Class-Based",
-  "Asymmetric": "PvP（官方僅有 Asymmetric VR）",
-  "Artistic": "Abstract 或 Beautiful",
-  "Narration": "Dynamic Narration",
+/* ---- 社群詞彙 → 掛在官方標籤的說明上 ----
+   本工具刻意完全對應 Steam 官方清單，不收官方沒有的標籤。但社群慣用詞（Low Poly、
+   校園、技能樹…）仍是使用者會想到的說法，所以把它們寫進最接近的官方標籤說明裡：
+   搜尋會掃說明欄，因此搜「低多邊形」或「Low Poly」還是會找到官方的 Stylized。
+   官方沒有的美術或機制細節，請寫在工具的「一句話構想」欄或工單的提示詞段落。 */
+const VOCAB = {
+  "Stylized": ["Low Poly 低多邊形", "Cel-Shaded 卡通渲染"],
+  "Survival": ["Survival Craft 生存製作（與 Crafting 併掛）"],
+  "Anime": ["日系校園（官方無 School 標籤，用 Anime＋Story Rich 表達）"],
+  "Atmospheric": ["Creepy 毛骨悚然"],
+  "Thriller": ["Tense 緊張"],
+  "Story Rich": ["Dramatic 戲劇性", "Drama 劇情片式", "Multiple Protagonists 多主角",
+                 "Character Development 角色成長敘事"],
+  "Dynamic Narration": ["Narration 旁白"],
+  "Character Customization": ["Skill Tree 技能樹"],
+  "PvP": ["Asymmetric 非對稱對抗（官方僅有 Asymmetric VR）"],
+  "Abstract": ["Artistic 藝術遊戲"],
 };
 
 /* 資料檔是純 JSON 而非可執行 JS：公開 repo 若收 PR，「改一個標籤」不該等於「執行任意程式碼」 */
@@ -146,10 +146,11 @@ for (const [dim, name, zh, flags, note] of CURATED) {
     const noteFull = (o.tc && o.tc !== zh ? `亦稱「${zh}」。` : "") + (note || "") + extra;
     if (!push(dim, o.en, zhShow, flags.replace("u", ""), noteFull, o.id, true)) merged++;
   } else {
+    /* 走到這裡代表 curated 有一個官方清單裡沒有的標籤。本工具刻意完全對應官方清單，
+       所以這是需要處理的狀況：要嘛加進 ALIAS 指向官方名，要嘛從 curated 移除、
+       把它的說法寫進 VOCAB。仍會標記 u 並保留，讓測試能抓到而不是靜默消失。 */
     unofficial++;
-    const sub = SUBSTITUTE[name] ? `商店頁請改掛 ${SUBSTITUTE[name]}。` : "";
-    const joined = [note, sub].filter(Boolean).join("；").replace(/；(?=商店頁)/, "。");
-    push(dim, name, zh, flags.includes("u") ? flags : flags + "u", joined, 0, true);
+    push(dim, name, zh, flags.includes("u") ? flags : flags + "u", note, 0, true);
   }
 }
 
@@ -165,6 +166,17 @@ for (const name of unclassified) {
   const o = offByEn[name.toLowerCase()];
   push(9, o.en, o.tc, "", "未分類官方標籤", o.id, false);
 }
+
+/* 2.5) 把社群詞彙掛到對應官方標籤的說明上，讓搜尋找得到 */
+let vocabApplied = 0;
+const vocabMissing = [];
+for (const [target, words] of Object.entries(VOCAB)) {
+  const row = rows.find(r => r[1] === target);
+  if (!row) { vocabMissing.push(target); continue; }
+  row[4] = [row[4], "社群也說：" + words.join("、") + "。"].filter(Boolean).join("");
+  vocabApplied += words.length;
+}
+if (vocabMissing.length) die(`VOCAB 指向不存在的標籤：${vocabMissing.join(", ")}`);
 
 /* 3) 未在官方清單的標籤配發合成 ID，讓分享短碼有穩定編碼。
       起點取官方最大 ID 之後，確保不與官方 tagid 撞號。 */
@@ -222,6 +234,8 @@ fs.writeFileSync(HTML, out);
 
 console.log(`\n官方清單 ${official.length} 筆｜精選 ${CURATED.length} 筆`
   + `（別名對齊 ${aliased}、併入既有項 ${merged}、未在官方清單 ${unofficial}）`);
+console.log(`社群詞彙掛上官方標籤 ${vocabApplied} 條`);
+if (unofficial) console.warn(`⚠️ 有 ${unofficial} 個標籤不在官方清單中，違反「完全對應 Steam」原則`);
 console.log(`合併後總計 ${rows.length} 筆，未分類 ${unclassified.length} 筆：${unclassified.join(", ") || "無"}`);
 console.log(`合成 ID 起點 ${SYNTH_BASE}，最大 ID ${Math.max(...ids)}（上限 ${ID_MAX}）`);
 console.log(out === before ? "index.html 內容未變（標籤與 core.js 皆無變動）" : "index.html 已更新");

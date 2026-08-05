@@ -53,13 +53,54 @@ test("ID 都在短碼可編碼範圍內", () => {
     `最大 ID ${max} 超出 ${core.CODE_LEN - 1} 位 base36 上限 ${36 ** (core.CODE_LEN - 1)}`);
 });
 
-test("設定表引用的標籤都存在於標籤表", () => {
+/* 本工具刻意「完全對應 Steam 官方清單」：不收官方沒有的社群慣用詞。
+   理由是 Steam 是權威，而工具已有兩個更好的出口讓你表達官方沒有的詞——
+   「一句話構想」欄與工單的美術風格／機制提示詞段落；社群說法則掛在最接近的
+   官方標籤說明裡（見 build-tags.js 的 VOCAB），搜尋照樣找得到。
+
+   若將來真的必須加一個官方沒有的標籤，把它列進下面這個集合，並在旁邊寫清楚
+   「為什麼非它不可、官方哪個標籤為何無法替代」。空集合＝目前沒有例外。 */
+const ALLOWED_NON_OFFICIAL = new Set([]);
+
+test("完全對應 Steam：標籤表不含官方清單以外的標籤", () => {
+  const strays = T.filter(r => r[3].includes("u")).map(r => r[1])
+                  .filter(n => !ALLOWED_NON_OFFICIAL.has(n));
+  assert.deepEqual(strays, [],
+    `這些標籤不在 Steam 官方清單中：${strays.join(", ")}\n` +
+    `處理方式二選一：(a) 加進 build-tags.js 的 ALIAS 指向官方名，` +
+    `(b) 從 data/curated-tags.json 移除、把說法寫進 VOCAB。` +
+    `真的非留不可才加進測試裡的 ALLOWED_NON_OFFICIAL 並寫明理由。`);
+});
+
+test("設定表引用的標籤都存在於標籤表（改別名後最容易漏掉這個）", () => {
   const missing = [];
   const check = (name, where) => { if (!IDX.byEn[name]) missing.push(`${where}: ${name}`); };
   CLASH.forEach((p, i) => p.forEach(n => check(n, `CLASH[${i}]`)));
   ASK_PAIRS.forEach((p, i) => p.forEach(n => check(n, `ASK_PAIRS[${i}]`)));
   PLAYERS_SAFE.forEach(n => check(n, "PLAYERS_SAFE"));
-  assert.deepEqual(missing, [], `設定表引用了不存在的標籤：\n${missing.join("\n")}`);
+  // BAN／HEAVY／CONFLICT／REQ_SKIP 也要檢查：留著死引用不會壞掉，但會讓人誤以為
+  // 某個排除規則還在生效（例如 Photorealistic 被對齊成 Realistic 後，HEAVY 的
+  // 那筆就完全沒作用了）
+  [...BAN].forEach(n => check(n, "BAN"));
+  [...HEAVY].forEach(n => check(n, "HEAVY"));
+  [...core.REQ_SKIP].forEach(n => check(n, "REQ_SKIP"));
+  core.CONFLICT.forEach((p, i) => p.forEach(n => check(n, `CONFLICT[${i}]`)));
+  assert.deepEqual(missing, [],
+    `設定表引用了標籤表裡不存在的名字（多半是改了 ALIAS 卻沒更新這些表）：\n${missing.join("\n")}`);
+});
+
+test("社群詞彙有掛到官方標籤的說明上（搜尋找得到）", () => {
+  const cases = [
+    ["Stylized", "Low Poly"], ["Stylized", "低多邊形"],
+    ["Story Rich", "多主角"], ["Character Customization", "技能樹"],
+    ["Anime", "校園"], ["Thriller", "緊張"],
+  ];
+  for (const [tag, word] of cases) {
+    const row = IDX.byEn[tag];
+    assert.ok(row, `找不到標籤 ${tag}`);
+    assert.ok((row[4] || "").includes(word),
+      `搜「${word}」應該要找到 ${tag}，但它的說明沒有這個詞：${row[4]}`);
+  }
 });
 
 /* 待抉擇配對原則上要同維度（同一個問題的兩個答案）。少數跨維度配對是刻意的設計問題，
@@ -222,11 +263,11 @@ test("相同 seed 產生相同結果（可重現）", () => {
 
 /* ---------------- 短碼 ---------------- */
 
-test("短碼往返：三種角色與非官方標籤都能還原", () => {
+test("短碼往返：三種角色都能還原", () => {
   const list = [
-    { en: "Low Poly", role: "core", lock: false },      // 非官方（合成 ID）
-    { en: "School", role: "diff", lock: false },         // 非官方
-    { en: "Cozy", role: "ask", lock: false },            // 官方
+    { en: "Stylized", role: "core", lock: false },
+    { en: "Anime", role: "diff", lock: false },
+    { en: "Cozy", role: "ask", lock: false },
     { en: "Singleplayer", role: "core", lock: false },
   ];
   const code = encodeSel(list, IDX);
