@@ -905,6 +905,7 @@ const aud=()=>document.querySelector("input[name=aud]:checked").value;
 
 /* ---- DOM 參照 ----
    全部明確宣告，不靠 id 產生的隱式 window 全域（改 id 會變成難查的 ReferenceError）。 */
+const VERSION="v1.0";
 const $=id=>document.getElementById(id);
 const dimsEl=$("dims"), selEl=$("sel"), countsEl=$("counts"), idea=$("idea"),
       timeEl=$("time"), teamEl=$("team"), outbox=$("outbox"), outta=$("outta"),
@@ -1185,9 +1186,11 @@ function buildPrompt(){
   const cs=sel.filter(x=>x.role==="core"),ds=sel.filter(x=>x.role==="diff"),qs=sel.filter(x=>x.role==="ask");
   const pipeline=aud()==="pipeline";
   const modes=[mA.checked,mB.checked,mC.checked,mD.checked,mE.checked];
-  const ideaTxt=idea.value.trim();
+  // 壓成單行：構想欄若含換行，後續行會脫離 bullet，甚至能打出假的
+  // 「## 0. 角色與範圍鎖」把工單的範圍鎖蓋掉
+  const ideaTxt=idea.value.trim().replace(/\s+/g," ");
   const L=[];
-  L.push(`# 遊戲雛型生成工單（Steam 標籤選擇器 v0.1 產生）`,``);
+  L.push(`# 遊戲雛型生成工單（Steam 標籤選擇器 ${VERSION} 產生）`,``);
   L.push(`## 0. 角色與範圍鎖`);
   if(pipeline){
     L.push(`- 你是具備「自有 Unity 資產庫索引」的開發代理：本工單只做「定位確認＋雛型產出」，實作另開任務。`);
