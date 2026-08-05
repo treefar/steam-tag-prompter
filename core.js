@@ -16,6 +16,10 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
 "use strict";
 
+/* 版號的唯一來源。工單標頭會引用它，測試會斷言它與 package.json 一致，
+   所以不會再出現「工單寫 v1.0、package.json 寫 1.1.0」這種分歧。 */
+const VERSION = "v1.1.0";
+
 const ROLES = ["core", "diff", "ask"];
 
 /* 非遊戲軟體類與成人內容：任何抽籤模式都不抽（這是給大學生用的教學工具） */
@@ -229,7 +233,7 @@ function decodeSel(code, idx) {
 }
 
 return {
-  ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
+  VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
   makeIndex, rollTags, encodeSel, decodeSel
 };

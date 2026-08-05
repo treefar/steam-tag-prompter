@@ -324,6 +324,12 @@ test("index.html 內嵌的標籤表與 data/tags.json 一致", () => {
   assert.deepEqual(embedded, T, "內嵌標籤表與 data/tags.json 不同——請執行 node build-tags.js");
 });
 
+test("版號單一來源：core.js 與 package.json 一致", () => {
+  const pkg = require("../package.json");
+  assert.equal(core.VERSION, "v" + pkg.version,
+    `core.js 是 ${core.VERSION}，package.json 是 ${pkg.version}——改版號要兩邊一起改`);
+});
+
 test("core.js 不含會截斷內嵌 script 的序列", () => {
   const fs = require("fs");
   const src = fs.readFileSync(path.join(__dirname, "..", "core.js"), "utf8");
