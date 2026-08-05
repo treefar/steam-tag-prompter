@@ -1,0 +1,33 @@
+MIT License
+
+Copyright (c) 2026 鄧樹遠 (github.com/treefar)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+授權範圍說明
+
+本 MIT 授權適用於本專案的程式碼與文件（index.html、build-tags.js、data/ 下的
+分類與說明、README 等）。
+
+不適用於 `data/raw/` 下的 Steam 標籤原始資料：那是 Valve Corporation 公開端點
+提供的事實性資料（標籤名稱、tagid 與各語言譯名），著作權屬 Valve，本專案僅為
+建置需要而收錄，未主張任何權利。Steam 與 Valve 商標屬 Valve Corporation 所有。
+本專案與 Valve Corporation 無隸屬或背書關係。

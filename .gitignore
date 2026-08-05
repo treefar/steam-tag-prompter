@@ -1,0 +1,15 @@
+# 內部交接筆記：含本機 skill 路徑與私人開發管線，不進 repo
+LATEST_HANDOFF.md
+
+# AI 代理的跨對話工作記憶，屬個人脈絡
+.claude/
+
+# --fetch 的暫存檔（驗證失敗時會留下）
+data/raw/*.tmp
+
+# 建置與編輯器產物
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
