@@ -1,0 +1,32 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 跑測試
+        run: node --test
+
+      # index.html 是建置產物。若有人手改了它而沒重跑建置，或改了 core.js／資料檔
+      # 卻忘記重新建置，這一步會讓 CI 紅燈。
+      - name: 檢查建置產物是最新的
+        run: |
+          node build-tags.js
+          if ! git diff --quiet -- index.html data/tags.json; then
+            echo "::error::index.html 或 data/tags.json 不是最新建置結果。請在本機執行 node build-tags.js 後一起提交。"
+            git --no-pager diff --stat -- index.html data/tags.json
+            exit 1
+          fi
+          echo "建置產物與來源一致"

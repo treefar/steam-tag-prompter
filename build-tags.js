@@ -53,6 +53,14 @@ if (process.argv.includes("--fetch")) {
 `);
 }
 
+/* ---- 讀取資料檔 ---- */
+function readJson(name, label) {
+  const p = path.join(__dirname, "data", name);
+  if (!fs.existsSync(p)) die(`找不到資料檔 ${p}`);
+  try { return JSON.parse(fs.readFileSync(p, "utf8")); }
+  catch (e) { die(`${name} 不是合法 JSON：${e.message}`); }
+}
+
 /* ---- 讀取官方資料 ---- */
 function readRaw(file, label) {
   const p = path.join(RAW, file);
@@ -112,8 +120,9 @@ const SUBSTITUTE = {
   "Narration": "Dynamic Narration",
 };
 
-const CURATED = require("./data/curated-tags.js");
-const CLASSIFY = require("./data/official-dims.js");
+/* 資料檔是純 JSON 而非可執行 JS：公開 repo 若收 PR，「改一個標籤」不該等於「執行任意程式碼」 */
+const CURATED = readJson("curated-tags.json", "精選標籤庫");
+const CLASSIFY = readJson("official-dims.json", "官方標籤維度歸類");
 
 const rows = [];
 const seen = new Set();
@@ -178,16 +187,41 @@ rows.sort((a, b) => a[0] - b[0] || b[6] - a[6]);
    `<` 轉成 <：JSON.stringify 不會轉義它，而產物直接寫進 inline <script>，
    標籤名或說明一旦含 </script> 就會截斷 script 區塊。
    replace 用函式回傳值：字串形式的第二參數會把 $& $1 $` 當特殊語法。 */
+/* 測試與其他工具讀這份；index.html 讀的是下面注入的 const T（兩者同一來源） */
+fs.writeFileSync(path.join(__dirname, "data", "tags.json"),
+  "[\n" + rows.map(r => JSON.stringify(r)).join(",\n") + "\n]\n");
+
 const js = ("const T=[\n" + rows.map(r => JSON.stringify(r)).join(",\n") + "\n];")
              .replace(/</g, "\\u003c");
-const html = fs.readFileSync(HTML, "utf8");
+
+/* core.js 是抽籤與短碼規則的唯一真實來源，內嵌進來讓 index.html 維持單檔可離線。
+   同一份檔案也被 tests/core.test.js 直接 require，所以測到的就是工具實際跑的邏輯。 */
+const CORE_START = "/* CORE_INJECT_START — 以下由 build-tags.js 從 core.js 注入，不要手改 */";
+const CORE_END = "/* CORE_INJECT_END */";
+const corePath = path.join(__dirname, "core.js");
+if (!fs.existsSync(corePath)) die(`找不到 ${corePath}`);
+const coreSrc = fs.readFileSync(corePath, "utf8").replace(/\r\n/g, "\n").replace(/\s+$/, "");
+/* 這裡不能像 const T 那樣把 `<` 全轉成 <——core.js 的 `<` 多半是比較運算子，
+   轉了就壞掉。內嵌 script 真正的危險只有 `</script` 與 `<!--` 這兩個序列，
+   core.js 不該出現它們；出現就中止並要求改寫，不要靜默產出壞檔。 */
+const danger = coreSrc.match(/<\/script|<!--/i);
+if (danger) die(`core.js 含內嵌 script 不安全的序列「${danger[0]}」，請改寫（例如拆成 "<"+"/script"）`);
+
+let html = fs.readFileSync(HTML, "utf8");
 const INJECT = /const T=\[[\s\S]*?\n\];/;
 if (!INJECT.test(html)) die(`在 ${HTML} 找不到注入點 const T=[...]；index.html 未更新`);
-const out = html.replace(INJECT, () => js);
+const before = html;
+html = html.replace(INJECT, () => js);
+
+const ci = html.indexOf(CORE_START), cj = html.indexOf(CORE_END);
+if (ci < 0 || cj < 0 || cj < ci) die(`在 ${HTML} 找不到 core.js 注入標記；index.html 未更新`);
+html = html.slice(0, ci + CORE_START.length) + "\n" + coreSrc + "\n" + html.slice(cj);
+
+const out = html;
 fs.writeFileSync(HTML, out);
 
 console.log(`\n官方清單 ${official.length} 筆｜精選 ${CURATED.length} 筆`
   + `（別名對齊 ${aliased}、併入既有項 ${merged}、未在官方清單 ${unofficial}）`);
 console.log(`合併後總計 ${rows.length} 筆，未分類 ${unclassified.length} 筆：${unclassified.join(", ") || "無"}`);
 console.log(`合成 ID 起點 ${SYNTH_BASE}，最大 ID ${Math.max(...ids)}（上限 ${ID_MAX}）`);
-console.log(out === html ? "index.html 內容未變（標籤資料無變動）" : "index.html 已更新");
+console.log(out === before ? "index.html 內容未變（標籤與 core.js 皆無變動）" : "index.html 已更新");

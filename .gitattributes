@@ -1,0 +1,7 @@
+# index.html 與 data/tags.json 是建置產物，CI 會用 git diff 檢查它們是不是最新的。
+# 行尾一律 LF，否則在 Windows 建置、Linux 檢查時會因為 CRLF 差異誤判成「未重新建置」。
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

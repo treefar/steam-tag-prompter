@@ -1,0 +1,20 @@
+{
+  "name": "steam-tag-prompter",
+  "version": "1.1.0",
+  "description": "點選 Steam 標籤產生遊戲雛型工單。單檔離線網頁工具，444 個官方標籤含繁中譯名。",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/treefar/steam-tag-prompter.git"
+  },
+  "scripts": {
+    "test": "node --test",
+    "build": "node build-tags.js",
+    "build:fetch": "node build-tags.js --fetch",
+    "verify": "node build-tags.js && node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
