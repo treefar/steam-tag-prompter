@@ -76,7 +76,7 @@ test("設定表引用的標籤都存在於標籤表（改別名後最容易漏�
   const missing = [];
   const check = (name, where) => { if (!IDX.byEn[name]) missing.push(`${where}: ${name}`); };
   CLASH.forEach((p, i) => p.forEach(n => check(n, `CLASH[${i}]`)));
-  ASK_PAIRS.forEach((p, i) => p.forEach(n => check(n, `ASK_PAIRS[${i}]`)));
+  ASK_PAIRS.forEach((p, i) => core.pairTags(p).forEach(n => check(n, `ASK_PAIRS[${i}]`)));
   PLAYERS_SAFE.forEach(n => check(n, "PLAYERS_SAFE"));
   // BAN／HEAVY／CONFLICT／REQ_SKIP 也要檢查：留著死引用不會壞掉，但會讓人誤以為
   // 某個排除規則還在生效（例如 Photorealistic 被對齊成 Realistic 後，HEAVY 的
@@ -110,16 +110,51 @@ const CROSS_DIM_OK = new Set([
 ]);
 test("待抉擇配對是同一維度的二選一（跨維度需列入白名單）", () => {
   const bad = ASK_PAIRS
-    .filter(([a, b]) => IDX.byEn[a][0] !== IDX.byEn[b][0])
-    .map(p => p.join(" vs "))
+    .filter(p => IDX.byEn[p.a][0] !== IDX.byEn[p.b][0])
+    .map(p => p.a + " vs " + p.b)
     .filter(k => !CROSS_DIM_OK.has(k));
   assert.deepEqual(bad, [],
     `跨維度配對未列入白名單（若是刻意設計，補進 CROSS_DIM_OK 並註明問的是什麼）：\n${bad.join("\n")}`);
 });
 
 test("待抉擇配對不含全模式禁抽或重工程標籤", () => {
-  const bad = ASK_PAIRS.flat().filter(n => BAN.has(n) || HEAVY.has(n));
+  const bad = ASK_PAIRS.flatMap(core.pairTags).filter(n => BAN.has(n) || HEAVY.has(n));
   assert.deepEqual([...new Set(bad)], [], "配對含禁抽標籤");
+});
+
+test("每組待抉擇都有取捨說明（工具本身就要能幫使用者想，不必等 AI）", () => {
+  const bad = [];
+  for (const p of ASK_PAIRS) {
+    const id = `${p.a} vs ${p.b}`;
+    if (!p.q || !p.q.trim()) bad.push(`${id}：缺問句 q`);
+    else if (!/[？?]$/.test(p.q.trim())) bad.push(`${id}：q 應該是問句「${p.q}」`);
+    for (const k of ["ax", "bx"]) {
+      const v = (p[k] || "").trim();
+      if (!v) { bad.push(`${id}：缺 ${k}`); continue; }
+      if (v.length < 15) bad.push(`${id}：${k} 太短，看不出後果「${v}」`);
+    }
+  }
+  assert.deepEqual(bad, [], `待抉擇配對的說明有問題：\n${bad.join("\n")}`);
+});
+
+test("待抉擇配對沒有重複，且兩邊不同標籤", () => {
+  const seen = new Set(), dup = [];
+  for (const p of ASK_PAIRS) {
+    assert.notEqual(p.a, p.b, `配對兩邊相同：${p.a}`);
+    const k = [p.a, p.b].sort().join("|");
+    if (seen.has(k)) dup.push(k);
+    seen.add(k);
+  }
+  assert.deepEqual(dup, [], `重複的配對：${dup.join(", ")}`);
+});
+
+test("findAskPair 能從已選標籤找出對應的取捨說明", () => {
+  const hit = core.findAskPair(["Roguelike", "Roguelite", "Horror"]);
+  assert.ok(hit, "應該找得到 Roguelike vs Roguelite");
+  assert.equal(hit.a, "Roguelike");
+  assert.ok(hit.q.includes("重來") || hit.q.includes("成長"), `問句不對：${hit.q}`);
+  assert.equal(core.findAskPair(["Horror", "Cozy"]), null, "不成組時應回 null");
+  assert.equal(core.findAskPair([]), null, "空清單應回 null");
 });
 
 /* ---------------- 抽籤：保證可做 ---------------- */

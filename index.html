@@ -28,6 +28,29 @@ header.top{
 header.top h1{font-size:22px;letter-spacing:.5px}
 header.top h1 .en{color:var(--blue);font-weight:600}
 header.top .sub{color:var(--ink-dim);font-size:13px}
+.bound{width:100%;margin:6px 0 0;padding:9px 12px;border-left:3px solid var(--blue);
+  background:rgba(102,192,244,.08);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink-dim);line-height:1.7}
+.bound b{color:var(--ink)}
+
+/* 待抉擇取捨說明 */
+.askbox{border:1px solid var(--ask);border-radius:var(--radius);
+  background:rgba(244,187,68,.08);padding:10px;display:flex;flex-direction:column;gap:9px}
+.askbox h4{font-size:13px;color:var(--ask)}
+.askbox .q{font-size:13px;color:var(--ink);font-weight:700;margin-bottom:5px}
+.askitem{border-top:1px solid var(--line2);padding-top:8px}
+.askitem:first-of-type{border-top:none;padding-top:0}
+.askopt{display:flex;gap:7px;font-size:12.5px;color:var(--ink-dim);padding:3px 0;align-items:flex-start}
+.askopt b{color:var(--blue);white-space:nowrap;min-width:0;flex-shrink:0;max-width:42%}
+.askbox .hint{font-size:11.5px;color:var(--ink-dim);opacity:.85}
+
+/* 只影響 AI 工單的設定區 */
+.aibox{border:1px dashed var(--line2);border-radius:var(--radius);padding:10px;
+  display:flex;flex-direction:column;gap:4px}
+.ailbl{font-size:12px;color:var(--blue);font-weight:700;margin-bottom:4px}
+.note-bound{font-size:11.5px;color:var(--amber);line-height:1.65;margin-top:7px;
+  border-top:1px solid var(--line2);padding-top:7px}
+.btn.alt{background:var(--panel2);color:var(--blue);border:1.5px solid var(--blue);font-size:14px}
+.btn.alt:hover{background:var(--blue);color:#10161d}
 .layout{display:grid;grid-template-columns:1fr 384px;gap:18px;align-items:start}
 @media(max-width:1000px){.layout{grid-template-columns:1fr}}
 
@@ -194,8 +217,14 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
 <div class="wrap">
 
 <header class="top">
-  <h1>Steam <span class="en">標籤 → 遊戲雛型</span> 工單產生器</h1>
-  <span class="sub">點選標籤 → 指定角色（核心／差異化／待抉擇）→ 產生可直接餵給 AI 的雛型工單</span>
+  <h1>用 Steam 標籤<span class="en">把你的遊戲定位想清楚</span></h1>
+  <span class="sub">標籤抉擇就是設計決策——選完你會知道自己的特色在哪、哪些還沒決定</span>
+  <div class="bound">
+    <b>這個工具幫你做的：</b>用 430 個 Steam 官方標籤釐清定位，標出「已確定」「差異化」「還沒決定」，
+    並把「還沒決定的」附上取捨後果讓你自己判斷。全部在你的瀏覽器離線完成，不連網、不呼叫 AI。<br>
+    <b>兩種產出：</b>「定位單」是給人看的陳述句，可直接當企劃初稿或作業繳交；「AI 工單」是給 AI 的指令，
+    複製後貼給任何 AI，才會得到企劃、雛型、商店頁那些成品——<b>工具本身不會生成它們</b>。
+  </div>
 </header>
 
 <div class="toolbar">
@@ -241,8 +270,10 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
   <div class="counts" id="counts"></div>
   <div class="sel-list" id="sel"></div>
 
+  <div id="asks"></div>
+
   <div>
-    <label class="f">一句話構想（可留白，AI 會依標籤反推）</label>
+    <label class="f">一句話構想（可留白，之後由你或 AI 依標籤反推）</label>
     <textarea id="idea" placeholder="例：在深夜的學校裡經營一間給幽靈的拉麵店"></textarea>
   </div>
 
@@ -266,18 +297,18 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
     </div>
   </div>
 
-  <div>
-    <label class="f">工單模式</label>
+  <div class="aibox">
+    <div class="ailbl">以下只影響「給 AI 的工單」<span class="d">　定位單不受影響</span></div>
+
+    <label class="f">工單要對哪種 AI 說話</label>
     <div class="opts">
       <label><input type="radio" name="aud" value="general" checked>
-        <span>一般模式<span class="d">　餵給任何 AI（ChatGPT／Gemini／Claude 皆可），自帶標籤說明</span></span></label>
+        <span>一般模式<span class="d">　任何 AI（ChatGPT／Gemini／Claude 皆可），工單自帶標籤說明</span></span></label>
       <label><input type="radio" name="aud" value="pipeline">
-        <span>進階管線模式<span class="d">　餵給有自有資產庫索引的 AI 代理：要求套件一律查該索引，不得憑記憶推薦</span></span></label>
+        <span>進階管線模式<span class="d">　只改寫工單的角色設定段：要求 AI 一律查自有資產庫索引，不得憑記憶推薦套件</span></span></label>
     </div>
-  </div>
 
-  <div>
-    <label class="f">要產出的交付物（可複選）</label>
+    <label class="f" style="margin-top:10px">要請 AI 做哪些交付物（可複選）</label>
     <div class="opts">
       <label><input type="checkbox" id="mA" checked><span>A　提示詞包＋一頁企劃</span></label>
       <label><input type="checkbox" id="mB"><span>B　可玩網頁雛型（單檔 HTML5）</span></label>
@@ -285,9 +316,11 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
       <label><input type="checkbox" id="mD"><span>D　模擬 Steam 商店頁</span></label>
       <label><input type="checkbox" id="mE"><span>E　概念圖提示詞<span class="d">　英文圖像生成提示詞，可貼 Midjourney／Gemini／Tripo</span></span></label>
     </div>
+    <div class="note-bound">勾選只是把「請你做這件事」寫進工單，本工具不會產出成品。要拿到 A～E，得把工單複製後貼給 AI。</div>
   </div>
 
-  <button class="btn" id="gen">產生雛型工單</button>
+  <button class="btn" id="genBrief">📋 產生定位單（給人看）</button>
+  <button class="btn alt" id="gen">🤖 產生 AI 工單</button>
   <div class="btnrow">
     <button class="btn sec" id="clear">全部清空</button>
   </div>
@@ -295,8 +328,8 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
 </div>
 
 <div id="outbox">
-  <h3>工單已產生——原封不動貼給 AI，不要改寫、不要翻譯</h3>
-  <div class="stale" id="staleBar">⚠️ 標籤或設定已變更，下方工單是舊的。請重新按「產生雛型工單」。</div>
+  <h3 id="outTitle">已產生</h3>
+  <div class="stale" id="staleBar">⚠️ 標籤或設定已變更，下方內容是舊的。請重新按上方的產生按鈕。</div>
   <div class="meta" id="outmeta"></div>
   <div class="btnrow" style="margin-bottom:8px">
     <button class="btn sec" id="copy">📋 複製全文</button>
@@ -855,19 +888,111 @@ const CLASH = [
 ["Escape Room","Cozy"],["Auto Battler","Story Rich"],["Boomer Shooter","Cute"],["Stealth","Cooking"]];
 
 /* 待抉擇配對——必須是「真的要二選一」的可比較選項，不是隨機兩個同維度標籤。
-   配對本身可以互斥（2D vs 3D 就是要你選一個），故不套用互斥檢查。 */
+   配對本身可以互斥（2D vs 3D 就是要你選一個），故不套用互斥檢查。
+
+   每組附取捨說明，讓工具本身就能幫使用者想清楚，不必等 AI 回答：
+     q  這組在問什麼（一句問句）
+     ax 選 a 的後果    bx 選 b 的後果
+   寫法鐵則：講「玩法與開發成本的後果」，不是解釋詞義。看完要能做決定。 */
 const ASK_PAIRS = [
-["Roguelike","Roguelite"],["Turn-Based Combat","Real Time Tactics"],["Turn-Based Tactics","RTS"],
-["Pixel Graphics","Anime"],["Stylized","Realistic"],["Hand-drawn","Pixel Graphics"],
-["2D","3D"],["Top-Down","Side Scroller"],["Isometric","Top-Down"],["First-Person","Third Person"],
-["Horror","Psychological Horror"],["Survival","Survival Horror"],["Cozy","Difficult"],
-["Relaxing","Thriller"],["Story Rich","Fast-Paced"],["Visual Novel","Point & Click"],
-["Farming Sim","Life Sim"],["Metroidvania","Platformer"],["Souls-like","Action RPG"],
-["JRPG","CRPG"],["Tower Defense","Auto Battler"],["Deckbuilding","Card Battler"],
-["Singleplayer","Local Co-Op"],["Exploration","Score Attack"],["Perma Death","Replay Value"],
-["Choices Matter","Multiple Endings"],["Stealth","Hack and Slash"],
-["Puzzle Platformer","Precision Platformer"],["Escape Room","Detective"],
-["Short","Replay Value"],["Crafting","Resource Management"],["FPS","Third-Person Shooter"]];
+{a:"Roguelike",b:"Roguelite",q:"死了要全部重來，還是能累積永久成長？",
+ ax:"每局從零開始，內容量要夠大才耐玩；挫折感高，但通關的成就感也最強。",
+ bx:"局外解鎖讓手殘玩家也推得動，留存曲線平緩；代價是多做一套永久成長系統與數值平衡。"},
+{a:"Turn-Based Combat",b:"Real Time Tactics",q:"戰鬥要玩家慢慢想，還是即時反應？",
+ ax:"回合制不吃手感與動畫品質，一人團隊做得動；但節奏慢，要靠戰術深度撐住。",
+ bx:"即時戰術臨場感強，卻要處理路徑尋找、AI 反應與大量動畫，開發量是回合制的數倍。"},
+{a:"Turn-Based Tactics",b:"RTS",q:"戰棋還是即時戰略？",
+ ax:"格狀戰棋單位少、每步都要算，適合小團隊；玩家群偏硬核但忠誠。",
+ bx:"即時戰略要同時處理數十單位的操作與 AI，是最難做的類型之一，學生專題極易爛尾。"},
+{a:"Pixel Graphics",b:"Anime",q:"像素風還是動漫立繪風？",
+ ax:"像素省美術工，但要做得好看需要專門功力，且動畫幀數是隱形成本。",
+ bx:"動漫風受眾精準（尤其日系），可用立繪＋差分省事；畫崩的容忍度極低。"},
+{a:"Stylized",b:"Realistic",q:"風格化還是寫實？",
+ ax:"風格化能用低模與純色掩蓋技術限制，最適合資源有限的團隊。",
+ bx:"寫實要貼圖、光照、材質全到位，任何一環不足就會被說『看起來很廉價』。"},
+{a:"Hand-drawn",b:"Pixel Graphics",q:"手繪還是像素？",
+ ax:"手繪辨識度高、最能做出獨特感；但每張圖都是人工，量大就崩。",
+ bx:"像素可複用素材與調色盤，量產友善；風格已很擁擠，要靠題材突圍。"},
+{a:"2D",b:"3D",q:"這是最先要決定的：2D 還是 3D？",
+ ax:"2D 的碰撞、鏡頭、美術都單純，同樣時間能做出更完整的內容。",
+ bx:"3D 一開始就要面對鏡頭、光照、模型與動畫；沒有現成資產庫的話成本是 2D 的數倍。"},
+{a:"Top-Down",b:"Side Scroller",q:"俯視角還是橫向捲軸？",
+ ax:"俯視角適合探索與多方向戰鬥，關卡可自由鋪；角色只需四或八向動畫。",
+ bx:"橫捲的跳躍手感是賣點也是門檻，關卡設計更吃節奏，但美術面向單一比較省。"},
+{a:"Isometric",b:"Top-Down",q:"等角斜視還是正俯視？",
+ ax:"等角有立體感、場景較好看；但美術要重畫斜角、遮擋與深度排序都要處理。",
+ bx:"正俯視最好做也最好讀，代價是畫面比較平、場景難有記憶點。"},
+{a:"First-Person",b:"Third Person",q:"第一人稱還是第三人稱？",
+ ax:"第一人稱不必做角色模型與動畫，沉浸感強，恐怖與探索類首選。",
+ bx:"第三人稱看得到主角、好做角色魅力；但要處理鏡頭碰撞與全套移動動畫。"},
+{a:"Horror",b:"Psychological Horror",q:"用嚇的，還是用不安感？",
+ ax:"直接的恐怖靠音效與突發驚嚇，見效快、成本低，但玩家很快免疫。",
+ bx:"心理恐怖靠敘事與氛圍鋪陳，受眾精準忠誠；寫不好就只是無聊。"},
+{a:"Survival",b:"Survival Horror",q:"生存重點在資源管理，還是在恐懼？",
+ ax:"純生存吃系統深度：飢餓、耐久、建造，數值平衡是主要工作量。",
+ bx:"生存恐怖靠彈藥稀缺與怪物壓力製造緊張，關卡與怪物 AI 是主要工作量。"},
+{a:"Cozy",b:"Difficult",q:"要讓玩家放鬆，還是被挑戰？",
+ ax:"溫馨向近年成長快、社群友善；但沒有難度就必須用內容量與情感留住人。",
+ bx:"高難度自帶話題與實況價值；要求手感與關卡打磨到位，做不好就是純粹的爛。"},
+{a:"Relaxing",b:"Thriller",q:"整體情緒是放鬆還是緊繃？",
+ ax:"放鬆向對美術與音樂要求高，玩法可以簡單，但要耐得住重複。",
+ bx:"驚悚需要節奏設計與資訊控制，一旦玩家看穿套路張力就消失。"},
+{a:"Story Rich",b:"Fast-Paced",q:"敘事優先還是節奏優先？",
+ ax:"劇情豐富要寫大量文本與演出，是最花時間但也最容易做出記憶點的路。",
+ bx:"快節奏靠手感與即時回饋，文本可以極少；但玩法核心必須本身就好玩。"},
+{a:"Visual Novel",b:"Point & Click",q:"純閱讀分支，還是要有場景互動？",
+ ax:"視覺小說用現成引擎最快落地，成本幾乎全在文本與立繪。",
+ bx:"點擊冒險多了物品與謎題系統，互動感較強；謎題設計不當很容易卡關棄坑。"},
+{a:"Farming Sim",b:"Life Sim",q:"核心循環是種田產出，還是經營人際？",
+ ax:"農場的循環明確、易上手：播種到收成的正回饋自己會轉。",
+ bx:"生活模擬要角色好感、事件排程與對話，內容量需求大很多。"},
+{a:"Metroidvania",b:"Platformer",q:"要能力解鎖回頭探索，還是線性關卡推進？",
+ ax:"銀河城地圖是互相牽連的整體，改一處會牽動全盤，設計難度最高。",
+ bx:"線性平台可以一關一關做、一關一關砍，範疇最好控制，適合有時限的專題。"},
+{a:"Souls-like",b:"Action RPG",q:"要正面對決的高門檻戰鬥，還是可調難度的動作 RPG？",
+ ax:"魂系玩家對打擊感、判定與敵人設計期待極高，做不到位會被嚴厲比較。",
+ bx:"動作 RPG 可靠等級與裝備讓玩家自行降低難度，容錯空間大得多。"},
+{a:"JRPG",b:"CRPG",q:"日式回合隊伍劇情，還是歐美選擇與判定？",
+ ax:"日式 RPG 路線清楚：隊伍、回合戰鬥、線性主線，內容量大但每塊都好切分。",
+ bx:"歐美 RPG 要處理選擇分支與世界狀態，文本量與測試成本呈指數成長。"},
+{a:"Tower Defense",b:"Auto Battler",q:"玩家佈防塔位，還是組隊後自動開打？",
+ ax:"塔防的關卡與波次可以量產，數值平衡是主要挑戰。",
+ bx:"自走棋重在組合深度與隨機性，單位少但每個都要能和其他單位產生化學反應。"},
+{a:"Deckbuilding",b:"Card Battler",q:"牌組在遊玩中逐步構築，還是開局前就組好？",
+ ax:"構築式每局都有成長感，卡牌數量可以少，靠組合爆發。",
+ bx:"卡牌對戰吃卡池廣度與平衡，卡少就沒策略，卡多就做不完。"},
+{a:"Singleplayer",b:"Local Co-Op",q:"單人，還是同機雙人？",
+ ax:"單人是預設值，所有設計都不必考慮第二個人，學生專題強烈建議。",
+ bx:"本地雙人氣氛好、展場效果佳；但鏡頭、UI、關卡都要重新為兩人設計。"},
+{a:"Exploration",b:"Score Attack",q:"獎勵探索發現，還是追求高分？",
+ ax:"探索要做足夠大的世界與值得找的東西，內容量是主要成本。",
+ bx:"計分挑戰內容可以很小，靠重玩與排行榜延長壽命；核心手感必須極度扎實。"},
+{a:"Perma Death",b:"Replay Value",q:"死亡要有真實代價，還是鼓勵一直重玩？",
+ ax:"永久死亡讓每個決定都有重量，但會嚇跑休閒玩家，也放大任何不公平的設計。",
+ bx:"高重玩性要靠隨機性或多路線提供變化，等於要做出比一輪遊玩更多的內容。"},
+{a:"Choices Matter",b:"Multiple Endings",q:"選擇要在過程中就有影響，還是集中在結局分歧？",
+ ax:"過程分歧最有感，但每個分歧都是要實作與測試的世界狀態。",
+ bx:"多結局只在末端分岔，成本可控；玩家容易察覺前面的選擇其實沒差。"},
+{a:"Stealth",b:"Hack and Slash",q:"避開敵人，還是正面清場？",
+ ax:"潛行要做視野、聲音與察覺狀態，AI 稍有不合理玩家立刻感覺得到。",
+ bx:"砍殺靠打擊感與敵人數量堆爽度，動畫與特效是主要成本。"},
+{a:"Puzzle Platformer",b:"Precision Platformer",q:"考腦袋還是考手指？",
+ ax:"解謎平台重在機關巧思，操作可以簡單，關卡設計是全部工作。",
+ bx:"精準平台重在手感，物理參數要調到極致，一格之差就是天堂與地獄。"},
+{a:"Escape Room",b:"Detective",q:"在密閉空間解機關，還是蒐證推理？",
+ ax:"密室範圍小、範疇最好控制，適合短篇；重玩價值低。",
+ bx:"偵探要設計證據鏈與可信的推理節奏，寫作難度高但記憶點強。"},
+{a:"Short",b:"Replay Value",q:"做一個短而完整的作品，還是耐玩的作品？",
+ ax:"誠實標示短篇能避免負評，也是學生專題最務實的選擇。",
+ bx:"耐玩要靠隨機或多路線，同樣時間下完成度會比短篇低。"},
+{a:"Crafting",b:"Resource Management",q:"重點在合成新東西，還是在分配有限資源？",
+ ax:"製作系統要設計配方樹與物品欄，介面工作量常被低估。",
+ bx:"資源管理可以完全用數值與 UI 呈現，美術需求低，但平衡沒調好就無聊。"},
+{a:"FPS",b:"Third-Person Shooter",q:"第一人稱射擊還是越肩射擊？",
+ ax:"第一人稱瞄準直觀，不必做角色動畫，是小團隊做射擊的合理起點。",
+ bx:"第三人稱要處理掩體、鏡頭與全套持槍動畫，但角色能成為賣點。"}];
+/* 內部多處只需要標籤名，用這個取出來，不要各自寫 [p.a,p.b] */
+const pairTags = p => [p.a, p.b];
 
 /* 玩家結構在「保證可做」模式的加權池——學生專題以單人為主，且必須真的表態單／多人
    （PvE、PvP 這類標籤沒有回答「幾個人玩」，故不列入） */
@@ -887,6 +1012,13 @@ const MODE_TXT = {
 const CODE_VER = "S2", CODE_LEN = 6, CODE_MAX = 40;
 const RC = { core: "c", diff: "d", ask: "a" }, RD = { c: "core", d: "diff", a: "ask" };
 const CODE_RE = new RegExp("^" + CODE_VER + "(?:[0-9a-zA-Z]{" + (CODE_LEN - 1) + "}[cdaCDA])+$");
+
+/** 從一組已選的待抉擇標籤中，找出它們屬於哪一組配對（找不到回 null）。
+    UI 用它顯示取捨說明，不必等 AI 回答。 */
+function findAskPair(names) {
+  const set = new Set(names);
+  return ASK_PAIRS.find(p => set.has(p.a) && set.has(p.b)) || null;
+}
 
 /** 建立查表索引。瀏覽器與測試各建一次即可，不要每次抽籤重建。 */
 function makeIndex(T) {
@@ -950,9 +1082,10 @@ function rollTags(o) {
   }
   // ② 留一組真的要二選一的待抉擇
   if (strict && out.length + 2 <= n) {
-    const cands = ASK_PAIRS.filter(p =>
-      p.every(en => usable(en) && !HEAVY.has(en)) && !p.some(en => clash(en)));
-    if (cands.length) cands[rnd(cands.length)].forEach(en => out.push({ en: en, role: "ask", lock: false }));
+    const cands = ASK_PAIRS.filter(p => pairTags(p).every(en => usable(en) && !HEAVY.has(en))
+                                        && !pairTags(p).some(en => clash(en)));
+    if (cands.length) pairTags(cands[rnd(cands.length)])
+      .forEach(en => out.push({ en: en, role: "ask", lock: false }));
   }
   // ③ 必要維度補齊（已被待抉擇組覆蓋的維度視為已覆蓋）。
   //    衝突模式不強制大類型——反差配對已定義類型空間，硬補會出現不相干的大類型。
@@ -1016,7 +1149,7 @@ function decodeSel(code, idx) {
 return {
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
-  makeIndex, rollTags, encodeSel, decodeSel
+  pairTags, findAskPair, makeIndex, rollTags, encodeSel, decodeSel
 };
 });
 /* CORE_INJECT_END */
@@ -1107,6 +1240,49 @@ function buildDims(){
     b.addEventListener("click",()=>{applyPreset(p)});pr.appendChild(b);
   });
 }
+/* 把「待抉擇」的取捨後果直接攤在畫面上——這是工具最該自己做到的事，
+   使用者不必先去問 AI 才知道兩個選項差在哪。說明來自 core.js 的 ASK_PAIRS。 */
+function askGroups(){
+  const asks=sel.filter(s=>s.role==="ask").map(s=>s.en);
+  const groups=[],used=new Set();
+  for(const p of ASK_PAIRS){
+    if(asks.includes(p.a)&&asks.includes(p.b)&&!used.has(p.a)&&!used.has(p.b)){
+      groups.push(p);used.add(p.a);used.add(p.b);
+    }
+  }
+  return {groups,loose:asks.filter(n=>!used.has(n))};
+}
+function drawAsks(){
+  const box=$("asks");box.textContent="";
+  const {groups,loose}=askGroups();
+  if(!groups.length&&!loose.length)return;
+  const wrap=document.createElement("div");wrap.className="askbox";
+  const h=document.createElement("h4");
+  h.textContent=`❓ 還沒決定的事（${groups.length+loose.length}）`;
+  wrap.appendChild(h);
+  for(const p of groups){
+    const it=document.createElement("div");it.className="askitem";
+    const q=document.createElement("div");q.className="q";q.textContent=p.q;it.appendChild(q);
+    for(const [en,why] of [[p.a,p.ax],[p.b,p.bx]]){
+      const row=document.createElement("div");row.className="askopt";
+      const b=document.createElement("b");
+      b.textContent=`選 ${en}（${byEn[en]?byEn[en][2]:""}）`;
+      const s=document.createElement("span");s.textContent=why;
+      row.append(b,s);it.appendChild(row);
+    }
+    wrap.appendChild(it);
+  }
+  if(loose.length){
+    const it=document.createElement("div");it.className="askitem";
+    const q=document.createElement("div");q.className="q";
+    q.textContent="這些標籤你標成待抉擇，但沒有配成一組";
+    const s=document.createElement("div");s.className="hint";
+    s.textContent=loose.join("、")+"——再選一個同性質的標籤標成待抉擇，就會出現取捨說明；"
+      +"或直接決定要不要它，改成核心或取消。";
+    it.append(q,s);wrap.appendChild(it);
+  }
+  box.appendChild(wrap);
+}
 function toast(msg){
   const t=document.getElementById("toast");
   t.textContent=msg||"已複製";t.classList.add("show");
@@ -1167,6 +1343,7 @@ function render(){
   const nC=sel.filter(x=>x.role==="core").length,nD=sel.filter(x=>x.role==="diff").length,
         nQ=sel.filter(x=>x.role==="ask").length,store=nC+nD;
   countsEl.innerHTML=`核心 <b>${nC}</b>（建議 5～8）｜差異化 <b>${nD}</b>｜待抉擇 <b>${nQ}</b>｜商店頁計數 <b class="${store>20?"over":""}">${store}</b>／20${store>20?"　⚠️ 超過上限":""}`;
+  drawAsks();
   // render() 只在選擇或設定變動時被呼叫，所以此時畫面上的舊工單已過期。
   // 不標示的話學生會複製到與目前標籤不符的工單，這是最容易造成實際誤用的一點。
   if(outbox.style.display==="block")staleBar.style.display="";
@@ -1342,28 +1519,108 @@ pipeline?
   return L.join("\n");
 }
 
+/* ---- 定位單（給人看的陳述句，不是給 AI 的指令） ----
+   用途：當企劃初稿、當課堂作業繳交、或貼進其他文件。刻意不寫「請你產出…」。 */
+function buildBrief(){
+  const cs=sel.filter(x=>x.role==="core"),ds=sel.filter(x=>x.role==="diff");
+  const {groups,loose}=askGroups();
+  const nm=s=>{const t=byEn[s.en];return `${t[1]}（${t[2]}）`};
+  const L=[];
+  const idea=$("idea").value.trim().replace(/\s+/g," ");
+  L.push(`# 遊戲定位單${idea?`：${idea}`:""}`,``);
+  L.push(`製作條件：${timeEl.value}｜${teamEl.value}｜平台 Windows PC（Steam）`);
+  L.push(`產生工具：Steam 標籤選擇器 ${VERSION}　組合短碼：\`${sel.length?encodeSel(sel,IDX):"（無）"}\``);
+  L.push(`（把短碼貼回工具就能還原這組標籤）`,``);
+
+  L.push(`## 一、這是什麼遊戲`);
+  if(cs.length){
+    L.push(`用 Steam 的語言講，這是一款 **${cs.slice(0,3).map(s=>byEn[s.en][2]).join("、")}** 遊戲`
+      +(ds.length?`，特色在 **${ds.map(s=>byEn[s.en][2]).join("、")}**`:"")+`。`);
+  }else L.push(`（尚未選定核心標籤）`);
+  if(!idea)L.push(``,`> 一句話構想還沒填。把上面的標籤串成一句「這是一款…的遊戲」，定位就成形了。`);
+  L.push(``);
+
+  L.push(`## 二、已確定的方向（核心標籤 ${cs.length} 個）`);
+  if(cs.length){
+    L.push(`| 標籤 | 中文 | 為什麼是它 |`,`|---|---|---|`);
+    cs.forEach(s=>{const t=byEn[s.en];L.push(`| ${t[1]} | ${t[2]} | ${t[4]||"—"} |`)});
+  }else L.push(`（無。至少選 5 個核心標籤，定位才站得住。）`);
+  L.push(``);
+
+  L.push(`## 三、差異化：憑什麼是你（${ds.length} 個）`);
+  if(ds.length){
+    L.push(`| 標籤 | 中文 | 這個特色要讓玩家在哪裡看見 |`,`|---|---|---|`);
+    ds.forEach(s=>{const t=byEn[s.en];L.push(`| ${t[1]} | ${t[2]} | ${t[4]||""}　_（填：第一分鐘／商店頁截圖／核心循環…）_ |`)});
+  }else L.push(`（無。沒有差異化標籤等於沒有突圍點——挑 1～3 個小眾但精準的標籤補上。）`);
+  L.push(``);
+
+  L.push(`## 四、還沒決定的事（${groups.length+loose.length} 項）`);
+  if(groups.length){
+    groups.forEach((p,i)=>{
+      L.push(``,`### ${i+1}. ${p.q}`);
+      L.push(`- **選 ${p.a}（${byEn[p.a][2]}）**：${p.ax}`);
+      L.push(`- **選 ${p.b}（${byEn[p.b][2]}）**：${p.bx}`);
+      L.push(`- 我的決定：＿＿＿＿＿＿＿＿　理由：＿＿＿＿＿＿＿＿`);
+    });
+  }
+  if(loose.length)L.push(``,`- 尚未配成組的待抉擇標籤：${loose.join("、")}`);
+  if(!groups.length&&!loose.length)L.push(`（無。方向都定了，可以開工。）`);
+  L.push(``);
+
+  const store=cs.concat(ds);
+  L.push(`## 五、Steam 商店頁標籤（${store.length}／20）`);
+  if(store.length){
+    L.push(`依重要度排序，前 5 個是商店頁門面：`,``);
+    store.forEach((s,i)=>L.push(`${i+1}. ${nm(s)}${i<5?"　← 門面":""}`));
+    if(store.length>20)L.push(``,`> ⚠️ 超過 Steam 的 20 個上限，需要刪減。`);
+  }else L.push(`（無）`);
+  L.push(``,`> 全部都是 Steam 官方標籤，可直接照這個順序填進商店頁。`);
+  L.push(``,`## 六、下一步`);
+  L.push(`1. 把第四節「還沒決定的事」逐項填掉——那幾個決定會直接改變開發成本。`);
+  L.push(`2. 決定完回到工具更新標籤，重新產生這份定位單。`);
+  L.push(`3. 需要企劃全文、可玩雛型或商店頁文案時，用工具的「產生 AI 工單」貼給 AI。`);
+  return L.join("\n");
+}
+
 /* ---- 產生與輸出 ---- */
-document.getElementById("gen").addEventListener("click",()=>{
-  if(!sel.length&&!idea.value.trim()){alert("至少點選幾個標籤，或填一句話構想。");return}
-  if(![mA,mB,mC,mD,mE].some(x=>x.checked)){alert("至少勾選一個交付物。");return}
-  outta.value=buildPrompt();
-  document.getElementById("outmeta").textContent=
-    `模式：${aud()==="pipeline"?"進階管線":"一般 AI"}｜標籤 ${sel.length} 個｜約 ${outta.value.length} 字元｜${new Date().toLocaleString("zh-TW")}`;
+let outKind="brief";
+function show(kind,text,meta){
+  outKind=kind;
+  outta.value=text;
+  $("outTitle").textContent=kind==="brief"
+    ? "📋 定位單已產生——這是給人看的，可直接當企劃初稿或作業繳交"
+    : "🤖 AI 工單已產生——原封不動貼給 AI，不要改寫、不要翻譯";
+  $("dl").textContent=kind==="brief"?"💾 下載定位單 .md":"💾 下載工單 .md";
+  $("outmeta").textContent=meta;
   staleBar.style.display="none";
   outbox.style.display="block";outbox.scrollIntoView({behavior:"smooth"});
   save();
+}
+$("genBrief").addEventListener("click",()=>{
+  if(!sel.length){alert("先點幾個標籤，定位單才有內容。");return}
+  const {groups,loose}=askGroups();
+  show("brief",buildBrief(),
+    `定位單｜標籤 ${sel.length} 個｜待決定 ${groups.length+loose.length} 項｜`
+    +`約 ${buildBrief().length} 字元｜${new Date().toLocaleString("zh-TW")}`);
+});
+$("gen").addEventListener("click",()=>{
+  if(!sel.length&&!idea.value.trim()){alert("至少點選幾個標籤，或填一句話構想。");return}
+  if(![mA,mB,mC,mD,mE].some(x=>x.checked)){alert("至少勾選一個要請 AI 做的交付物。");return}
+  const w=buildPrompt();
+  show("ai",w,`AI 工單｜${aud()==="pipeline"?"進階管線":"一般 AI"}模式｜標籤 ${sel.length} 個｜`
+    +`約 ${w.length} 字元｜${new Date().toLocaleString("zh-TW")}`);
 });
 document.getElementById("copy").addEventListener("click",async()=>{
   outta.select();
   let ok=false;
   try{await navigator.clipboard.writeText(outta.value);ok=true}
   catch(e){try{ok=document.execCommand("copy")}catch(e2){ok=false}}
-  toast(ok?"工單已複製":"複製失敗，請手動全選後按 Ctrl+C");
+  toast(ok?(outKind==="brief"?"定位單已複製":"工單已複製"):"複製失敗，請手動全選後按 Ctrl+C");
 });
 document.getElementById("dl").addEventListener("click",()=>{
   const b=new Blob([outta.value],{type:"text/markdown;charset=utf-8"});
   const url=URL.createObjectURL(b),a=document.createElement("a");
-  a.href=url;a.download="game-prototype-workorder.md";a.style.display="none";
+  a.href=url;a.download=outKind==="brief"?"game-positioning-brief.md":"game-ai-workorder.md";a.style.display="none";
   document.body.appendChild(a);a.click();
   setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000);   // 立刻 revoke 會讓部分瀏覽器取消下載
 });

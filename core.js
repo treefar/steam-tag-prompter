@@ -78,19 +78,111 @@ const CLASH = [
 ["Escape Room","Cozy"],["Auto Battler","Story Rich"],["Boomer Shooter","Cute"],["Stealth","Cooking"]];
 
 /* 待抉擇配對——必須是「真的要二選一」的可比較選項，不是隨機兩個同維度標籤。
-   配對本身可以互斥（2D vs 3D 就是要你選一個），故不套用互斥檢查。 */
+   配對本身可以互斥（2D vs 3D 就是要你選一個），故不套用互斥檢查。
+
+   每組附取捨說明，讓工具本身就能幫使用者想清楚，不必等 AI 回答：
+     q  這組在問什麼（一句問句）
+     ax 選 a 的後果    bx 選 b 的後果
+   寫法鐵則：講「玩法與開發成本的後果」，不是解釋詞義。看完要能做決定。 */
 const ASK_PAIRS = [
-["Roguelike","Roguelite"],["Turn-Based Combat","Real Time Tactics"],["Turn-Based Tactics","RTS"],
-["Pixel Graphics","Anime"],["Stylized","Realistic"],["Hand-drawn","Pixel Graphics"],
-["2D","3D"],["Top-Down","Side Scroller"],["Isometric","Top-Down"],["First-Person","Third Person"],
-["Horror","Psychological Horror"],["Survival","Survival Horror"],["Cozy","Difficult"],
-["Relaxing","Thriller"],["Story Rich","Fast-Paced"],["Visual Novel","Point & Click"],
-["Farming Sim","Life Sim"],["Metroidvania","Platformer"],["Souls-like","Action RPG"],
-["JRPG","CRPG"],["Tower Defense","Auto Battler"],["Deckbuilding","Card Battler"],
-["Singleplayer","Local Co-Op"],["Exploration","Score Attack"],["Perma Death","Replay Value"],
-["Choices Matter","Multiple Endings"],["Stealth","Hack and Slash"],
-["Puzzle Platformer","Precision Platformer"],["Escape Room","Detective"],
-["Short","Replay Value"],["Crafting","Resource Management"],["FPS","Third-Person Shooter"]];
+{a:"Roguelike",b:"Roguelite",q:"死了要全部重來，還是能累積永久成長？",
+ ax:"每局從零開始，內容量要夠大才耐玩；挫折感高，但通關的成就感也最強。",
+ bx:"局外解鎖讓手殘玩家也推得動，留存曲線平緩；代價是多做一套永久成長系統與數值平衡。"},
+{a:"Turn-Based Combat",b:"Real Time Tactics",q:"戰鬥要玩家慢慢想，還是即時反應？",
+ ax:"回合制不吃手感與動畫品質，一人團隊做得動；但節奏慢，要靠戰術深度撐住。",
+ bx:"即時戰術臨場感強，卻要處理路徑尋找、AI 反應與大量動畫，開發量是回合制的數倍。"},
+{a:"Turn-Based Tactics",b:"RTS",q:"戰棋還是即時戰略？",
+ ax:"格狀戰棋單位少、每步都要算，適合小團隊；玩家群偏硬核但忠誠。",
+ bx:"即時戰略要同時處理數十單位的操作與 AI，是最難做的類型之一，學生專題極易爛尾。"},
+{a:"Pixel Graphics",b:"Anime",q:"像素風還是動漫立繪風？",
+ ax:"像素省美術工，但要做得好看需要專門功力，且動畫幀數是隱形成本。",
+ bx:"動漫風受眾精準（尤其日系），可用立繪＋差分省事；畫崩的容忍度極低。"},
+{a:"Stylized",b:"Realistic",q:"風格化還是寫實？",
+ ax:"風格化能用低模與純色掩蓋技術限制，最適合資源有限的團隊。",
+ bx:"寫實要貼圖、光照、材質全到位，任何一環不足就會被說『看起來很廉價』。"},
+{a:"Hand-drawn",b:"Pixel Graphics",q:"手繪還是像素？",
+ ax:"手繪辨識度高、最能做出獨特感；但每張圖都是人工，量大就崩。",
+ bx:"像素可複用素材與調色盤，量產友善；風格已很擁擠，要靠題材突圍。"},
+{a:"2D",b:"3D",q:"這是最先要決定的：2D 還是 3D？",
+ ax:"2D 的碰撞、鏡頭、美術都單純，同樣時間能做出更完整的內容。",
+ bx:"3D 一開始就要面對鏡頭、光照、模型與動畫；沒有現成資產庫的話成本是 2D 的數倍。"},
+{a:"Top-Down",b:"Side Scroller",q:"俯視角還是橫向捲軸？",
+ ax:"俯視角適合探索與多方向戰鬥，關卡可自由鋪；角色只需四或八向動畫。",
+ bx:"橫捲的跳躍手感是賣點也是門檻，關卡設計更吃節奏，但美術面向單一比較省。"},
+{a:"Isometric",b:"Top-Down",q:"等角斜視還是正俯視？",
+ ax:"等角有立體感、場景較好看；但美術要重畫斜角、遮擋與深度排序都要處理。",
+ bx:"正俯視最好做也最好讀，代價是畫面比較平、場景難有記憶點。"},
+{a:"First-Person",b:"Third Person",q:"第一人稱還是第三人稱？",
+ ax:"第一人稱不必做角色模型與動畫，沉浸感強，恐怖與探索類首選。",
+ bx:"第三人稱看得到主角、好做角色魅力；但要處理鏡頭碰撞與全套移動動畫。"},
+{a:"Horror",b:"Psychological Horror",q:"用嚇的，還是用不安感？",
+ ax:"直接的恐怖靠音效與突發驚嚇，見效快、成本低，但玩家很快免疫。",
+ bx:"心理恐怖靠敘事與氛圍鋪陳，受眾精準忠誠；寫不好就只是無聊。"},
+{a:"Survival",b:"Survival Horror",q:"生存重點在資源管理，還是在恐懼？",
+ ax:"純生存吃系統深度：飢餓、耐久、建造，數值平衡是主要工作量。",
+ bx:"生存恐怖靠彈藥稀缺與怪物壓力製造緊張，關卡與怪物 AI 是主要工作量。"},
+{a:"Cozy",b:"Difficult",q:"要讓玩家放鬆，還是被挑戰？",
+ ax:"溫馨向近年成長快、社群友善；但沒有難度就必須用內容量與情感留住人。",
+ bx:"高難度自帶話題與實況價值；要求手感與關卡打磨到位，做不好就是純粹的爛。"},
+{a:"Relaxing",b:"Thriller",q:"整體情緒是放鬆還是緊繃？",
+ ax:"放鬆向對美術與音樂要求高，玩法可以簡單，但要耐得住重複。",
+ bx:"驚悚需要節奏設計與資訊控制，一旦玩家看穿套路張力就消失。"},
+{a:"Story Rich",b:"Fast-Paced",q:"敘事優先還是節奏優先？",
+ ax:"劇情豐富要寫大量文本與演出，是最花時間但也最容易做出記憶點的路。",
+ bx:"快節奏靠手感與即時回饋，文本可以極少；但玩法核心必須本身就好玩。"},
+{a:"Visual Novel",b:"Point & Click",q:"純閱讀分支，還是要有場景互動？",
+ ax:"視覺小說用現成引擎最快落地，成本幾乎全在文本與立繪。",
+ bx:"點擊冒險多了物品與謎題系統，互動感較強；謎題設計不當很容易卡關棄坑。"},
+{a:"Farming Sim",b:"Life Sim",q:"核心循環是種田產出，還是經營人際？",
+ ax:"農場的循環明確、易上手：播種到收成的正回饋自己會轉。",
+ bx:"生活模擬要角色好感、事件排程與對話，內容量需求大很多。"},
+{a:"Metroidvania",b:"Platformer",q:"要能力解鎖回頭探索，還是線性關卡推進？",
+ ax:"銀河城地圖是互相牽連的整體，改一處會牽動全盤，設計難度最高。",
+ bx:"線性平台可以一關一關做、一關一關砍，範疇最好控制，適合有時限的專題。"},
+{a:"Souls-like",b:"Action RPG",q:"要正面對決的高門檻戰鬥，還是可調難度的動作 RPG？",
+ ax:"魂系玩家對打擊感、判定與敵人設計期待極高，做不到位會被嚴厲比較。",
+ bx:"動作 RPG 可靠等級與裝備讓玩家自行降低難度，容錯空間大得多。"},
+{a:"JRPG",b:"CRPG",q:"日式回合隊伍劇情，還是歐美選擇與判定？",
+ ax:"日式 RPG 路線清楚：隊伍、回合戰鬥、線性主線，內容量大但每塊都好切分。",
+ bx:"歐美 RPG 要處理選擇分支與世界狀態，文本量與測試成本呈指數成長。"},
+{a:"Tower Defense",b:"Auto Battler",q:"玩家佈防塔位，還是組隊後自動開打？",
+ ax:"塔防的關卡與波次可以量產，數值平衡是主要挑戰。",
+ bx:"自走棋重在組合深度與隨機性，單位少但每個都要能和其他單位產生化學反應。"},
+{a:"Deckbuilding",b:"Card Battler",q:"牌組在遊玩中逐步構築，還是開局前就組好？",
+ ax:"構築式每局都有成長感，卡牌數量可以少，靠組合爆發。",
+ bx:"卡牌對戰吃卡池廣度與平衡，卡少就沒策略，卡多就做不完。"},
+{a:"Singleplayer",b:"Local Co-Op",q:"單人，還是同機雙人？",
+ ax:"單人是預設值，所有設計都不必考慮第二個人，學生專題強烈建議。",
+ bx:"本地雙人氣氛好、展場效果佳；但鏡頭、UI、關卡都要重新為兩人設計。"},
+{a:"Exploration",b:"Score Attack",q:"獎勵探索發現，還是追求高分？",
+ ax:"探索要做足夠大的世界與值得找的東西，內容量是主要成本。",
+ bx:"計分挑戰內容可以很小，靠重玩與排行榜延長壽命；核心手感必須極度扎實。"},
+{a:"Perma Death",b:"Replay Value",q:"死亡要有真實代價，還是鼓勵一直重玩？",
+ ax:"永久死亡讓每個決定都有重量，但會嚇跑休閒玩家，也放大任何不公平的設計。",
+ bx:"高重玩性要靠隨機性或多路線提供變化，等於要做出比一輪遊玩更多的內容。"},
+{a:"Choices Matter",b:"Multiple Endings",q:"選擇要在過程中就有影響，還是集中在結局分歧？",
+ ax:"過程分歧最有感，但每個分歧都是要實作與測試的世界狀態。",
+ bx:"多結局只在末端分岔，成本可控；玩家容易察覺前面的選擇其實沒差。"},
+{a:"Stealth",b:"Hack and Slash",q:"避開敵人，還是正面清場？",
+ ax:"潛行要做視野、聲音與察覺狀態，AI 稍有不合理玩家立刻感覺得到。",
+ bx:"砍殺靠打擊感與敵人數量堆爽度，動畫與特效是主要成本。"},
+{a:"Puzzle Platformer",b:"Precision Platformer",q:"考腦袋還是考手指？",
+ ax:"解謎平台重在機關巧思，操作可以簡單，關卡設計是全部工作。",
+ bx:"精準平台重在手感，物理參數要調到極致，一格之差就是天堂與地獄。"},
+{a:"Escape Room",b:"Detective",q:"在密閉空間解機關，還是蒐證推理？",
+ ax:"密室範圍小、範疇最好控制，適合短篇；重玩價值低。",
+ bx:"偵探要設計證據鏈與可信的推理節奏，寫作難度高但記憶點強。"},
+{a:"Short",b:"Replay Value",q:"做一個短而完整的作品，還是耐玩的作品？",
+ ax:"誠實標示短篇能避免負評，也是學生專題最務實的選擇。",
+ bx:"耐玩要靠隨機或多路線，同樣時間下完成度會比短篇低。"},
+{a:"Crafting",b:"Resource Management",q:"重點在合成新東西，還是在分配有限資源？",
+ ax:"製作系統要設計配方樹與物品欄，介面工作量常被低估。",
+ bx:"資源管理可以完全用數值與 UI 呈現，美術需求低，但平衡沒調好就無聊。"},
+{a:"FPS",b:"Third-Person Shooter",q:"第一人稱射擊還是越肩射擊？",
+ ax:"第一人稱瞄準直觀，不必做角色動畫，是小團隊做射擊的合理起點。",
+ bx:"第三人稱要處理掩體、鏡頭與全套持槍動畫，但角色能成為賣點。"}];
+/* 內部多處只需要標籤名，用這個取出來，不要各自寫 [p.a,p.b] */
+const pairTags = p => [p.a, p.b];
 
 /* 玩家結構在「保證可做」模式的加權池——學生專題以單人為主，且必須真的表態單／多人
    （PvE、PvP 這類標籤沒有回答「幾個人玩」，故不列入） */
@@ -110,6 +202,13 @@ const MODE_TXT = {
 const CODE_VER = "S2", CODE_LEN = 6, CODE_MAX = 40;
 const RC = { core: "c", diff: "d", ask: "a" }, RD = { c: "core", d: "diff", a: "ask" };
 const CODE_RE = new RegExp("^" + CODE_VER + "(?:[0-9a-zA-Z]{" + (CODE_LEN - 1) + "}[cdaCDA])+$");
+
+/** 從一組已選的待抉擇標籤中，找出它們屬於哪一組配對（找不到回 null）。
+    UI 用它顯示取捨說明，不必等 AI 回答。 */
+function findAskPair(names) {
+  const set = new Set(names);
+  return ASK_PAIRS.find(p => set.has(p.a) && set.has(p.b)) || null;
+}
 
 /** 建立查表索引。瀏覽器與測試各建一次即可，不要每次抽籤重建。 */
 function makeIndex(T) {
@@ -173,9 +272,10 @@ function rollTags(o) {
   }
   // ② 留一組真的要二選一的待抉擇
   if (strict && out.length + 2 <= n) {
-    const cands = ASK_PAIRS.filter(p =>
-      p.every(en => usable(en) && !HEAVY.has(en)) && !p.some(en => clash(en)));
-    if (cands.length) cands[rnd(cands.length)].forEach(en => out.push({ en: en, role: "ask", lock: false }));
+    const cands = ASK_PAIRS.filter(p => pairTags(p).every(en => usable(en) && !HEAVY.has(en))
+                                        && !pairTags(p).some(en => clash(en)));
+    if (cands.length) pairTags(cands[rnd(cands.length)])
+      .forEach(en => out.push({ en: en, role: "ask", lock: false }));
   }
   // ③ 必要維度補齊（已被待抉擇組覆蓋的維度視為已覆蓋）。
   //    衝突模式不強制大類型——反差配對已定義類型空間，硬補會出現不相干的大類型。
@@ -239,6 +339,6 @@ function decodeSel(code, idx) {
 return {
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
-  makeIndex, rollTags, encodeSel, decodeSel
+  pairTags, findAskPair, makeIndex, rollTags, encodeSel, decodeSel
 };
 });
