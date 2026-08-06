@@ -157,6 +157,75 @@ test("findAskPair 能從已選標籤找出對應的取捨說明", () => {
   assert.equal(core.findAskPair([]), null, "空清單應回 null");
 });
 
+/* ---------------- 維度覆蓋與互斥封鎖 ---------------- */
+
+test("coverage：十個維度都回報，必要與選配分清楚", () => {
+  const cov = core.coverage([], IDX);
+  assert.equal(cov.dims.length, 10, "應該回報十個維度");
+  assert.deepEqual(cov.dims.map(d => d.label), core.DIM_NAMES);
+  // 全空時，必要項應該是 類型／視角／美術風格／玩家結構
+  assert.deepEqual(cov.missing, ["類型", "視角", "美術風格", "玩家結構"]);
+});
+
+test("coverage：大類型與子類型擇一即可，不會重複要求", () => {
+  const withSub = core.coverage([{ en: "Metroidvania", role: "core" }], IDX);   // 子類型
+  assert.ok(!withSub.missing.includes("類型"), "已有子類型就不該再缺類型");
+  const withGenre = core.coverage([{ en: "Puzzle", role: "core" }], IDX);        // 大類型
+  assert.ok(!withGenre.missing.includes("類型"), "已有大類型就不該再缺類型");
+});
+
+test("coverage：必要維度補齊後 missing 清空，選配缺了不算", () => {
+  const sel = ["Metroidvania", "2D", "Pixel Graphics", "Singleplayer"]
+    .map(en => ({ en, role: "core" }));
+  const cov = core.coverage(sel, IDX);
+  assert.deepEqual(cov.missing, [], `不該還缺：${cov.missing}`);
+  // 題材、情緒、敘事、機制、範疇都空著，但它們是選配
+  const empties = cov.dims.filter(d => !d.filled.length).map(d => d.label);
+  assert.ok(empties.includes("題材") && empties.includes("情緒"), "選配維度應該仍列為空");
+});
+
+test("coverage：填入的標籤與角色都要正確歸到維度下", () => {
+  const cov = core.coverage([{ en: "Roguelike", role: "ask" }, { en: "Roguelite", role: "ask" }], IDX);
+  const sub = cov.dims.find(d => d.label === "子類型");
+  assert.equal(sub.filled.length, 2);
+  assert.ok(sub.filled.every(f => f.role === "ask"));
+});
+
+test("coverage：不存在的標籤名不會讓它壞掉", () => {
+  const cov = core.coverage([{ en: "NotARealTag", role: "core" }], IDX);
+  assert.equal(cov.dims.reduce((n, d) => n + d.filled.length, 0), 0);
+});
+
+test("blockedBy：與已選標籤互斥的要擋，並回報是被誰擋的", () => {
+  const sel = [{ en: "2D", role: "core" }];
+  assert.equal(core.blockedBy("3D", sel), "2D", "3D 應被 2D 擋住");
+  assert.equal(core.blockedBy("Pixel Graphics", sel), null, "不互斥的不該擋");
+});
+
+test("blockedBy：已選中的標籤永遠不擋（否則無法取消它）", () => {
+  const sel = [{ en: "2D", role: "core" }, { en: "First-Person", role: "core" }];
+  // 2D 與 First-Person 互斥，但兩個都已選（例如從短碼還原），仍要能點掉
+  assert.equal(core.blockedBy("2D", sel), null);
+  assert.equal(core.blockedBy("First-Person", sel), null);
+});
+
+test("blockedBy：沒有選任何標籤時什麼都不擋", () => {
+  for (const r of T) assert.equal(core.blockedBy(r[1], []), null, `${r[1]} 不該被擋`);
+});
+
+test("保證可做模式抽出的結果，彼此之間不會互相封鎖", () => {
+  for (let seed = 1; seed <= 100; seed++) {
+    const r = rollTags({ T, idx: IDX, mode: "safe", n: 6, curatedOnly: true,
+                         locked: [], rng: seeded(seed) });
+    const asks = r.sel.filter(s => s.role === "ask").map(s => s.en);
+    // 待抉擇組內部本來就互斥（那是刻意的），排除後其餘不該互相封鎖
+    const rest = r.sel.filter(s => !asks.includes(s.en));
+    for (const s of rest)
+      assert.equal(core.blockedBy(s.en, rest.filter(x => x.en !== s.en)), null,
+        `seed=${seed}：${s.en} 被同組標籤封鎖`);
+  }
+});
+
 /* ---------------- 抽籤：保證可做 ---------------- */
 
 test("保證可做模式：500 次抽籤皆符合所有規則", () => {

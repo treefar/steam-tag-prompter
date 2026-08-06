@@ -210,6 +210,43 @@ function findAskPair(names) {
   return ASK_PAIRS.find(p => set.has(p.a) && set.has(p.b)) || null;
 }
 
+/* 十個維度的名稱與定位重要度。
+   必要（must）：缺了就無法定位——類型、視角、美術風格、玩家結構。
+   其中大類型（0）與子類型（1）是同一個問題的兩種答法，兩者有其一就算數。
+   選配（opt）：加分項，缺了不影響定位成立。 */
+const DIM_NAMES = ["大類型","子類型","視角","美術風格","題材","情緒","敘事","機制","玩家結構","範疇"];
+const DIM_NEED = ["type","type","must","must","opt","opt","opt","opt","must","opt"];
+
+/**
+ * 算出每個維度被涵蓋的狀況，供 UI 顯示概覽列。純函式。
+ * @returns {{dims:Array, missing:Array<string>}}
+ *   dims    每個維度一筆 {dim,label,need,filled:[{en,role}]}
+ *   missing 還缺的必要項名稱（大類型與子類型都空才算缺「類型」）
+ */
+function coverage(sel, idx) {
+  const dims = DIM_NAMES.map((label, d) => ({
+    dim: d, label: label, need: DIM_NEED[d],
+    filled: sel.filter(s => idx.byEn[s.en] && idx.byEn[s.en][0] === d)
+               .map(s => ({ en: s.en, role: s.role }))
+  }));
+  const missing = [];
+  if (!dims[0].filled.length && !dims[1].filled.length) missing.push("類型");
+  dims.forEach(x => { if (x.need === "must" && !x.filled.length) missing.push(x.label); });
+  return { dims: dims, missing: missing };
+}
+
+/**
+ * 這個標籤是否因為與已選標籤互斥而不該再選。回傳擋住它的標籤名，沒有就回 null。
+ * 已經選中的標籤永遠不擋（否則使用者無法取消它）。
+ */
+function blockedBy(en, sel) {
+  if (sel.some(s => s.en === en)) return null;
+  const c = CFL[en];
+  if (!c) return null;
+  const hit = sel.find(s => c.has(s.en));
+  return hit ? hit.en : null;
+}
+
 /** 建立查表索引。瀏覽器與測試各建一次即可，不要每次抽籤重建。 */
 function makeIndex(T) {
   const byEn = {}, byId = {};
@@ -339,6 +376,7 @@ function decodeSel(code, idx) {
 return {
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
+  DIM_NAMES, DIM_NEED, coverage, blockedBy,
   pairTags, findAskPair, makeIndex, rollTags, encodeSel, decodeSel
 };
 });

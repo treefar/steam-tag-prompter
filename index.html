@@ -100,6 +100,29 @@ header.top .sub{color:var(--ink-dim);font-size:13px}
 .rnum input{width:52px;background:var(--bg2);border:1px solid var(--line2);color:var(--ink);
   border-radius:6px;padding:4px 6px;font-size:13px;text-align:center}
 .rmode{font-size:12px;color:var(--amber);margin-top:7px;min-height:0}
+
+/* 十大維度覆蓋概覽 */
+.cov{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;padding-top:9px;border-top:1px solid var(--line2)}
+.cov .lead{width:100%;font-size:12px;color:var(--ink-dim);margin-bottom:2px}
+.cov .lead b{color:var(--red)}
+.covi{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 8px;
+  border:1px solid var(--line2);border-radius:20px;background:var(--bg2);cursor:pointer;
+  color:var(--ink-dim);font-family:inherit;max-width:100%}
+.covi:hover{border-color:var(--blue);color:var(--ink)}
+.covi .dn{white-space:nowrap}
+.covi .tg{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.covi.done{border-color:var(--core);background:rgba(102,192,244,.12)}
+.covi.done .dn{color:var(--core)}
+.covi.ask{border-color:var(--ask);background:rgba(244,187,68,.12)}
+.covi.ask .dn{color:var(--ask)}
+.covi.must{border-color:var(--red);color:var(--red)}
+.covi.must .dn{color:var(--red);font-weight:700}
+.covi.opt{opacity:.6;border-style:dashed}
+
+/* 與已選標籤互斥、暫時不可點的標籤 */
+.chip:disabled{opacity:.28;cursor:not-allowed;text-decoration:line-through;
+  text-decoration-thickness:1px}
+.chip:disabled:hover{border-color:var(--line2)}
 .drawer{display:none;margin-top:9px;padding:9px;background:var(--bg2);border:1px solid var(--line2);
   border-radius:8px;font-size:12.5px}
 .drawer.open{display:block}
@@ -246,6 +269,7 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
       <label class="tgl"><input type="checkbox" id="curOnly" checked><span>只抽精選標籤</span></label>
     </div>
     <div class="rmode" id="rmode"></div>
+    <div class="cov" id="cov"></div>
     <div class="row" style="margin-top:8px">
       <button class="btn sec" id="histBtn">🕘 抽籤歷史</button>
       <button class="btn sec" id="codeBtn">🔗 組合短碼</button>
@@ -1020,6 +1044,43 @@ function findAskPair(names) {
   return ASK_PAIRS.find(p => set.has(p.a) && set.has(p.b)) || null;
 }
 
+/* 十個維度的名稱與定位重要度。
+   必要（must）：缺了就無法定位——類型、視角、美術風格、玩家結構。
+   其中大類型（0）與子類型（1）是同一個問題的兩種答法，兩者有其一就算數。
+   選配（opt）：加分項，缺了不影響定位成立。 */
+const DIM_NAMES = ["大類型","子類型","視角","美術風格","題材","情緒","敘事","機制","玩家結構","範疇"];
+const DIM_NEED = ["type","type","must","must","opt","opt","opt","opt","must","opt"];
+
+/**
+ * 算出每個維度被涵蓋的狀況，供 UI 顯示概覽列。純函式。
+ * @returns {{dims:Array, missing:Array<string>}}
+ *   dims    每個維度一筆 {dim,label,need,filled:[{en,role}]}
+ *   missing 還缺的必要項名稱（大類型與子類型都空才算缺「類型」）
+ */
+function coverage(sel, idx) {
+  const dims = DIM_NAMES.map((label, d) => ({
+    dim: d, label: label, need: DIM_NEED[d],
+    filled: sel.filter(s => idx.byEn[s.en] && idx.byEn[s.en][0] === d)
+               .map(s => ({ en: s.en, role: s.role }))
+  }));
+  const missing = [];
+  if (!dims[0].filled.length && !dims[1].filled.length) missing.push("類型");
+  dims.forEach(x => { if (x.need === "must" && !x.filled.length) missing.push(x.label); });
+  return { dims: dims, missing: missing };
+}
+
+/**
+ * 這個標籤是否因為與已選標籤互斥而不該再選。回傳擋住它的標籤名，沒有就回 null。
+ * 已經選中的標籤永遠不擋（否則使用者無法取消它）。
+ */
+function blockedBy(en, sel) {
+  if (sel.some(s => s.en === en)) return null;
+  const c = CFL[en];
+  if (!c) return null;
+  const hit = sel.find(s => c.has(s.en));
+  return hit ? hit.en : null;
+}
+
 /** 建立查表索引。瀏覽器與測試各建一次即可，不要每次抽籤重建。 */
 function makeIndex(T) {
   const byEn = {}, byId = {};
@@ -1149,6 +1210,7 @@ function decodeSel(code, idx) {
 return {
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
+  DIM_NAMES, DIM_NEED, coverage, blockedBy,
   pairTags, findAskPair, makeIndex, rollTags, encodeSel, decodeSel
 };
 });
@@ -1225,7 +1287,7 @@ function buildDims(){
       const tip=[t[4]||"",`Steam 官方標籤 ID ${t[5]}`].filter(Boolean).join("　·　");
       // 用 <button> 而非 <span>：鍵盤可 Tab 進入、Enter／Space 可切換，螢幕閱讀器也讀得出狀態
       h+=`<button type="button" class="chip" data-en="${esc(t[1])}" data-cur="${t[6]}"`+
-         ` aria-pressed="false" title="${esc(tip)}">`+
+         ` data-tip="${esc(tip)}" aria-pressed="false" title="${esc(tip)}">`+
          `<b>${esc(t[1])}</b><span class="zh">${esc(t[2])}</span>`+
          (mk?`<span class="mk">${mk}</span>`:"")+
          `<span class="badge"></span></button>`;
@@ -1235,6 +1297,7 @@ function buildDims(){
   dimsEl.innerHTML=h;
   dimsEl.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>cycle(c.dataset.en)));
   const pr=document.getElementById("presets");
+  pr.textContent="";                      // 先清空：buildDims 要能重複呼叫而不重複堆疊起手式
   PRESETS.forEach(([name,p])=>{
     const b=document.createElement("button");b.className="preset";b.textContent=name;
     b.addEventListener("click",()=>{applyPreset(p)});pr.appendChild(b);
@@ -1251,6 +1314,46 @@ function askGroups(){
     }
   }
   return {groups,loose:asks.filter(n=>!used.has(n))};
+}
+/* 十大維度覆蓋概覽——抽完（或手動選完）一眼看出哪些維度有了、哪些還空著，
+   點任一格捲到該維度。必要維度缺了標紅，選配缺了只是虛線淡化。 */
+function drawCov(){
+  const box=$("cov");box.textContent="";
+  const {dims,missing}=coverage(sel,IDX);
+  const lead=document.createElement("div");lead.className="lead";
+  if(!sel.length){lead.textContent="十大維度目前都空著。抽一組，或直接點下面的標籤。"}
+  else if(missing.length){
+    lead.innerHTML=`十大維度覆蓋狀況——還缺必要的 <b>${esc(missing.join("、"))}</b>，點一下跳過去補。`;
+  }else{lead.textContent="十大維度覆蓋狀況——必要維度都齊了，其餘是加分項。"}
+  box.appendChild(lead);
+  for(const d of dims){
+    const b=document.createElement("button");b.type="button";b.className="covi";
+    const dn=document.createElement("span");dn.className="dn";dn.textContent=d.label;
+    b.appendChild(dn);
+    if(d.filled.length){
+      b.classList.add(d.filled.some(f=>f.role==="ask")?"ask":"done");
+      const tg=document.createElement("span");tg.className="tg";
+      tg.textContent=d.filled.map(f=>f.en).join("／");
+      b.appendChild(tg);
+      b.title=`${d.label}：${d.filled.map(f=>`${f.en}（${ROLE_TXT[f.role]}）`).join("、")}`;
+    }else{
+      // 大類型與子類型是同一個問題的兩種答法，另一邊有了就不算缺
+      const pairFilled=d.need==="type"&&dims.some(x=>x.need==="type"&&x.filled.length);
+      b.classList.add(d.need==="opt"||pairFilled?"opt":"must");
+      const tg=document.createElement("span");tg.className="tg";
+      tg.textContent=pairFilled?"—":(d.need==="opt"?"選配":"必補");
+      b.appendChild(tg);
+      b.title=pairFilled?`${d.label}：已由另一種類型標籤涵蓋`
+        :(d.need==="opt"?`${d.label}：選配，缺了不影響定位成立`
+                        :`${d.label}：必要維度，缺了無法定位`);
+    }
+    b.addEventListener("click",()=>{
+      const sec=$("dim"+d.dim);
+      if(sec.style.display==="none"){qEl.value="";showAll.checked=true;applyFilter()}
+      sec.scrollIntoView({behavior:"smooth",block:"start"});
+    });
+    box.appendChild(b);
+  }
 }
 function drawAsks(){
   const box=$("asks");box.textContent="";
@@ -1306,6 +1409,11 @@ function applyPreset(p){
 function render(){
   dimsEl.querySelectorAll(".chip").forEach(c=>{
     const s=sel.find(x=>x.en===c.dataset.en);
+    // 與已選標籤互斥的標籤變灰不可點，並說明是被誰擋住（已選中的永遠不擋，否則無法取消）
+    const blk=blockedBy(c.dataset.en,sel);
+    c.disabled=Boolean(blk);
+    if(blk)c.title=`與已選的「${blk}」互斥，先取消它才能選這個`;
+    else c.title=c.dataset.tip||c.title;
     // aria 讓螢幕閱讀器知道「選了沒」與「選成哪個角色」，不只靠顏色傳達
     c.setAttribute("aria-pressed",s?"true":"false");
     if(s){
@@ -1343,6 +1451,7 @@ function render(){
   const nC=sel.filter(x=>x.role==="core").length,nD=sel.filter(x=>x.role==="diff").length,
         nQ=sel.filter(x=>x.role==="ask").length,store=nC+nD;
   countsEl.innerHTML=`核心 <b>${nC}</b>（建議 5～8）｜差異化 <b>${nD}</b>｜待抉擇 <b>${nQ}</b>｜商店頁計數 <b class="${store>20?"over":""}">${store}</b>／20${store>20?"　⚠️ 超過上限":""}`;
+  drawCov();
   drawAsks();
   // render() 只在選擇或設定變動時被呼叫，所以此時畫面上的舊工單已過期。
   // 不標示的話學生會複製到與目前標籤不符的工單，這是最容易造成實際誤用的一點。
