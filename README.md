@@ -11,7 +11,7 @@
 
 標籤選擇、抽籤、取捨說明、兩種產出的組裝，全部在你的瀏覽器離線完成，不連網也不呼叫 AI。
 
-**線上直接用**：https://treefar.github.io/steam-tag-prompter/
+**線上直接用**：https://treefar.link/tool　（完整網址 https://treefar.link/steam-tag-prompter/ ）
 
 不需安裝、不需帳號。全部運算在瀏覽器本機完成，不會上傳任何資料；你的選擇存在自己瀏覽器的 localStorage 裡。
 
