@@ -34,7 +34,8 @@ const dimsOf = names => new Set(names.map(n => IDX.byEn[n][0]));
 test("標籤表結構完整", () => {
   assert.ok(T.length > 300, `標籤數異常：${T.length}`);
   for (const r of T) {
-    assert.equal(r.length, 7, `列長度應為 7：${JSON.stringify(r)}`);
+    assert.equal(r.length, 8, `列長度應為 8：${JSON.stringify(r)}`);
+    assert.ok(Array.isArray(r[7]), `第 8 欄應為代表作陣列：${r[1]}`);
     assert.ok(Number.isInteger(r[0]) && r[0] >= 0 && r[0] <= 9, `維度超出範圍：${r[1]}`);
     assert.ok(typeof r[1] === "string" && r[1].length, `英文名缺失：${JSON.stringify(r)}`);
     assert.ok(typeof r[2] === "string" && r[2].length, `中文名缺失：${r[1]}`);

@@ -123,6 +123,15 @@ const VOCAB = {
 /* 資料檔是純 JSON 而非可執行 JS：公開 repo 若收 PR，「改一個標籤」不該等於「執行任意程式碼」 */
 const CURATED = readJson("curated-tags.json", "精選標籤庫");
 const CLASSIFY = readJson("official-dims.json", "官方標籤維度歸類");
+/* 每個標籤的重點與代表作。代表作由 verify-games.js 逐款到 Steam 查證過，
+   games.json 記錄的是 Steam 上的實際商店標題與 appid；台灣通稱譯名另放
+   games-tw.json，由人維護，畫面上會標示為「通稱」而非官方譯名。 */
+const NOTES = fs.existsSync(path.join(__dirname, "data", "tag-notes.json"))
+  ? readJson("tag-notes.json", "標籤重點") : {};
+const GAMES = fs.existsSync(path.join(__dirname, "data", "games.json"))
+  ? readJson("games.json", "遊戲查證表") : {};
+const GAMES_TW = fs.existsSync(path.join(__dirname, "data", "games-tw.json"))
+  ? readJson("games-tw.json", "遊戲台灣通稱") : {};
 
 const rows = [];
 const seen = new Set();
@@ -130,7 +139,7 @@ function push(dim, enName, zh, flags, note, id, curated) {
   const k = enName.toLowerCase();
   if (seen.has(k)) return false;
   seen.add(k);
-  rows.push([dim, enName, zh, flags, note || "", id || 0, curated ? 1 : 0]);
+  rows.push([dim, enName, zh, flags, note || "", id || 0, curated ? 1 : 0, []]);
   return true;
 }
 
@@ -143,7 +152,10 @@ for (const [dim, name, zh, flags, note] of CURATED) {
     const extra = target !== name ? `社群常寫作「${name}」，官方標籤是 ${o.en}。` : "";
     if (target !== name) aliased++;
     const zhShow = o.tc || zh;
-    const noteFull = (o.tc && o.tc !== zh ? `亦稱「${zh}」。` : "") + (note || "") + extra;
+    /* tag-notes.json 的重點是寫得更完整的版本，有就取代原本的簡短說明，
+       不要兩段串在一起變成重複的話 */
+    const body = ((NOTES[o.en] || {}).k ? NOTES[o.en].k + "。" : (note || ""));
+    const noteFull = (o.tc && o.tc !== zh ? `亦稱「${zh}」。` : "") + body + extra;
     if (!push(dim, o.en, zhShow, flags.replace("u", ""), noteFull, o.id, true)) merged++;
   } else {
     /* 走到這裡代表 curated 有一個官方清單裡沒有的標籤。本工具刻意完全對應官方清單，
@@ -177,6 +189,32 @@ for (const [target, words] of Object.entries(VOCAB)) {
   vocabApplied += words.length;
 }
 if (vocabMissing.length) die(`VOCAB 指向不存在的標籤：${vocabMissing.join(", ")}`);
+
+/* 2.6) 併入每個標籤的重點與代表作。
+        重點接在說明後面；代表作另存第 8 欄，讓 UI 與指南可以分開排版。 */
+const noteMissing = [], gameMissing = [];
+let noted = 0;
+for (const [tag, n] of Object.entries(NOTES)) {
+  if (tag.startsWith("_")) continue;
+  const row = rows.find(r => r[1] === tag);
+  if (!row) { noteMissing.push(tag); continue; }
+  /* 重點已在步驟 1 併入（官方獨有標籤在步驟 2 沒有說明，這裡補上） */
+  if (n.k && !row[4].includes(n.k)) row[4] = [row[4], n.k + "。"].filter(Boolean).join("");
+  const gs = (n.g || []).map(name => {
+    const info = GAMES[name];
+    if (!info || !info.appid) { gameMissing.push(`${tag}: ${name}`); return null; }
+    return { en: info.steamTitle || name, tw: GAMES_TW[name] || "", id: info.appid };
+  }).filter(Boolean);
+  row[7] = gs;                       // 第 8 欄：代表作
+  noted++;
+}
+rows.forEach(r => { if (r.length < 8) r[7] = []; });
+if (noteMissing.length) die(`tag-notes.json 指向不存在的標籤：${noteMissing.join(", ")}`);
+/* games-tw.json 只能列 games.json 查證過的遊戲——多餘的條目代表打錯字或誤植標籤名，
+   留著不會壞掉但永遠不會生效，屬於同一類的死引用 */
+const twStray = Object.keys(GAMES_TW).filter(k => !k.startsWith("_") && !GAMES[k]);
+if (twStray.length) die(`games-tw.json 有 games.json 裡沒有的條目：${twStray.join(", ")}`);
+if (gameMissing.length) die(`代表作未通過查證（請先跑 node verify-games.js）：\n  ${gameMissing.join("\n  ")}`);
 
 /* 3) 未在官方清單的標籤配發合成 ID，讓分享短碼有穩定編碼。
       起點取官方最大 ID 之後，確保不與官方 tagid 撞號。 */
@@ -234,7 +272,7 @@ fs.writeFileSync(HTML, out);
 
 console.log(`\n官方清單 ${official.length} 筆｜精選 ${CURATED.length} 筆`
   + `（別名對齊 ${aliased}、併入既有項 ${merged}、未在官方清單 ${unofficial}）`);
-console.log(`社群詞彙掛上官方標籤 ${vocabApplied} 條`);
+console.log(`社群詞彙掛上官方標籤 ${vocabApplied} 條｜標籤重點 ${noted} 個、代表作 ${rows.reduce((n,r)=>n+(r[7]||[]).length,0)} 筆`);
 if (unofficial) console.warn(`⚠️ 有 ${unofficial} 個標籤不在官方清單中，違反「完全對應 Steam」原則`);
 console.log(`合併後總計 ${rows.length} 筆，未分類 ${unclassified.length} 筆：${unclassified.join(", ") || "無"}`);
 console.log(`合成 ID 起點 ${SYNTH_BASE}，最大 ID ${Math.max(...ids)}（上限 ${ID_MAX}）`);
