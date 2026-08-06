@@ -19,6 +19,11 @@
   "steamTitle": "A Short Hike",
   "url": "https://store.steampowered.com/app/1055540/"
  },
+ "ARK: Survival Ascended": {
+  "appid": 2399830,
+  "steamTitle": "ARK: Survival Ascended",
+  "url": "https://store.steampowered.com/app/2399830/"
+ },
  "Age of Empires II: Definitive Edition": {
   "appid": 813780,
   "steamTitle": "Age of Empires II: Definitive Edition",
@@ -69,6 +74,16 @@
   "steamTitle": "Bejeweled Deluxe",
   "url": "https://store.steampowered.com/app/3350/"
  },
+ "Bendy and the Ink Machine": {
+  "appid": 622650,
+  "steamTitle": "Bendy and the Ink Machine",
+  "url": "https://store.steampowered.com/app/622650/"
+ },
+ "Blasphemous": {
+  "appid": 774361,
+  "steamTitle": "Blasphemous",
+  "url": "https://store.steampowered.com/app/774361/"
+ },
  "Bloons TD 6": {
   "appid": 960090,
   "steamTitle": "Bloons TD 6",
@@ -94,6 +109,11 @@
   "steamTitle": "Cassette Beasts",
   "url": "https://store.steampowered.com/app/1321440/"
  },
+ "Cat Quest": {
+  "appid": 593280,
+  "steamTitle": "Cat Quest",
+  "url": "https://store.steampowered.com/app/593280/"
+ },
  "Caves of Qud": {
   "appid": 333640,
   "steamTitle": "Caves of Qud",
@@ -118,6 +138,11 @@
   "appid": 1454400,
   "steamTitle": "Cookie Clicker",
   "url": "https://store.steampowered.com/app/1454400/"
+ },
+ "Cooking Simulator": {
+  "appid": 641320,
+  "steamTitle": "Cooking Simulator",
+  "url": "https://store.steampowered.com/app/641320/"
  },
  "Coral Island": {
   "appid": 1158160,
@@ -159,6 +184,16 @@
   "steamTitle": "DUSK",
   "url": "https://store.steampowered.com/app/519860/"
  },
+ "Darkest Dungeon": {
+  "appid": 262060,
+  "steamTitle": "Darkest Dungeon®",
+  "url": "https://store.steampowered.com/app/262060/"
+ },
+ "Dave the Diver": {
+  "appid": 1868140,
+  "steamTitle": "DAVE THE DIVER",
+  "url": "https://store.steampowered.com/app/1868140/"
+ },
  "Dead Cells": {
   "appid": 588650,
   "steamTitle": "Dead Cells",
@@ -169,10 +204,20 @@
   "steamTitle": "Deadlock",
   "url": "https://store.steampowered.com/app/1422450/"
  },
+ "Death Road to Canada": {
+  "appid": 252610,
+  "steamTitle": "Death Road to Canada",
+  "url": "https://store.steampowered.com/app/252610/"
+ },
  "Death's Door": {
   "appid": 894020,
   "steamTitle": "Death's Door",
   "url": "https://store.steampowered.com/app/894020/"
+ },
+ "Desperados III": {
+  "appid": 610370,
+  "steamTitle": "Desperados III",
+  "url": "https://store.steampowered.com/app/610370/"
  },
  "Detroit: Become Human": {
   "appid": 1222140,
@@ -209,6 +254,11 @@
   "steamTitle": "Doki Doki Literature Club Plus!",
   "url": "https://store.steampowered.com/app/1388880/"
  },
+ "Dorfromantik": {
+  "appid": 1455840,
+  "steamTitle": "Dorfromantik",
+  "url": "https://store.steampowered.com/app/1455840/"
+ },
  "Dota 2": {
   "appid": 570,
   "steamTitle": "Dota 2",
@@ -244,6 +294,16 @@
   "steamTitle": "Firewatch",
   "url": "https://store.steampowered.com/app/383870/"
  },
+ "Frostpunk": {
+  "appid": 323190,
+  "steamTitle": "Frostpunk",
+  "url": "https://store.steampowered.com/app/323190/"
+ },
+ "Furi": {
+  "appid": 423230,
+  "steamTitle": "Furi",
+  "url": "https://store.steampowered.com/app/423230/"
+ },
  "GRIS": {
   "appid": 683320,
   "steamTitle": "GRIS",
@@ -263,6 +323,11 @@
   "appid": 735290,
   "steamTitle": "Genesis Noir",
   "url": "https://store.steampowered.com/app/735290/"
+ },
+ "Ghostrunner": {
+  "appid": 1139900,
+  "steamTitle": "Ghostrunner",
+  "url": "https://store.steampowered.com/app/1139900/"
  },
  "Golf With Your Friends": {
   "appid": 431240,
@@ -344,10 +409,20 @@
   "steamTitle": "Hunt: Showdown 1896",
   "url": "https://store.steampowered.com/app/594650/"
  },
+ "Hypnospace Outlaw": {
+  "appid": 844590,
+  "steamTitle": "Hypnospace Outlaw",
+  "url": "https://store.steampowered.com/app/844590/"
+ },
  "INSIDE": {
   "appid": 304430,
   "steamTitle": "INSIDE",
   "url": "https://store.steampowered.com/app/304430/"
+ },
+ "Immortals Fenyx Rising": {
+  "appid": 2221920,
+  "steamTitle": "Immortals Fenyx Rising",
+  "url": "https://store.steampowered.com/app/2221920/"
  },
  "Inscryption": {
   "appid": 1092790,
@@ -373,6 +448,11 @@
   "appid": 811320,
   "steamTitle": "Jupiter Hell",
   "url": "https://store.steampowered.com/app/811320/"
+ },
+ "Jurassic World Evolution 2": {
+  "appid": 1244460,
+  "steamTitle": "Jurassic World Evolution 2",
+  "url": "https://store.steampowered.com/app/1244460/"
  },
  "Katana ZERO": {
   "appid": 460950,
@@ -404,6 +484,11 @@
   "steamTitle": "Little Nightmares",
   "url": "https://store.steampowered.com/app/424840/"
  },
+ "MechWarrior 5: Mercenaries": {
+  "appid": 784080,
+  "steamTitle": "MechWarrior 5: Mercenaries",
+  "url": "https://store.steampowered.com/app/784080/"
+ },
  "Melvor Idle": {
   "appid": 1267910,
   "steamTitle": "Melvor Idle",
@@ -413,6 +498,11 @@
   "appid": 2537590,
   "steamTitle": "Microsoft Flight Simulator 2024",
   "url": "https://store.steampowered.com/app/2537590/"
+ },
+ "Nier: Automata": {
+  "appid": 524220,
+  "steamTitle": "NieR:Automata™",
+  "url": "https://store.steampowered.com/app/524220/"
  },
  "Nuclear Throne": {
   "appid": 242680,
@@ -434,6 +524,11 @@
   "steamTitle": "Overcooked! 2",
   "url": "https://store.steampowered.com/app/728880/"
  },
+ "Oxenfree": {
+  "appid": 388880,
+  "steamTitle": "Oxenfree",
+  "url": "https://store.steampowered.com/app/388880/"
+ },
  "Oxygen Not Included": {
   "appid": 457140,
   "steamTitle": "Oxygen Not Included",
@@ -443,6 +538,11 @@
   "appid": 578080,
   "steamTitle": "PUBG: BATTLEGROUNDS",
   "url": "https://store.steampowered.com/app/578080/"
+ },
+ "Papers, Please": {
+  "appid": 239030,
+  "steamTitle": "Papers, Please",
+  "url": "https://store.steampowered.com/app/239030/"
  },
  "Path of Exile": {
   "appid": 238960,
@@ -464,10 +564,20 @@
   "steamTitle": "Persona 5 Royal",
   "url": "https://store.steampowered.com/app/1687950/"
  },
+ "Phasmophobia": {
+  "appid": 739630,
+  "steamTitle": "Phasmophobia",
+  "url": "https://store.steampowered.com/app/739630/"
+ },
  "Prey": {
   "appid": 480490,
   "steamTitle": "Prey",
   "url": "https://store.steampowered.com/app/480490/"
+ },
+ "Project Zomboid": {
+  "appid": 108600,
+  "steamTitle": "Project Zomboid",
+  "url": "https://store.steampowered.com/app/108600/"
  },
  "Pseudoregalia": {
   "appid": 2365810,
@@ -524,6 +634,11 @@
   "steamTitle": "SMITE 2",
   "url": "https://store.steampowered.com/app/2437170/"
  },
+ "SOMA": {
+  "appid": 282140,
+  "steamTitle": "SOMA",
+  "url": "https://store.steampowered.com/app/282140/"
+ },
  "SUPERHOT": {
   "appid": 322500,
   "steamTitle": "SUPERHOT",
@@ -569,6 +684,16 @@
   "steamTitle": "Sid Meier’s Civilization® VI",
   "url": "https://store.steampowered.com/app/289070/"
  },
+ "Sid Meier's Pirates!": {
+  "appid": 3920,
+  "steamTitle": "Sid Meier's Pirates!",
+  "url": "https://store.steampowered.com/app/3920/"
+ },
+ "Sifu": {
+  "appid": 2138710,
+  "steamTitle": "Sifu",
+  "url": "https://store.steampowered.com/app/2138710/"
+ },
  "Sine Mora EX": {
   "appid": 606730,
   "steamTitle": "Sine Mora EX",
@@ -599,6 +724,11 @@
   "steamTitle": "Stellaris",
   "url": "https://store.steampowered.com/app/281990/"
  },
+ "Stray": {
+  "appid": 1332010,
+  "steamTitle": "Stray",
+  "url": "https://store.steampowered.com/app/1332010/"
+ },
  "Streets of Rage 4": {
   "appid": 985890,
   "steamTitle": "Streets of Rage 4",
@@ -608,6 +738,11 @@
   "appid": 264710,
   "steamTitle": "Subnautica",
   "url": "https://store.steampowered.com/app/264710/"
+ },
+ "Sunless Sea": {
+  "appid": 304650,
+  "steamTitle": "SUNLESS SEA",
+  "url": "https://store.steampowered.com/app/304650/"
  },
  "Super Auto Pets": {
   "appid": 1714040,
@@ -654,6 +789,11 @@
   "steamTitle": "The Case of the Golden Idol",
   "url": "https://store.steampowered.com/app/1677770/"
  },
+ "The Forgotten City": {
+  "appid": 874260,
+  "steamTitle": "The Forgotten City",
+  "url": "https://store.steampowered.com/app/874260/"
+ },
  "The Room 4: Old Sins": {
   "appid": 1361320,
   "steamTitle": "The Room 4: Old Sins",
@@ -663,6 +803,11 @@
   "appid": 1703340,
   "steamTitle": "The Stanley Parable: Ultra Deluxe",
   "url": "https://store.steampowered.com/app/1703340/"
+ },
+ "The Talos Principle": {
+  "appid": 257510,
+  "steamTitle": "The Talos Principle",
+  "url": "https://store.steampowered.com/app/257510/"
  },
  "The Witness": {
   "appid": 210970,
@@ -678,6 +823,11 @@
   "appid": 569860,
   "steamTitle": "Thimbleweed Park™",
   "url": "https://store.steampowered.com/app/569860/"
+ },
+ "This Is the Police": {
+  "appid": 443810,
+  "steamTitle": "This Is the Police",
+  "url": "https://store.steampowered.com/app/443810/"
  },
  "Thomas Was Alone": {
   "appid": 220780,
@@ -734,6 +884,11 @@
   "steamTitle": "Untitled Goose Game",
   "url": "https://store.steampowered.com/app/837470/"
  },
+ "V Rising": {
+  "appid": 1604030,
+  "steamTitle": "V Rising",
+  "url": "https://store.steampowered.com/app/1604030/"
+ },
  "VA-11 Hall-A: Cyberpunk Bartender Action": {
   "appid": 447530,
   "steamTitle": "VA-11 Hall-A: Cyberpunk Bartender Action",
@@ -748,6 +903,16 @@
   "appid": 1794680,
   "steamTitle": "Vampire Survivors",
   "url": "https://store.steampowered.com/app/1794680/"
+ },
+ "Webfishing": {
+  "appid": 3146520,
+  "steamTitle": "WEBFISHING",
+  "url": "https://store.steampowered.com/app/3146520/"
+ },
+ "West of Loathing": {
+  "appid": 597220,
+  "steamTitle": "West of Loathing",
+  "url": "https://store.steampowered.com/app/597220/"
  },
  "What Remains of Edith Finch": {
   "appid": 501300,

@@ -1,5 +1,11 @@
 {
  "_說明": "每個標籤的重點與代表作。k=重點（選這個標籤代表你要做什麼、成本在哪），g=代表作英文原名（名稱須與 data/games.json 對得上）。由 build-tags.js 併進標籤說明與指南章節。",
+ "1980s": { "k": "八〇年代的合成器音樂與霓虹配色，是成本最低的風格化手段之一", "g": [
+   "Hotline Miami",
+   "Katana ZERO"] },
+ "1990's": { "k": "九〇年代情懷，畫面與音樂語彙有明確參照，但年輕玩家不一定買單", "g": [
+   "DUSK",
+   "Hypnospace Outlaw"] },
  "2.5D": { "k": "3D 場景配 2D 玩法，兼顧畫面層次與簡單操作；深度排序要小心", "g": [
    "Ori and the Blind Forest",
    "Little Nightmares"] },
@@ -15,6 +21,9 @@
  "3D Platformer": { "k": "跳躍加上第三軸，鏡頭與落點判讀是主要難題", "g": [
    "A Hat in Time",
    "Pseudoregalia"] },
+ "4 Player Local": { "k": "四人同樂適合展會，但畫面配置與辨識度是設計難題", "g": [
+   "Overcooked! 2",
+   "Human Fall Flat"] },
  "4X": { "k": "探索、擴張、開發、殲滅；後期回合變慢是這類型的通病", "g": [
    "Stellaris",
    "Sid Meier's Civilization VI"] },
@@ -30,12 +39,24 @@
  "Adventure": { "k": "強調探索與敘事推進而非反應能力，常與解謎、劇情連用", "g": [
    "Outer Wilds",
    "Firewatch"] },
+ "Agriculture": { "k": "農業與農場模擬連動，種植循環本身就是核心玩法", "g": [
+   "Stardew Valley",
+   "Coral Island"] },
+ "Aliens": { "k": "外星人讓你合理化任何設計，但也最容易變成沒有邏輯", "g": [
+   "Subnautica",
+   "XCOM 2"] },
  "Anime": { "k": "日系受眾精準，可用立繪加差分省事；畫崩的容忍度極低", "g": [
    "Persona 5 Royal",
    "Guilty Gear -Strive-"] },
+ "Arcade": { "k": "街機式的短循環與即時計分，最適合展場與課堂展示", "g": [
+   "Hotline Miami",
+   "Nuclear Throne"] },
  "Arena Shooter": { "k": "封閉場地的高速對決，關卡少但每張都要反覆打磨", "g": [
    "ULTRAKILL",
    "DUSK"] },
+ "Atmospheric": { "k": "探索與恐怖幾乎必掛；氛圍主要靠音效與光影，不是靠美術精細度", "g": [
+   "Outer Wilds",
+   "SOMA"] },
  "Auto Battler": { "k": "組隊後自動開打，單位少但每個都要能和其他單位產生化學反應", "g": [
    "Backpack Battles",
    "Super Auto Pets"] },
@@ -60,12 +81,21 @@
  "Boomer Shooter": { "k": "復古快節奏射擊，不做掩體與寫實彈道，反而省下大量調校", "g": [
    "DUSK",
    "ULTRAKILL"] },
+ "Boss Rush": { "k": "只做頭目省下大量雜兵與關卡，但每隻都要達到頭目等級的品質", "g": [
+   "Cuphead",
+   "Furi"] },
+ "Building": { "k": "讓玩家蓋東西就要處理放置規則、碰撞與存檔，範疇會迅速膨脹", "g": [
+   "Satisfactory",
+   "Timberborn"] },
  "Bullet Heaven": { "k": "極簡操作配大量敵人，程式門檻低但數值與效能是關鍵", "g": [
    "Vampire Survivors",
    "Halls of Torment"] },
  "Bullet Hell": { "k": "彈幕構成的圖案就是關卡；受眾硬核，但程式與美術需求都不高", "g": [
    "Enter the Gungeon",
    "Devil Daggers"] },
+ "Bullet Time": { "k": "子彈時間讓玩家看清楚自己的操作，是降低難度又不失爽感的手段", "g": [
+   "SUPERHOT",
+   "Katana ZERO"] },
  "CRPG": { "k": "選擇與判定驅動，文本量與測試成本隨分支呈指數成長", "g": [
    "Disco Elysium",
    "Divinity: Original Sin 2"] },
@@ -84,79 +114,187 @@
  "Casual": { "k": "低門檻、可隨時中斷；會影響演算法受眾，硬核遊戲勿掛", "g": [
    "Unpacking",
    "A Short Hike"] },
+ "Cats": { "k": "動物標籤轉換率意外地高，貓尤其自帶社群傳播力", "g": [
+   "Stray",
+   "Cat Quest"] },
+ "Character Customization": { "k": "外觀自訂要一整套模組化美術資源，是最容易低估工作量的系統", "g": [
+   "Path of Exile",
+   "RimWorld"] },
+ "Choices Matter": { "k": "過程分歧最有感，但每個分歧都是要實作與測試的世界狀態", "g": [
+   "The Stanley Parable: Ultra Deluxe",
+   "Papers, Please"] },
  "Cinematic": { "k": "強調運鏡與演出，過場與鏡頭語言會吃掉大量時間", "g": [
    "INSIDE",
    "Detroit: Become Human"] },
  "City Builder": { "k": "系統互相牽動的模擬，UI 與資訊呈現的工作量常被低估", "g": [
    "Timberborn",
    "Cities: Skylines II"] },
+ "Class-Based": { "k": "職業系統等於做 N 套玩法，每多一個職業就多一份平衡負擔", "g": [
+   "Darkest Dungeon",
+   "Team Fortress 2"] },
+ "Co-op": { "k": "合作比對抗好做（不必平衡強弱），但關卡要為多人重新設計", "g": [
+   "Lethal Company",
+   "Overcooked! 2"] },
  "Colony Sim": { "k": "角色各自有需求與 AI，故事從系統互動中自己長出來", "g": [
    "RimWorld",
    "Oxygen Not Included"] },
+ "Comedy": { "k": "喜劇需要大量文本與時機掌握，寫作成本比想像高", "g": [
+   "The Stanley Parable: Ultra Deluxe",
+   "West of Loathing"] },
  "Comic Book": { "k": "美漫分鏡與網點質感，敘事演出可以直接用分格處理省成本", "g": [
    "Pentiment",
    "Genesis Noir"] },
+ "Controller": { "k": "手把支援是商店頁的功能欄位；類比操作要另外調一套手感", "g": [
+   "Hades",
+   "Celeste"] },
+ "Cooking": { "k": "料理的步驟本身就是關卡結構，時間壓力是主要張力來源", "g": [
+   "Overcooked! 2",
+   "Cooking Simulator"] },
+ "Cozy": { "k": "近年成長最快的品類詞；沒有難度就必須用內容量與情感留住人", "g": [
+   "Unpacking",
+   "Dorfromantik"] },
+ "Crafting": { "k": "要設計配方樹與物品欄，介面工作量常被嚴重低估", "g": [
+   "Valheim",
+   "Subnautica"] },
  "Creature Collector": { "k": "收集與養成，生物數量直接等於美術與平衡的工作量", "g": [
    "Cassette Beasts",
    "Coromon"] },
+ "Crime": { "k": "犯罪題材的道德張力是賣點，但分級與描寫尺度要拿捏", "g": [
+   "Hotline Miami",
+   "This Is the Police"] },
+ "Cute": { "k": "可愛跨年齡、社群傳播力強，是小團隊最划算的情緒定位", "g": [
+   "A Short Hike",
+   "Untitled Goose Game"] },
+ "Cyberpunk": { "k": "霓虹加低生活高科技，美術方向明確、受眾精準，是小團隊常用的省力題材", "g": [
+   "VA-11 Hall-A: Cyberpunk Bartender Action",
+   "Katana ZERO"] },
+ "Dark": { "k": "基調陰暗，題材與美術要一致，半調子會顯得不倫不類", "g": [
+   "Darkest Dungeon",
+   "INSIDE"] },
+ "Dark Fantasy": { "k": "奇幻加上黑暗殘酷的基調，配色一鎖定就很好維持整體感", "g": [
+   "Darkest Dungeon",
+   "Salt and Sanctuary"] },
  "Dating Sim": { "k": "成本幾乎全在文本與立繪，路線數量直接等於工作量", "g": [
    "Doki Doki Literature Club Plus",
    "Hatoful Boyfriend"] },
  "Deckbuilding": { "k": "牌組在遊玩中成長，每局都有成長感，是最省成本的深度來源", "g": [
    "Slay the Spire",
    "Balatro"] },
+ "Destruction": { "k": "破壞表現最有爽感，但效能與存檔狀態都是硬技術問題", "g": [
+   "Teardown",
+   "BeamNG.drive"] },
  "Detective": { "k": "要設計證據鏈與可信的推理節奏，寫作難度高但記憶點強", "g": [
    "Return of the Obra Dinn",
    "Her Story"] },
+ "Difficult": { "k": "自帶話題與實況價值；要求手感與關卡打磨到位，做不好就是純粹的爛", "g": [
+   "Celeste",
+   "Lies of P"] },
+ "Dinosaurs": { "k": "恐龍題材親和力高、跨年齡，但模型與動畫都是硬成本", "g": [
+   "Jurassic World Evolution 2",
+   "ARK: Survival Ascended"] },
+ "Dogs": { "k": "同貓，情感連結強；但四足動畫比人形難做", "g": [
+   "Cat Quest",
+   "Untitled Goose Game"] },
  "Early Access": { "k": "上架狀態標籤，承諾持續更新；學生專題不建議掛", "g": []
  },
+ "Economy": { "k": "經濟系統要處理通膨與套利，玩家一定會找到你沒想到的漏洞", "g": [
+   "Path of Exile",
+   "Satisfactory"] },
  "Education": { "k": "教學目的優先於樂趣；驗收標準是學會了沒，不是好不好玩", "g": [
    "Human Resource Machine",
    "Kerbal Space Program"] },
+ "Emotional": { "k": "催淚要靠鋪陳，不能只靠結局；情感敘事研究的對口標籤", "g": [
+   "What Remains of Edith Finch",
+   "GRIS"] },
  "Escape Room": { "k": "範圍小、範疇最好控制，適合短篇；重玩價值低", "g": [
    "Escape Simulator",
    "The Room 4: Old Sins"] },
  "Experimental": { "k": "玩法或形式本身在做實驗；研究原型與課堂習作可以誠實掛", "g": [
    "The Stanley Parable: Ultra Deluxe",
    "Baba Is You"] },
+ "Exploration": { "k": "要做足夠大的世界與值得找的東西，內容量是主要成本", "g": [
+   "Outer Wilds",
+   "Subnautica"] },
  "Extraction Shooter": { "k": "帶著戰利品活著撤離，緊張感來自損失風險；多人架構龐大", "g": [
    "Hunt: Showdown 1896",
    "Escape from Tarkov"] },
  "FPS": { "k": "瞄準直觀、不必做角色動畫，是小團隊做射擊的合理起點", "g": [
    "DUSK",
    "ULTRAKILL"] },
+ "Family Friendly": { "k": "闔家適宜會排除暴力與恐怖，等於先砍掉一批設計手段", "g": [
+   "Overcooked! 2",
+   "Untitled Goose Game"] },
+ "Fantasy": { "k": "最大宗的題材，現成美術資源最多；但也最難靠題材本身做出區別", "g": [
+   "Hades",
+   "Divinity: Original Sin 2"] },
+ "Farming": { "k": "耕作循環正回饋明確，適合當主玩法之外的節奏調劑", "g": [
+   "Stardew Valley",
+   "Coral Island"] },
  "Farming Sim": { "k": "播種到收成的正回饋自己會轉，循環明確、易上手", "g": [
    "Stardew Valley",
    "Coral Island"] },
+ "Fast-Paced": { "k": "靠手感與即時回饋，文本可以極少；但玩法核心必須本身就好玩", "g": [
+   "ULTRAKILL",
+   "Hotline Miami"] },
+ "Female Protagonist": { "k": "有專屬的瀏覽受眾，是精準且低成本的差異化標籤", "g": [
+   "Celeste",
+   "SIGNALIS"] },
  "Fighting": { "k": "幀數級的判定與平衡，是最吃專業知識的類型之一", "g": [
    "Guilty Gear -Strive-",
    "Skullgirls 2nd Encore"] },
  "First-Person": { "k": "不必做主角模型與動畫，沉浸感強；恐怖與探索類的首選視角", "g": [
    "Outer Wilds",
    "SUPERHOT"] },
+ "Fishing": { "k": "釣魚是最容易做上癮的小循環，常被當成主玩法之外的調劑", "g": [
+   "Dave the Diver",
+   "Webfishing"] },
  "Flight": { "k": "三軸飛行的操控與鏡頭是門檻，地形量體通常很大", "g": [
    "Bomber Crew",
    "Microsoft Flight Simulator 2024"] },
  "Free to Play": { "k": "商業模式標籤，掛了代表你要設計營利機制與長期營運", "g": []
  },
+ "Funny": { "k": "笑點是最難跨文化的東西，翻譯後常常整個失效", "g": [
+   "Untitled Goose Game",
+   "Human Fall Flat"] },
  "God Game": { "k": "俯視操控整個世界而非單一角色，AI 自主性是主要挑戰", "g": [
    "Reus 2",
    "Timberborn"] },
+ "Gore": { "k": "血腥會觸發分級與地區限制，也會縮小可觸及的受眾與實況空間", "g": [
+   "ULTRAKILL",
+   "Devil Daggers"] },
+ "Gothic": { "k": "哥德建築與服裝的視覺語彙成熟，配色鎖定後很好維持", "g": [
+   "Darkest Dungeon",
+   "Blasphemous"] },
  "Grand Strategy": { "k": "大尺度長期經營，資料量與 AI 決策是主要難題", "g": [
    "Crusader Kings III",
    "Stellaris"] },
+ "Grid-Based Movement": { "k": "格狀移動讓判定與 AI 都大幅簡化，是小團隊做戰棋的關鍵選擇", "g": [
+   "Into the Breach",
+   "Crypt of the NecroDancer"] },
  "Hack and Slash": { "k": "靠打擊感與敵人數量堆爽度，動畫與特效是主要成本", "g": [
    "Devil May Cry 5",
    "Hades"] },
+ "Hacking": { "k": "駭客題材可以把介面本身變成玩法，美術需求極低", "g": [
+   "Hypnospace Outlaw",
+   "Gunpoint"] },
  "Hand-drawn": { "k": "辨識度最高、最能做出獨特感；但每張圖都是人工，量大就崩", "g": [
    "Cuphead",
    "GRIS"] },
  "Hero Shooter": { "k": "角色技能差異化的多人射擊；平衡與長期營運成本都很高", "g": [
    "Team Fortress 2",
    "Deadlock"] },
+ "Hex Grid": { "k": "六角格移動方向更自然，但美術與座標運算比方格複雜", "g": [
+   "Sid Meier's Civilization VI",
+   "Terraforming Mars"] },
  "Hidden Object": { "k": "關卡就是一張張精緻場景圖，美術量大但程式極簡", "g": [
    "Hidden Folks",
    "Unpacking"] },
+ "Historical": { "k": "真實歷史為背景，考據成本高但天然有話題性", "g": [
+   "Pentiment",
+   "Crusader Kings III"] },
+ "Horror": { "k": "靠音效與突發驚嚇見效快、成本低，但玩家很快免疫", "g": [
+   "Phasmophobia",
+   "Resident Evil 2"] },
  "Idler": { "k": "放置累積，玩家不在也會前進；數值曲線就是全部設計", "g": [
    "Melvor Idle",
    "Cookie Clicker"] },
@@ -180,12 +318,30 @@
  "JRPG": { "k": "隊伍、回合戰鬥、線性主線；內容量大但每塊都好切分給團隊", "g": [
    "Sea of Stars: Sunset Edition",
    "CrossCode"] },
+ "LGBTQ+": { "k": "精準且忠誠的社群；寫得表面反而會被看穿，要真的有角色而不是標籤", "g": [
+   "Celeste",
+   "VA-11 Hall-A: Cyberpunk Bartender Action"] },
+ "Level Editor": { "k": "編輯器等於再做一套工具與 UI，還要處理玩家內容的分享與審核", "g": [
+   "Trailmakers",
+   "Tabletop Simulator"] },
  "Life Sim": { "k": "角色好感、事件排程與對話，內容量需求比農場大很多", "g": [
    "Stardew Valley",
    "Coral Island"] },
+ "Local Co-Op": { "k": "同機合作氣氛好、展場效果佳；但鏡頭、UI、關卡都要重做", "g": [
+   "Overcooked! 2",
+   "Cuphead"] },
+ "Local Multiplayer": { "k": "同機多人省掉所有連線問題，是小團隊做多人最務實的路", "g": [
+   "Overcooked! 2",
+   "Human Fall Flat"] },
+ "Loot": { "k": "掉寶要設計稀有度、詞綴與掉落表，數值工作量遠大於美術", "g": [
+   "Path of Exile",
+   "Borderlands 3"] },
  "Looter Shooter": { "k": "掉寶驅動，數值與掉落表是主要工作量，內容需求極大", "g": [
    "Borderlands 3",
    "Remnant II"] },
+ "Lovecraftian": { "k": "克蘇魯利基但受眾忠誠，重點在未知與精神崩壞，不是觸手怪", "g": [
+   "Darkest Dungeon",
+   "Sunless Sea"] },
  "MMORPG": { "k": "伺服器架構與內容產能都是團隊級規模，個人專題不可能", "g": [
    "Guild Wars 2",
    "Path of Exile"] },
@@ -195,27 +351,99 @@
  "Management": { "k": "資源與人力的分配決策，可以完全用數值與 UI 呈現，美術需求低", "g": [
    "Two Point Hospital",
    "Game Dev Tycoon"] },
+ "Martial Arts": { "k": "武術要有身法與招式的節奏感，動畫品質直接決定成敗；武俠也掛這個", "g": [
+   "Sifu",
+   "Ghostrunner"] },
+ "Massively Multiplayer": { "k": "大型多人的伺服器與內容產能都是團隊級規模，個人專題不可能", "g": [
+   "Path of Exile",
+   "Guild Wars 2"] },
  "Match 3": { "k": "玩法成熟到近乎公版；差異化只能靠題材與包裝", "g": [
    "Puzzle Quest 3",
    "Bejeweled Deluxe"] },
+ "Mechs": { "k": "機甲的重量感與駕駛艙視角是賣點，模型與動畫成本高", "g": [
+   "Into the Breach",
+   "MechWarrior 5: Mercenaries"] },
+ "Medieval": { "k": "中世紀寫實，考據深度直接影響說服力，社群對細節很敏感", "g": [
+   "Kingdom Come: Deliverance",
+   "Pentiment"] },
  "Metroidvania": { "k": "能力解鎖後回頭探索；地圖是互相牽連的整體，改一處會牽動全盤", "g": [
    "Hollow Knight",
    "Ori and the Blind Forest"] },
+ "Military": { "k": "軍事題材對裝備考據要求高，錯了會被硬核玩家指出來", "g": [
+   "Hunt: Showdown 1896",
+   "Bomber Crew"] },
  "Minimalist": { "k": "美術需求最低，全靠玩法或文字撐；沒有東西可以藏拙", "g": [
    "Baba Is You",
    "Thomas Was Alone"] },
+ "Moddable": { "k": "開放模組能延長壽命，但要先把資料與程式分離，架構成本前置", "g": [
+   "RimWorld",
+   "Garry's Mod"] },
+ "Modern": { "k": "現代都市，玩家對真實感的期待最高，任何不合理都很明顯", "g": [
+   "Unpacking",
+   "Hitman World of Assassination"] },
+ "Multiplayer": { "k": "不只多做一份工，是整個技術架構不同：連線、同步、作弊、斷線、冷啟動", "g": [
+   "Lethal Company",
+   "Valheim"] },
+ "Multiple Endings": { "k": "只在末端分岔，成本可控；但玩家容易察覺前面的選擇其實沒差", "g": [
+   "Undertale",
+   "Doki Doki Literature Club Plus"] },
+ "Music": { "k": "音樂性玩法對延遲極度敏感，是少數程式難度高於美術的方向", "g": [
+   "Crypt of the NecroDancer",
+   "Thumper"] },
+ "Mystery": { "k": "謎團要先想好真相再倒推線索，臨時編的推理玩家看得出來", "g": [
+   "Return of the Obra Dinn",
+   "Her Story"] },
+ "Mythology": { "k": "神話有現成的角色關係與衝突，省下大量世界觀建構", "g": [
+   "Hades",
+   "Immortals Fenyx Rising"] },
+ "Nature": { "k": "自然題材靠環境音與光影撐氣氛，程式需求低、美術需求高", "g": [
+   "Firewatch",
+   "A Short Hike"] },
+ "Naval": { "k": "航海的移動慣性與海面表現是技術重點，也是特色所在", "g": [
+   "Sea of Thieves: 2026 Edition",
+   "Sunless Sea"] },
  "Naval Combat": { "k": "船隻慣性與海面表現是特色也是技術重點", "g": [
    "Sea of Thieves: 2026 Edition",
    "World of Warships"] },
+ "Ninja": { "k": "忍者結合潛行與高速移動，兩種玩法要能順暢切換", "g": [
+   "Ghostrunner",
+   "Katana ZERO"] },
  "Noir": { "k": "黑色電影的高反差光影與犯罪題材，配色一鎖定就很好維持一致", "g": [
    "Disco Elysium",
    "Pentiment"] },
+ "Nonlinear": { "k": "非線性敘事讓玩家自己拼湊順序，資訊揭露的設計難度最高", "g": [
+   "Her Story",
+   "Outer Wilds"] },
+ "Old School": { "k": "刻意復刻舊時代的設計慣例，包括那些不方便的地方", "g": [
+   "DUSK",
+   "Caves of Qud"] },
+ "Online Co-Op": { "k": "線上合作要處理延遲與斷線，測試成本遠高於本地", "g": [
+   "Valheim",
+   "Lethal Company"] },
+ "Open World": { "k": "一種承諾——告訴玩家這裡有值得探索的大世界；學生專題請慎掛", "g": [
+   "Outer Wilds",
+   "Valheim"] },
  "Open World Survival Craft": { "k": "開放世界加採集建造，是內容量需求最大的組合之一，學生專題慎選", "g": [
    "Valheim",
    "Grounded"] },
+ "Parkour": { "k": "跑酷的動線設計與鏡頭是關鍵，動畫銜接不順就會很難受", "g": [
+   "Ghostrunner",
+   "Pseudoregalia"] },
  "Party Game": { "k": "多人同樂，規則要三十秒說得完，關卡短而多", "g": [
    "Overcooked! 2",
    "Human Fall Flat"] },
+ "Perma Death": { "k": "讓每個決定有重量，但會嚇跑休閒玩家，也放大任何不公平的設計", "g": [
+   "Darkest Dungeon",
+   "RimWorld"] },
+ "Philosophical": { "k": "哲學提問要嵌在玩法裡，光用台詞講會變成說教", "g": [
+   "SOMA",
+   "The Talos Principle"] },
+ "Physics": { "k": "物理玩法自帶意外與笑點，代價是難以預測、難以測試", "g": [
+   "Teardown",
+   "Human Fall Flat"] },
+ "Pirates": { "k": "海盜結合航行、戰鬥與尋寶，是三套系統不是一套", "g": [
+   "Sea of Thieves: 2026 Edition",
+   "Sid Meier's Pirates!"] },
  "Pixel Graphics": { "k": "省美術工也好量產，但要做得好看需要專門功力，動畫幀數是隱形成本", "g": [
    "Celeste",
    "Stardew Valley"] },
@@ -225,15 +453,36 @@
  "Point & Click": { "k": "物品與謎題系統，互動感強；謎題設計不當很容易卡關棄坑", "g": [
    "Thimbleweed Park",
    "Return of the Obra Dinn"] },
+ "Post-apocalyptic": { "k": "廢墟場景可重複利用、資源稀缺天然合理化生存玩法", "g": [
+   "Frostpunk",
+   "Death Road to Canada"] },
  "Precision Platformer": { "k": "重在手感，物理參數要調到極致，一格之差就是天堂與地獄", "g": [
    "Celeste",
    "Super Meat Boy"] },
+ "Procedural Generation": { "k": "用隨機換取內容量，但隨機不等於有趣，手調的種子池往往更好", "g": [
+   "Vampire Survivors",
+   "RimWorld"] },
+ "Programming": { "k": "程式設計玩法受眾小但極度忠誠，難點在教學曲線不在實作", "g": [
+   "Human Resource Machine",
+   "Factorio"] },
+ "Psychological": { "k": "心理描寫重在角色內在，靠獨白與選擇呈現，不必動用大場面", "g": [
+   "Disco Elysium",
+   "SOMA"] },
+ "Psychological Horror": { "k": "靠敘事與氛圍鋪陳，受眾精準忠誠；寫不好就只是無聊", "g": [
+   "SIGNALIS",
+   "SOMA"] },
  "Puzzle": { "k": "有明確解答的關卡設計，關卡本身就是全部工作量", "g": [
    "Baba Is You",
    "The Witness"] },
  "Puzzle Platformer": { "k": "重在機關巧思，操作可以簡單，關卡設計就是全部工作量", "g": [
    "INSIDE",
    "Braid"] },
+ "PvE": { "k": "對抗環境，難度由你控制；沒回答幾個人玩，要另外掛單多人標籤", "g": [
+   "Valheim",
+   "Path of Exile"] },
+ "PvP": { "k": "玩家對抗需要長期平衡投入，沒有營運能量就不要開", "g": [
+   "Team Fortress 2",
+   "Dota 2"] },
  "RPG": { "k": "角色成長與數值是核心；內容量需求大，但每塊都好切分給團隊", "g": [
    "Undertale",
    "Disco Elysium"] },
@@ -243,15 +492,30 @@
  "Racing": { "k": "速度感與操控手感是核心；車輛物理調校是最花時間的部分", "g": [
    "Art of Rally",
    "Trackmania"] },
+ "Real Time Tactics": { "k": "臨場感強，但要處理路徑尋找、AI 反應與大量動畫", "g": [
+   "They Are Billions",
+   "Desperados III"] },
  "Realistic": { "k": "貼圖、光照、材質要全部到位，任何一環不足就會被說看起來廉價", "g": [
    "Firewatch",
    "Kingdom Come: Deliverance"] },
+ "Relaxing": { "k": "對美術與音樂要求高，玩法可以簡單，但要耐得住重複", "g": [
+   "A Short Hike",
+   "Dorfromantik"] },
+ "Replay Value": { "k": "要靠隨機或多路線提供變化，等於要做出比一輪遊玩更多的內容", "g": [
+   "Slay the Spire",
+   "Balatro"] },
+ "Resource Management": { "k": "可以完全用數值與 UI 呈現，美術需求低，但平衡沒調好就無聊", "g": [
+   "Frostpunk",
+   "Oxygen Not Included"] },
  "Retro": { "k": "刻意復刻舊世代的畫面與限制；風格一致性比技術力更重要", "g": [
    "Shovel Knight: Treasure Trove",
    "DUSK"] },
  "Rhythm": { "k": "音樂與判定的同步是技術核心，一有延遲整個體驗就毀了", "g": [
    "Thumper",
    "Crypt of the NecroDancer"] },
+ "Robots": { "k": "機器人角色不必做臉部表情與細膩動畫，是省美術的好選擇", "g": [
+   "Nier: Automata",
+   "Human Resource Machine"] },
  "Roguelike": { "k": "局內全重置、沒有永久成長；內容量要夠大才耐玩，挫折感高", "g": [
    "Caves of Qud",
    "Jupiter Hell"] },
@@ -261,21 +525,39 @@
  "Roguelite": { "k": "局外解鎖讓手殘玩家也推得動；代價是多做一套永久成長系統與平衡", "g": [
    "Hades",
    "Dead Cells"] },
+ "Romance": { "k": "戀愛路線的數量直接等於文本量，一條線就是一份完整故事", "g": [
+   "Doki Doki Literature Club Plus",
+   "Hatoful Boyfriend"] },
  "Sandbox": { "k": "給工具不給目標，玩家自己創造玩法；需要非常穩固的系統規則", "g": [
    "Teardown",
    "Garry's Mod"] },
+ "Sci-fi": { "k": "科幻讓你可以自訂物理規則，玩法設計的自由度最高", "g": [
+   "Outer Wilds",
+   "Stellaris"] },
+ "Score Attack": { "k": "內容可以很小，靠重玩與排行榜延長壽命；核心手感必須極度扎實", "g": [
+   "Vampire Survivors",
+   "Devil Daggers"] },
  "Shoot 'Em Up": { "k": "捲軸射擊，關卡與敵機編排就是設計本體，美術量可控", "g": [
    "Jamestown+",
    "Sine Mora EX"] },
  "Shooter": { "k": "射擊的統稱，辨識度低；用 FPS、Bullet Hell 等細分才有定位", "g": [
    "DUSK",
    "Nuclear Throne"] },
+ "Short": { "k": "兩小時內的誠實掛法；玩家對短而扎實的評價遠好過灌水的長度", "g": [
+   "A Short Hike",
+   "Unpacking"] },
  "Side Scroller": { "k": "美術面向單一比較省，但跳躍手感是賣點也是門檻", "g": [
    "Celeste",
    "Hollow Knight"] },
+ "Silent Protagonist": { "k": "沉默主角省下配音與大量台詞，也讓玩家更容易代入", "g": [
+   "Hollow Knight",
+   "INSIDE"] },
  "Simulation": { "k": "模擬某個系統的運作規則，樂趣來自理解與優化這套規則", "g": [
    "Stardew Valley",
    "Factorio"] },
+ "Singleplayer": { "k": "預設值。所有設計都不必考慮第二個人，學生專題強烈建議", "g": [
+   "Hollow Knight",
+   "Disco Elysium"] },
  "Software": { "k": "非遊戲產品的分類，遊戲不要掛", "g": []
  },
  "Sokoban": { "k": "規則極簡但關卡設計極耗腦，程式一天就能做完", "g": [
@@ -284,6 +566,12 @@
  "Souls-like": { "k": "高門檻正面對決；玩家對打擊感、判定與敵人設計期待極高，做不到位會被嚴厲比較", "g": [
    "Lies of P",
    "Salt and Sanctuary"] },
+ "Soundtrack": { "k": "原聲帶本身就能成為賣點與行銷素材，也是最容易被記住的部分", "g": [
+   "Hades",
+   "Celeste"] },
+ "Space": { "k": "太空場景省地形製作，但要處理三維移動與尺度感", "g": [
+   "Outer Wilds",
+   "Kerbal Space Program"] },
  "Split Screen": { "k": "本地多人的呈現方式，不是視角；鏡頭、UI 與關卡都要為兩人重做", "g": [
    "Overcooked! 2",
    "Cuphead"] },
@@ -293,12 +581,24 @@
  "Stealth": { "k": "要做視野、聲音與察覺狀態，AI 稍有不合理玩家立刻感覺得到", "g": [
    "Gunpoint",
    "Hitman World of Assassination"] },
+ "Steampunk": { "k": "蒸汽機械美學，道具與場景設計有大量現成語彙可用", "g": [
+   "Frostpunk",
+   "Bendy and the Ink Machine"] },
+ "Story Rich": { "k": "敘事遊戲的核心標籤；要寫大量文本與演出，最花時間也最容易做出記憶點", "g": [
+   "Disco Elysium",
+   "Undertale"] },
  "Strategy": { "k": "玩家的決策而非操作決定勝負；美術需求低，平衡是主要工作量", "g": [
    "Into the Breach",
    "Slay the Spire"] },
  "Stylized": { "k": "用美術決策掩蓋技術限制，最適合資源有限的團隊；低多邊形風格也歸這裡", "g": [
    "Sable",
    "Journey"] },
+ "Supernatural": { "k": "超自然讓你不必解釋規則，但也容易變成什麼都能發生的藉口", "g": [
+   "Phasmophobia",
+   "Oxenfree"] },
+ "Surreal": { "k": "超現實讓你不必自圓其說，但要有內在一致性才不會像亂做", "g": [
+   "Genesis Noir",
+   "Superliminal"] },
  "Survival": { "k": "飢餓、耐久、建造的系統深度，數值平衡是主要工作量", "g": [
    "Valheim",
    "Subnautica"] },
@@ -308,18 +608,39 @@
  "Tabletop": { "k": "桌遊規則數位化，規則明確好實作，但缺少實體互動要靠演出補", "g": [
    "Wingspan",
    "Tabletop Simulator"] },
+ "Tactical": { "k": "強調位置與資源的取捨，數值可以簡單，但關卡要設計得刁鑽", "g": [
+   "Into the Breach",
+   "XCOM 2"] },
+ "Text-Based": { "k": "文字為主幾乎不需要美術，但寫作品質完全裸露，沒有東西可以遮", "g": [
+   "A Dark Room",
+   "80 Days"] },
  "Third Person": { "k": "看得見主角、好經營角色魅力；代價是鏡頭碰撞與全套移動動畫", "g": [
    "Hades",
    "Tunic"] },
  "Third-Person Shooter": { "k": "要處理掩體、鏡頭與全套持槍動畫，但角色能成為賣點", "g": [
    "Remnant II",
    "Returnal"] },
+ "Time Attack": { "k": "計時挑戰讓同一份內容產生新玩法，是最便宜的延長壽命手段", "g": [
+   "Celeste",
+   "Trackmania"] },
+ "Time Manipulation": { "k": "單一機制就能撐起整款遊戲的典範，但每個關卡都要重新驗證解法", "g": [
+   "SUPERHOT",
+   "Braid"] },
+ "Time Travel": { "k": "時間旅行的敘事分支與狀態管理是實作惡夢，但記憶點極強", "g": [
+   "Outer Wilds",
+   "The Forgotten City"] },
  "Top-Down": { "k": "適合多方向戰鬥與探索，角色只需四或八向動畫，關卡可自由鋪", "g": [
    "Hotline Miami",
    "Enter the Gungeon"] },
  "Tower Defense": { "k": "關卡與波次可以量產，數值平衡是主要挑戰，美術需求低", "g": [
    "Bloons TD 6",
    "Dungeon Defenders"] },
+ "Trading": { "k": "交易讓價值由玩家決定，單機可控，多人則需要防作弊", "g": [
+   "Path of Exile",
+   "Sid Meier's Pirates!"] },
+ "Turn-Based Combat": { "k": "不吃手感與動畫品質，一人團隊做得動；但節奏慢，要靠戰術深度撐住", "g": [
+   "Slay the Spire",
+   "Into the Breach"] },
  "Turn-Based Strategy": { "k": "玩家慢慢想，不吃手感與動畫品質，一人團隊做得動", "g": [
    "Into the Breach",
    "Sid Meier's Civilization VI"] },
@@ -329,14 +650,23 @@
  "Twin Stick Shooter": { "k": "雙搖桿分離移動與瞄準，手把體驗最佳，操作門檻低", "g": [
    "Enter the Gungeon",
    "Nuclear Throne"] },
+ "Underwater": { "k": "水下的能見度限制天然製造壓迫感，但游泳操控很難調", "g": [
+   "Subnautica",
+   "SOMA"] },
  "Utilities": { "k": "非遊戲產品的分類，遊戲不要掛", "g": []
  },
  "VR": { "k": "需要 XR 裝置與全新的互動設計；暈眩問題會吃掉大量調校時間", "g": [
    "Beat Saber",
    "SUPERHOT VR"] },
+ "Vampires": { "k": "吸血鬼自帶規則（陽光、血、永生），這些限制本身就是玩法素材", "g": [
+   "Vampire Survivors",
+   "V Rising"] },
  "Vehicular Combat": { "k": "載具物理加戰鬥，兩套系統的互動測試成本高", "g": [
    "Crossout",
    "Trailmakers"] },
+ "Violent": { "k": "同 Gore，掛之前先確認你的目標平台與受眾接受度", "g": [
+   "Hotline Miami",
+   "ULTRAKILL"] },
  "Visual Novel": { "k": "用現成引擎最快落地，成本幾乎全在文本與立繪", "g": [
    "Doki Doki Literature Club Plus",
    "VA-11 Hall-A: Cyberpunk Bartender Action"] },
@@ -346,7 +676,22 @@
  "Walking Simulator": { "k": "敘事探索為主、幾乎沒有失敗；部分玩家當貶義詞，掛之前想清楚", "g": [
    "Firewatch",
    "What Remains of Edith Finch"] },
+ "War": { "k": "戰爭題材容易有份量，但處理不好會變成消費苦難", "g": [
+   "Frostpunk",
+   "Bomber Crew"] },
+ "Werewolves": { "k": "變身機制天然提供雙形態玩法，但美術等於做兩套", "g": [
+   "V Rising",
+   "Darkest Dungeon"] },
+ "Western": { "k": "西部題材的場景與音樂語彙很成熟，槍戰節奏是設計重點", "g": [
+   "Hunt: Showdown 1896",
+   "West of Loathing"] },
+ "Wholesome": { "k": "暖心向社群性強，適合展會與實況；但要避免流於說教", "g": [
+   "A Short Hike",
+   "Unpacking"] },
  "Word Game": { "k": "高度依賴語言，中文化幾乎等於重做一套", "g": [
    "Baba Is You",
-   "Wordle!"] }
+   "Wordle!"] },
+ "Zombies": { "k": "喪屍是最省力的敵人設計，AI 簡單、道德負擔低，但已極度飽和", "g": [
+   "Project Zomboid",
+   "Death Road to Canada"] }
 }

@@ -158,6 +158,63 @@ test("findAskPair 能從已選標籤找出對應的取捨說明", () => {
   assert.equal(core.findAskPair([]), null, "空清單應回 null");
 });
 
+/* ---------------- 標籤重點與代表作 ---------------- */
+
+/* 這些標籤刻意不列代表作，因為它們不描述玩法，舉例只會誤導。
+   新增豁免時必須在這裡寫清楚理由。 */
+const NO_GAME_OK = new Map([
+  ["Indie", "幾乎所有獨立遊戲都掛，舉例沒有代表性"],
+  ["Free to Play", "商業模式標籤，不是玩法"],
+  ["Early Access", "上架狀態標籤，不是玩法"],
+  ["Software", "非遊戲產品分類"],
+  ["Utilities", "非遊戲產品分類"],
+]);
+
+test("每個定位常用標籤都有重點說明，玩法類標籤都有代表作", () => {
+  const curated = T.filter(r => r[6]);
+  const noNote = curated.filter(r => !(r[4] || "").trim()).map(r => r[1]);
+  assert.deepEqual(noNote, [], `這些標籤沒有說明：${noNote.join(", ")}`);
+  const noGame = curated.filter(r => !(r[7] || []).length && !NO_GAME_OK.has(r[1])).map(r => r[1]);
+  assert.deepEqual(noGame, [],
+    `這些標籤沒有代表作（補進 data/tag-notes.json 後跑 node verify-games.js；` +
+    `若是刻意不列，加進 NO_GAME_OK 並寫明理由）：${noGame.join(", ")}`);
+  // 豁免清單本身也要有效，不能留著已經補上代表作的舊項目
+  const stale = [...NO_GAME_OK.keys()].filter(n => {
+    const r = IDX.byEn[n];
+    return r && (r[7] || []).length;
+  });
+  assert.deepEqual(stale, [], `這些標籤已有代表作，該從 NO_GAME_OK 移除：${stale.join(", ")}`);
+});
+
+test("代表作的欄位齊全且 appid 合法", () => {
+  const bad = [];
+  for (const r of T) for (const gme of r[7] || []) {
+    if (!gme.en) bad.push(`${r[1]}：缺英文名`);
+    if (!Number.isInteger(gme.id) || gme.id <= 0) bad.push(`${r[1]} / ${gme.en}：appid 不合法`);
+    if (typeof gme.tw !== "string") bad.push(`${r[1]} / ${gme.en}：tw 欄位型別錯`);
+  }
+  assert.deepEqual(bad, [], bad.join("\n"));
+});
+
+test("同一款遊戲在各處的 appid 與標題一致", () => {
+  const seen = new Map(), bad = [];
+  for (const r of T) for (const gme of r[7] || []) {
+    const prev = seen.get(gme.en);
+    if (prev && prev !== gme.id) bad.push(`${gme.en}：出現 appid ${prev} 與 ${gme.id}`);
+    seen.set(gme.en, gme.id);
+  }
+  assert.deepEqual(bad, [], bad.join("\n"));
+});
+
+test("代表作不會同一個標籤重複列同一款", () => {
+  const bad = [];
+  for (const r of T) {
+    const names = (r[7] || []).map(x => x.en);
+    if (new Set(names).size !== names.length) bad.push(`${r[1]}：${names.join(", ")}`);
+  }
+  assert.deepEqual(bad, [], bad.join("\n"));
+});
+
 /* ---------------- 維度覆蓋與互斥封鎖 ---------------- */
 
 test("coverage：十個維度都回報，必要與選配分清楚", () => {
