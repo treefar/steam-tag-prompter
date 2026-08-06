@@ -28,6 +28,45 @@ header.top{
 header.top h1{font-size:22px;letter-spacing:.5px}
 header.top h1 .en{color:var(--blue);font-weight:600}
 header.top .sub{color:var(--ink-dim);font-size:13px}
+.guidebtn{background:var(--panel2);border:1.5px solid var(--amber);color:var(--amber);
+  font-size:13px;font-weight:700;padding:6px 13px;border-radius:20px;cursor:pointer;
+  font-family:inherit;margin-left:auto;white-space:nowrap}
+.guidebtn:hover{background:var(--amber);color:#10161d}
+
+/* 指南覆蓋層 */
+.gmask{display:none;position:fixed;inset:0;background:rgba(10,16,22,.82);z-index:80;
+  backdrop-filter:blur(3px);overflow-y:auto;padding:24px 14px}
+.gmask.open{display:block}
+.gwrap{max-width:900px;margin:0 auto;background:var(--bg2);border:1px solid var(--amber);
+  border-radius:var(--radius);padding:0 0 28px}
+.ghead{position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--line2);
+  padding:15px 24px;display:flex;align-items:center;gap:12px;z-index:2;border-radius:var(--radius) var(--radius) 0 0}
+.ghead h2{font-size:18px;color:var(--amber);flex:1}
+.gclose{background:none;border:1px solid var(--line2);color:var(--ink-dim);border-radius:8px;
+  padding:5px 12px;cursor:pointer;font-family:inherit;font-size:13px}
+.gclose:hover{color:var(--ink);border-color:var(--ink-dim)}
+.gbody{padding:4px 24px 0;font-size:14px;line-height:1.85}
+.gbody h3{font-size:16px;color:var(--blue);margin:26px 0 10px;padding-bottom:6px;
+  border-bottom:1px solid var(--line2)}
+.gbody h4{font-size:14px;color:var(--green);margin:18px 0 7px}
+.gbody p{margin:9px 0;color:var(--ink)}
+.gbody ul{margin:9px 0 9px 20px;color:var(--ink)}
+.gbody li{margin:5px 0}
+.gbody table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;display:block;overflow-x:auto}
+.gbody th,.gbody td{border:1px solid var(--line2);padding:7px 9px;text-align:left;vertical-align:top}
+.gbody th{background:var(--panel2);color:var(--blue);white-space:nowrap}
+.gbody code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12.5px;color:var(--green)}
+.gbody .warn{border-left:3px solid var(--red);background:rgba(224,100,92,.09);
+  padding:9px 13px;border-radius:0 8px 8px 0;margin:12px 0;color:var(--ink)}
+.gbody .tip{border-left:3px solid var(--green);background:rgba(164,208,7,.08);
+  padding:9px 13px;border-radius:0 8px 8px 0;margin:12px 0;color:var(--ink)}
+.gbody .eg{color:var(--ink-dim);font-size:13px}
+.gbody .eg b{color:var(--blue);font-weight:600}
+.gtoc{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.gtoc a{font-size:12.5px;color:var(--ink-dim);text-decoration:none;border:1px solid var(--line2);
+  padding:3px 9px;border-radius:20px}
+.gtoc a:hover{color:var(--amber);border-color:var(--amber)}
+
 .bound{width:100%;margin:6px 0 0;padding:9px 12px;border-left:3px solid var(--blue);
   background:rgba(102,192,244,.08);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink-dim);line-height:1.7}
 .bound b{color:var(--ink)}
@@ -242,6 +281,7 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
 <header class="top">
   <h1>用 Steam 標籤<span class="en">把你的遊戲定位想清楚</span></h1>
   <span class="sub">標籤抉擇就是設計決策——選完你會知道自己的特色在哪、哪些還沒決定</span>
+  <button type="button" class="guidebtn" id="guideBtn">📖 遊戲製作與選標籤指南</button>
   <div class="bound">
     <b>這個工具幫你做的：</b>用 430 個 Steam 官方標籤釐清定位，標出「已確定」「差異化」「還沒決定」，
     並把「還沒決定的」附上取捨後果讓你自己判斷。全部在你的瀏覽器離線完成，不連網、不呼叫 AI。<br>
@@ -308,6 +348,7 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
         <option>一場 Game Jam（48 小時）</option>
         <option selected>一學期</option>
         <option>一學年</option>
+        <option>一年半</option>
         <option>不限</option>
       </select>
     </div>
@@ -315,8 +356,10 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
       <label class="f">團隊人數</label>
       <select id="team">
         <option selected>1 人</option>
-        <option>2～3 人</option>
-        <option>4～6 人</option>
+        <option>2 人</option>
+        <option>3 人</option>
+        <option>4 人</option>
+        <option>5 人</option>
       </select>
     </div>
   </div>
@@ -363,6 +406,153 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
 </div>
 
 </div>
+<div class="gmask" id="gmask">
+<div class="gwrap">
+  <div class="ghead">
+    <h2>📖 遊戲製作與選標籤指南</h2>
+    <button type="button" class="gclose" id="gclose">關閉（Esc）</button>
+  </div>
+  <div class="gbody">
+    <div class="gtoc">
+      <a href="#g1">1 先想清楚 MVP</a>
+      <a href="#g2">2 標籤不是愈多愈好</a>
+      <a href="#g3">3 人數也不是愈多愈好</a>
+      <a href="#g4">4 時間對應的範疇</a>
+      <a href="#g5">5 十大維度在問什麼</a>
+      <a href="#g6">6 常見錯誤</a>
+    </div>
+
+    <h3 id="g1">1. 先想清楚 MVP</h3>
+    <p>MVP（Minimum Viable Product，最小可行產品）在遊戲裡最常被誤解成「功能比較少的完整遊戲」。不是。<b>MVP 是能驗證核心樂趣的最小切片</b>——它要回答一個問題：這個玩法本身好不好玩？</p>
+    <div class="tip"><b>唯一判準：</b>把遊戲交給沒看過的人，他能不能在 <b>60 秒內完整體驗一次核心循環</b>，而且想再玩一次。做不到，你做的就不是 MVP，是半成品。</div>
+
+    <h4>垂直切片，不是水平切片</h4>
+    <ul>
+      <li><b>水平切片</b>（錯）：把所有系統都做 20%——選單有了、存檔有了、對話框有了、戰鬥打不動。什麼都有，什麼都不能玩。</li>
+      <li><b>垂直切片</b>（對）：挑一個關卡、一個敵人、一套完整操作，做到接近成品品質。範圍很小，但那一小塊是真的能玩。</li>
+    </ul>
+
+    <h4>正確的開發順序</h4>
+    <ol style="margin:9px 0 9px 20px">
+      <li><b>核心動詞</b>：玩家最常做的那一個動作。跳？射？種田？對話？先讓它手感對。</li>
+      <li><b>一個能玩的循環</b>：做那個動作 → 得到回饋 → 想再做一次。</li>
+      <li><b>失敗與重來</b>：死掉、失敗、重試的流程要順。這是玩家體感最強的部分。</li>
+      <li><b>之後才是包裝</b>：主選單、存檔、設定、成就、教學。</li>
+    </ol>
+    <div class="warn"><b>學生專題最常見的死法：</b>前四週做主選單、設定畫面、存檔系統與對話框架，第十週才開始做玩法，然後沒時間了。上面那個順序是刻意反過來的——包裝最後做，因為它最不影響「好不好玩」。</div>
+
+    <h3 id="g2">2. 標籤不是愈多愈好</h3>
+    <p>Steam 讓你掛 20 個標籤，但<b>商店頁醒目顯示的是前 5 個</b>，而且標籤會驅動「更多同類遊戲」與探索佇列的推薦。掛滿 20 個不會讓你更容易被找到。</p>
+    <div class="warn"><b>掛名不符實是差評的來源。</b>你掛了 <code>Roguelike</code>，演算法就把你推給肉鴿玩家；如果你其實是線性關卡遊戲，這批人會失望，而且他們會寫評論。錯的曝光比沒有曝光更傷。</div>
+    <h4>建議配比（總共約 20 個）</h4>
+    <table>
+      <tr><th>類別</th><th>數量</th><th>作用</th></tr>
+      <tr><td>大流量定位</td><td>5</td><td>類型＋視角＋美術風格。帶曝光，但競爭極高</td></tr>
+      <tr><td>玩法機制</td><td>5</td><td>讓找特定玩法的人找到你</td></tr>
+      <tr><td>題材情緒</td><td>5</td><td>讓找特定氛圍的人找到你</td></tr>
+      <tr><td>小眾精準</td><td>5</td><td>受眾少但轉換率高，這裡才是你的突圍點</td></tr>
+    </table>
+    <p>大標籤（<code>Action</code>、<code>Adventure</code>）幾乎沒有辨識度——上萬款遊戲都掛。小標籤（<code>Psychological Horror</code>、<code>Farming Sim</code>）受眾精準、轉換率高。<b>兩者都要，但你的特色在小標籤。</b></p>
+    <div class="tip">本工具的「差異化標籤」就是在逼你回答這件事：如果你一個差異化標籤都選不出來，代表你的遊戲跟市面上其他款沒有區別，那才是真正的問題，不是標籤的問題。</div>
+
+    <h3 id="g3">3. 人數也不是愈多愈好</h3>
+    <p>每加一個人，溝通路徑是 <code>n(n-1)/2</code> 條：</p>
+    <table>
+      <tr><th>人數</th><th>溝通路徑</th><th>實務狀況</th></tr>
+      <tr><td>1 人</td><td>0</td><td>決策最快、沒有等待。但美術、程式、企劃、音效都是你，<b>範疇必須砍到最小</b></td></tr>
+      <tr><td>2 人</td><td>1</td><td>最甜蜜的組合。典型是程式＋美術，兩人都清楚對方在做什麼</td></tr>
+      <tr><td>3 人</td><td>3</td><td>還能靠口頭同步。開始需要固定的分工邊界</td></tr>
+      <tr><td>4 人</td><td>6</td><td><b>必須有版本控制與每週同步</b>，否則會開始互相覆蓋檔案</td></tr>
+      <tr><td>5 人</td><td>10</td><td>需要有人專職整合。沒有的話會退化成「1 人在做 ＋ 4 人在等」</td></tr>
+    </table>
+    <div class="warn"><b>學生團隊最常見的失敗不是技術，是 5 個人但只有 1 個人在動。</b>人數多的唯一價值是「同時間能產出更多內容」，前提是每個人都能獨立完成一塊、而且合得回去。做不到這兩點，人多只是增加協調成本。</div>
+    <p>四人以上要成立，三樣東西缺一不可：<b>版本控制</b>（Git，且每個人都真的會用）、<b>明確分工</b>（誰負責哪些場景與系統，寫下來）、<b>固定同步</b>（每週一次，看到彼此的實際進度而不是口頭回報）。</p>
+
+    <h3 id="g4">4. 時間對應的合理範疇</h3>
+    <table>
+      <tr><th>時間</th><th>做得到什麼</th><th>該掛的範疇標籤</th></tr>
+      <tr><td>Game Jam 48 小時</td><td>一個核心動詞、一個關卡、一種敵人。玩三分鐘結束</td><td><code>Short</code></td></tr>
+      <tr><td>一學期</td><td>垂直切片 ＋ 3～5 關。核心循環要完全成立</td><td><code>Short</code></td></tr>
+      <tr><td>一學年</td><td>完整短篇（1～3 小時流程），有開頭中段結尾</td><td><code>Short</code> 或不掛</td></tr>
+      <tr><td>一年半</td><td>可以做內容量了，但必須切里程碑，每個里程碑都要是可玩版本</td><td>視實際長度</td></tr>
+    </table>
+    <div class="tip"><b><code>Short</code> 是誠實，不是弱點。</b>玩家對「兩小時但很扎實」的評價，遠好過「說是十小時但後面在灌水」。學生專題誠實掛 <code>Short</code> 幾乎不會被扣分。</div>
+    <div class="warn">相對地，<code>Open World</code> 是一種承諾。掛了就是告訴玩家「這裡有一個值得探索的大世界」，做不到會被罵得很慘。學生專題請慎掛。</div>
+
+    <h3 id="g5">5. 十大維度各自在問什麼</h3>
+    <p class="eg">下面每個維度舉的代表作，是幫你理解「這個標籤指的是什麼感覺」，不是要你模仿。</p>
+
+    <h4>維度 1／2：大類型與子類型——你的遊戲是哪一種</h4>
+    <p>大類型（<code>Action</code>、<code>RPG</code>、<code>Strategy</code>）是商店頁門面但辨識度低；<b>子類型才是方向的心臟</b>。本工具刻意讓兩者擇一，避免「Racing ＋ JRPG」這種不相干的組合。</p>
+    <p class="eg"><b>Metroidvania</b>：Hollow Knight、Ori 系列——能力解鎖後回頭探索，地圖是互相牽連的整體。<br>
+    <b>Roguelite</b>：Hades、Dead Cells——死了重來，但有局外永久成長。<br>
+    <b>Roguelike Deckbuilder</b>：Slay the Spire、Inscryption——每局逐步構築牌組。<br>
+    <b>Farming Sim</b>：Stardew Valley——播種到收成的循環自己會轉。<br>
+    <b>Visual Novel</b>：Doki Doki Literature Club、Danganronpa——成本幾乎全在文本與立繪。<br>
+    <b>Immersive Sim</b>：Dishonored、Prey——系統互相作用，玩家自己找解法，硬核受眾。<br>
+    <b>Bullet Heaven</b>：Vampire Survivors——極簡操作、大量敵人，近年爆紅的品類。</p>
+
+    <h4>維度 3：視角與維度——最先決定成本的一項</h4>
+    <p><code>2D</code> 與 <code>3D</code> 的差距不是畫面，是你要處理多少東西。3D 一開始就要面對鏡頭、光照、模型、動畫；同樣的時間，2D 能做出更完整的內容。</p>
+    <p class="eg"><b>Top-Down</b>：Hotline Miami、Enter the Gungeon——多方向戰鬥，角色只要八向動畫。<br>
+    <b>Side Scroller</b>：Celeste、Hollow Knight——跳躍手感是賣點也是門檻。<br>
+    <b>Isometric</b>：Hades、Disco Elysium——有立體感，但美術要重畫斜角。<br>
+    <b>First-Person</b>：Outer Wilds、Amnesia——不必做主角模型，沉浸感強，恐怖與探索首選。</p>
+
+    <h4>維度 4：美術風格——你的技術限制要怎麼變成風格</h4>
+    <p>風格化的存在意義就是<b>用美術決策掩蓋技術限制</b>。寫實要貼圖、光照、材質全部到位，缺一環就會被說廉價。</p>
+    <p class="eg"><b>Pixel Graphics</b>：Celeste、Stardew Valley——省美術工，但動畫幀數是隱形成本。<br>
+    <b>Hand-drawn</b>：Cuphead、GRIS——辨識度最高，但每張圖都是人工。<br>
+    <b>Stylized</b>：Journey、Sable——官方沒有「低多邊形」標籤，低模風格掛這個。<br>
+    <b>Minimalist</b>：Baba Is You、Thomas Was Alone——美術需求最低，全靠玩法或文字撐。</p>
+
+    <h4>維度 5：題材世界觀——你的遊戲發生在哪</h4>
+    <p>題材是找受眾最快的路。<code>Cyberpunk</code>、<code>Lovecraftian</code>、<code>Post-apocalyptic</code> 這類標籤受眾雖小但極忠誠。</p>
+    <p class="eg"><b>Lovecraftian</b>：Sunless Sea、Darkest Dungeon——利基但忠誠。<br>
+    <b>Cyberpunk</b>：VA-11 HALL-A、Katana ZERO。<br>
+    <b>Cats／Dogs</b>：Stray——動物標籤的轉換率意外地高。</p>
+
+    <h4>維度 6：情緒氛圍——玩家玩完的感覺</h4>
+    <p><code>Atmospheric</code> 幾乎是探索與恐怖遊戲的必掛項。<code>Cozy</code> 與 <code>Wholesome</code> 近年成長最快，社群友善度高。</p>
+    <p class="eg"><b>Cozy</b>：Unpacking、A Short Hike、Coffee Talk——沒有難度，靠內容量與情感留住人。<br>
+    <b>Psychological Horror</b>：SIGNALIS、Faith——靠敘事與氛圍，不靠突發驚嚇。<br>
+    <b>Difficult</b>：Celeste、Getting Over It——自帶話題與實況價值，但手感必須打磨到位。</p>
+
+    <h4>維度 7：敘事——故事在你的遊戲裡佔多重</h4>
+    <p><code>Story Rich</code> 是敘事遊戲的核心標籤。要注意 <code>Choices Matter</code>（過程中就有影響）與 <code>Multiple Endings</code>（只在結局分歧）的成本差距很大——前者每個分歧都要實作與測試世界狀態。</p>
+    <p class="eg"><b>Story Rich</b>：Disco Elysium、Undertale、OMORI。<br>
+    <b>Choices Matter</b>：The Stanley Parable、Papers, Please。<br>
+    <b>Detective</b>：Return of the Obra Dinn、Her Story——要設計證據鏈與推理節奏。</p>
+
+    <h4>維度 8：機制特徵——玩家實際在操作什麼</h4>
+    <p>這個維度標籤最多，也最容易貪心。挑 3～6 個真的是核心的就好，把「有這個系統」和「這個系統是賣點」分清楚。</p>
+    <p class="eg"><b>Procedural Generation</b>：Spelunky、Noita——用隨機換取內容量，但隨機不等於有趣。<br>
+    <b>Time Manipulation</b>：Braid、SUPERHOT——單一機制撐起整款遊戲的典範。<br>
+    <b>Perma Death</b>：FTL、Darkest Dungeon——讓每個決定有重量，但會放大任何不公平的設計。</p>
+
+    <h4>維度 9：玩家結構——一定要明確表態</h4>
+    <p><code>Singleplayer</code> 是預設值，學生專題強烈建議。<code>Multiplayer</code> 不只是多做一份工，是<b>整個技術架構不同</b>：連線、同步、作弊、斷線處理，還有沒人在線就沒人能玩的冷啟動問題。</p>
+    <p class="eg"><b>Local Co-Op</b>：Overcooked、It Takes Two——展場效果極佳，但鏡頭、UI、關卡都要為兩人重新設計。</p>
+
+    <h4>維度 10：範疇與受眾補充</h4>
+    <p><code>Short</code>、<code>Experimental</code>、<code>Family Friendly</code> 這類標籤在管理玩家期待。誠實設定期待，比誇大宣傳划算得多。</p>
+
+    <h3 id="g6">6. 常見錯誤</h3>
+    <table>
+      <tr><th>錯誤</th><th>後果</th><th>怎麼做</th></tr>
+      <tr><td>標籤全掛大流量的</td><td>跟上萬款遊戲擠在一起，沒有辨識度</td><td>至少留 5 個小眾精準標籤</td></tr>
+      <tr><td>掛名不符實想蹭流量</td><td>推給錯的受眾，換來差評</td><td>只掛真的做得到的</td></tr>
+      <tr><td>一個差異化標籤都選不出來</td><td>代表遊戲本身沒有特色</td><td>回頭改設計，不是改標籤</td></tr>
+      <tr><td>同維度互斥標籤都想要</td><td>定位模糊，玩家看不懂你是什麼</td><td>用「待抉擇」逼自己二選一</td></tr>
+      <tr><td>先做包裝再做玩法</td><td>時間到了核心還不好玩</td><td>照第 1 節的四步順序</td></tr>
+      <tr><td>人多就以為做得多</td><td>協調成本吃掉產能</td><td>先確認每人都能獨立完成一塊</td></tr>
+      <tr><td>範疇開太大</td><td>什麼都做一半，沒有一塊能展示</td><td>垂直切片，寧可小而完整</td></tr>
+    </table>
+    <div class="tip"><b>最後一句：</b>這個工具幫你把定位講清楚，但講清楚不等於做得出來。<b>選完標籤，回頭看第 4 節的時間對應表</b>，確認你選的東西在你的時間與人數內做得完。做不完就砍——砍範疇永遠比砍品質好。</div>
+  </div>
+</div>
+</div>
+
 <div class="toast" id="toast">已複製</div>
 
 <script>
@@ -1745,6 +1935,15 @@ document.getElementById("clear").addEventListener("click",()=>{
 });
 [idea,timeEl,teamEl,mA,mB,mC,mD,mE,rollNEl,curOnly].forEach(el=>el.addEventListener("change",save));
 document.querySelectorAll("input[name=aud]").forEach(el=>el.addEventListener("change",save));
+
+/* ---- 指南覆蓋層 ---- */
+const gmask=$("gmask");
+function openGuide(){gmask.classList.add("open");document.body.style.overflow="hidden";$("gclose").focus()}
+function closeGuide(){gmask.classList.remove("open");document.body.style.overflow="";$("guideBtn").focus()}
+$("guideBtn").addEventListener("click",openGuide);
+$("gclose").addEventListener("click",closeGuide);
+gmask.addEventListener("click",e=>{if(e.target===gmask)closeGuide()});   // 點灰底關閉
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&gmask.classList.contains("open"))closeGuide()});
 
 /* footer 數字一律從 T 算，不寫死——否則跑過 build-tags.js --fetch 後會與實際不符 */
 $("nAll").textContent=T.length;
