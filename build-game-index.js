@@ -174,7 +174,7 @@ function clean(s) {
     .trim();
 }
 
-/* 判別規則（軟體、成人、圖片網址、續跑要不要重抓）放在 steam-filters.js，
+/* 判別規則（軟體、圖片網址、續跑要不要重抓）放在 steam-filters.js；收錄方針忠於 Steam，不以成人過濾。
    tests/steam-filters.test.js 直接 require 同一份，測到的就是這裡實際跑的規則。 */
 const { ASSET_PREFIX, shortUrl, rejectReason, needsFetch } = require("./steam-filters");
 
@@ -322,7 +322,7 @@ async function fetchDetails(appids, cache) {
       fields: "[appid, name, desc, img, tagIds, year]",
       imgPrefix: ASSET_PREFIX,
       note: "img 若不以 http 開頭，前面要接上 imgPrefix。圖片優先用預告片封面幀，沒有預告片才用商店頁封面圖。"
-        + "簡介以 l=tchinese 取得；Steam 沒提供繁中的款別會是英文原文。已濾除非遊戲項目與成人內容。",
+        + "簡介以 l=tchinese 取得；Steam 沒提供繁中的款別會是英文原文。已濾除非遊戲項目（DLC、軟體、影片）；收錄忠於 Steam，不以成人與否過濾。",
       emptyTags: empty.map(t => TAG_NAME.get(t) || t)
     },
     games: games

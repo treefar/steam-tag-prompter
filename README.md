@@ -83,10 +83,12 @@ node build-game-index.js --limit 1500
 
 **過濾分兩層：**
 
-1. **自動規則**（`steam-filters.js`，爬蟲與測試共用同一份）：type 不是 game、18 禁或成人描述子 3／4、發行商類別屬軟體。軟體判別看 `genres` 不看 type 與標籤，25 筆實測樣本鎖在 `tests/steam-filters.test.js`。
-2. **人工排除清單**（`data/game-exclude.json`）：自動規則擋不到的。**成人向作品在 Steam 上架的是全年齡版**，匿名 appdetails 的年齡與描述子跟 Hades 完全相同（2026-09-16 實測 NUKITASHI、Tentacle Locker 2），沒有自動訊號可用，只能人工列。另列瞄準訓練工具、跑分展示、VR 影片。每筆要寫理由，改完跑 `node build-game-index.js --select` 不連網就能套用。
+1. **自動規則**（`steam-filters.js`，爬蟲與測試共用同一份）：type 不是 game、發行商類別屬軟體、沒有可用圖片。軟體判別看 `genres` 不看 type 與標籤，25 筆實測樣本鎖在 `tests/steam-filters.test.js`。
+2. **人工排除清單**（`data/game-exclude.json`）：自動規則擋不到、但不是遊戲的——瞄準訓練與游標工具、跑分展示、VR／360 影片。每筆要寫理由，改完跑 `node build-game-index.js --select` 不連網就能套用。
 
-**已知邊界**：人工清單只涵蓋 2026-09-16 抽檢時被規則標記過的項目（掛 Hentai／Sexual Content／軟體標籤等）。沒掛這些標籤的成人向作品不在審查範圍內。**不要用「標籤含 Hentai」當自動規則**——漫威爭鋒、蔚藍檔案、Muse Dash 都被玩家惡搞掛過。
+**收錄方針（2026-09-17 定案）：工具忠於 Steam，不以成人與否過濾。** 上課不刻意提，也不刻意迴避。所以沒有 18 禁過濾、沒有成人向黑名單，`tests/steam-filters.test.js` 有一條測試把這個方針鎖住。頁面上給學生看的說明只寫「已濾除非遊戲項目」，不特別提成人。靈感輪盤的禁抽清單仍不會**隨機抽出** Sexual Content、Nudity、Hentai 等標籤，但學生自己點選或搜尋都選得到。
+
+**備查**：2026-09-16 曾實測 Steam 匿名 appdetails 分不出成人向作品（NUKITASHI、Tentacle Locker 2 上架的是全年齡版，年齡與描述子跟 Hades 相同），玩家標籤也不可靠（漫威爭鋒、蔚藍檔案、Muse Dash 都被惡搞掛過 Hentai）。若日後方針改變要過濾，這兩條路都已證實走不通。
 
 ## 十大維度覆蓋概覽
 
@@ -150,7 +152,7 @@ node build-tags.js --fetch
 | `data/games-tw.json` | 台灣通稱譯名（非官方） | 可 |
 | `verify-games.js` | 逐款到 Steam 查證代表作 | 可 |
 | `build-game-index.js` | 抓「依標籤找遊戲」的離線索引 | 可 |
-| `steam-filters.js` | 收不收一筆遊戲的判別規則（軟體、成人、續跑要不要重抓），爬蟲與測試共用 | 可 |
+| `steam-filters.js` | 收不收一筆遊戲的判別規則（軟體、圖片、續跑要不要重抓），爬蟲與測試共用 | 可 |
 | `data/game-exclude.json` | 人工排除清單，每筆附理由 | 可 |
 | `data/game-index.json` | 3000 款遊戲的標籤、簡介、縮圖 | **不要，是抓取產物** |
 | `data/raw/game-pool.json` | 標籤爬取階段的候選池，供 `--select` 重算 | 不要 |
@@ -200,7 +202,7 @@ npm run verify         # 建置後跑測試
 - 一致性測試由「只比首末筆」改為整份 `deepEqual`
 - 原「索引不含非遊戲軟體項目」測試實際只能抓到全掛禁抽標籤的項目，改名照實描述，另加用爬蟲同一條規則驗快取的測試
 - 快取記錄被擋原因，「一時抓不到」的下次續跑會重抓（抽 25 筆舊的被擋項目重抓，0 筆誤丟）
-- 新增人工排除清單 25 筆（成人向 11、工具 4、跑分 3、VR 影片 7）
+- 新增人工排除清單（工具 4、跑分 3、VR 影片 7）。當天另列成人向 11 款，隔天依「忠於 Steam」方針撤除，並一併拿掉爬蟲原有的 18 禁過濾
 
 之後以 `node build-game-index.js --resume --refresh-genres` 重抓 2527 款缺發行商類別的項目（約 67 分鐘、0 筆抓取失敗），索引 2594 款全數具類別資料，只多擋下 1 款軟體（Keysight）。
 

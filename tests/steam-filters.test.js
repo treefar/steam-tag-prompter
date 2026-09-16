@@ -51,20 +51,12 @@ test("軟體判別：沒有 genres 欄位不當成軟體，也不丟例外", () 
   assert.equal(F.isSoftware({ genres: [] }), false);
 });
 
-test("成人判別：18 禁或描述子 3／4 才擋", () => {
-  assert.equal(F.isAdult({ required_age: 18 }), true);
-  assert.equal(F.isAdult({ required_age: "18" }), true, "Steam 有時回字串");
-  assert.equal(F.isAdult({ content_descriptors: { ids: [3] } }), true);
-  assert.equal(F.isAdult({ content_descriptors: { ids: [1, 4, 5] } }), true);
-  assert.equal(F.isAdult({ required_age: 12 }), false);
-  assert.equal(F.isAdult({ content_descriptors: { ids: [1, 5] } }), false, "蔚藍檔案、Muse Dash 是 [1,5]，主流遊戲不該擋");
-});
-
-/* 這條是「記錄已知限制」，不是期望行為：2026-09-16 實測 NUKITASHI 在匿名 appdetails 裡
-   年齡 0、沒有描述子，跟 Hades 一模一樣。自動規則擋不到，所以才需要 data/game-exclude.json。
-   如果哪天這條變紅，代表 Steam 開始回傳分級了，可以考慮拿掉人工清單。 */
-test("已知限制：全年齡版上架的成人向作品，自動規則擋不到", () => {
-  assert.equal(F.isAdult({ required_age: 0, content_descriptors: { ids: [] } }), false);
+/* 收錄方針（2026-09-17 老師定案）：工具忠於 Steam，不以成人與否過濾。
+   這條測試把方針鎖住——誰想加回成人過濾，得先改這裡並說明理由。 */
+test("收錄方針：18 禁與成人描述子都不是擋下的理由", () => {
+  assert.equal(F.isAdult, undefined, "不應再匯出成人判別函式");
+  assert.equal(F.rejectReason(ok({ required_age: 18 })), null);
+  assert.equal(F.rejectReason(ok({ required_age: "18", content_descriptors: { ids: [1, 3, 4, 5] } })), null);
 });
 
 test("網址縮短：砍查詢字串與共同前綴，認不出來的原樣保留", () => {
@@ -85,22 +77,23 @@ test("擋下原因：每一種都分得出來", () => {
   assert.equal(F.rejectReason({ success: false }), "fetch");
   assert.equal(F.rejectReason({ success: true }), "fetch");
   assert.equal(F.rejectReason(ok({ type: "dlc" })), "type");
-  assert.equal(F.rejectReason(ok({ required_age: 18 })), "adult");
   assert.equal(F.rejectReason(ok({ genres: [{ id: "57" }] })), "software");
   assert.equal(F.rejectReason(ok({ header_image: "", movies: [] })), "noimg");
   assert.equal(F.rejectReason(ok({})), null);
 });
 
-test("擋下原因：成人優先於軟體（兩個都中時記成人）", () => {
-  assert.equal(F.rejectReason(ok({ required_age: 18, genres: [{ id: "57" }] })), "adult");
+test("擋下原因：成人的軟體照樣以軟體擋", () => {
+  assert.equal(F.rejectReason(ok({ required_age: 18, genres: [{ id: "57" }] })), "software");
 });
 
-test("續跑判斷：只有「一時抓不到」與「舊格式」要重抓", () => {
+test("續跑判斷：抓不到、舊方針擋的、沒記原因的要重抓", () => {
   assert.equal(F.needsFetch(undefined), true, "沒紀錄要抓");
   assert.equal(F.needsFetch({ bad: 1, why: "fetch" }), true, "抓不到的要重抓（A-3）");
+  assert.equal(F.needsFetch({ bad: 1, why: "adult" }), true, "舊方針以成人擋的，現行方針要收回");
+  assert.equal(F.needsFetch({ bad: 1 }), true, "舊快取沒記原因，當時 18 禁也算在內，要重判一次");
   assert.equal(F.needsFetch({ bad: 1, why: "software" }), false);
-  assert.equal(F.needsFetch({ bad: 1, why: "adult" }), false);
-  assert.equal(F.needsFetch({ bad: 1 }), false, "舊快取沒記原因，抽驗 25 筆 0 筆誤丟，沿用");
+  assert.equal(F.needsFetch({ bad: 1, why: "type" }), false);
+  assert.equal(F.needsFetch({ bad: 1, why: "noimg" }), false);
   assert.equal(F.needsFetch({ name: "x" }), true, "缺 img 的更舊格式要重抓");
   assert.equal(F.needsFetch({ name: "x", img: "1/h.jpg" }), false);
 });
