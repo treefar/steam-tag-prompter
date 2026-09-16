@@ -173,23 +173,56 @@ test("標籤覆蓋率夠高（工具會推薦的標籤，配不到遊戲的不�
       + `使用者點下去會看到空白：${empty.slice(0, 20).join("、")}`);
   });
 
-/* 禁抽清單的標籤沒覆蓋是正常的，但它們也不該意外混進索引裡 */
-test("索引不含非遊戲軟體項目", { skip: hasFile ? false : "尚未建置 game-index.json" }, () => {
+/* 這個測試只抓得到「所有標籤都是禁抽標籤」的項目，擋不住被玩家掛了一般遊戲標籤的軟體
+   （Krita 就掛了 Hand-drawn）。真正的軟體判別看發行商類別，在 steam-filters.test.js 測；
+   這裡名稱照實寫，不讓人誤以為軟體已經在這層被完整檢查。 */
+test("索引不含只掛禁抽標籤的項目", { skip: hasFile ? false : "尚未建置 game-index.json" }, () => {
   const real = JSON.parse(fs.readFileSync(GI_FILE, "utf8"));
   const banIds = new Set(T.filter(t => core.BAN.has(t[1])).map(t => t[5]));
-  const softwareOnly = real.games.filter(g => g[4].every(t => banIds.has(t)));
-  assert.equal(softwareOnly.length, 0,
-    `有 ${softwareOnly.length} 筆只掛禁抽標籤，可能是軟體而非遊戲：`
-    + softwareOnly.slice(0, 5).map(g => g[1]).join("、"));
+  const banOnly = real.games.filter(g => g[4].every(t => banIds.has(t)));
+  assert.equal(banOnly.length, 0,
+    `有 ${banOnly.length} 筆只掛禁抽標籤：` + banOnly.slice(0, 5).map(g => g[1]).join("、"));
 });
 
-test("index.html 內嵌的遊戲索引與 data/game-index.json 一致", { skip: hasFile ? false : "尚未建置 game-index.json" }, () => {
+/* 快取裡有發行商類別的項目，用跟爬蟲同一條規則（steam-filters.isSoftware）再驗一次，
+   確認沒有軟體類別漏進索引。沒有類別資料的舊快取項目無法在這裡驗，另計數量供參考。 */
+const CACHE_FILE = path.join(__dirname, "..", "data", "raw", "game-details-cache.json");
+test("快取有類別資料的項目，沒有軟體類別進到索引", { skip: hasFile && fs.existsSync(CACHE_FILE) ? false : "缺索引或快取" }, () => {
+  const { isSoftware } = require("../steam-filters.js");
+  const real = JSON.parse(fs.readFileSync(GI_FILE, "utf8"));
+  const cache = JSON.parse(fs.readFileSync(CACHE_FILE, "utf8"));
+  const withGen = real.games.filter(g => cache[g[0]] && Array.isArray(cache[g[0]].gen));
+  const leaked = withGen.filter(g => isSoftware({ genres: cache[g[0]].gen.map(id => ({ id })) }));
+  assert.ok(withGen.length > 0, "索引裡沒有任何一筆有類別資料，這個測試形同虛設");
+  assert.equal(leaked.length, 0, "軟體類別漏進索引：" + leaked.slice(0, 5).map(g => g[1]).join("、"));
+});
+
+/* 人工排除清單：格式要對、每筆都要有理由、而且真的被排除了 */
+const EXCLUDE_FILE = path.join(__dirname, "..", "data", "game-exclude.json");
+test("人工排除清單格式正確，且清單內項目都不在索引裡", { skip: hasFile && fs.existsSync(EXCLUDE_FILE) ? false : "缺索引或排除清單" }, () => {
+  const ex = JSON.parse(fs.readFileSync(EXCLUDE_FILE, "utf8"));
+  const real = JSON.parse(fs.readFileSync(GI_FILE, "utf8"));
+  const inIndex = new Set(real.games.map(g => g[0]));
+  const seen = new Set();
+  for (const k of Object.keys(ex).filter(k => !k.startsWith("_"))) {
+    assert.ok(Array.isArray(ex[k]), `排除清單的「${k}」必須是陣列`);
+    for (const item of ex[k]) {
+      assert.equal(typeof item.appid, "number", `「${k}」有一筆 appid 不是數字：${JSON.stringify(item)}`);
+      assert.ok(item.name && item.reason, `「${k}」的 appid ${item.appid} 缺名稱或理由`);
+      assert.ok(!seen.has(item.appid), `appid ${item.appid} 在排除清單重複出現`);
+      seen.add(item.appid);
+      assert.ok(!inIndex.has(item.appid), `appid ${item.appid}（${item.name}）在排除清單上卻仍在索引裡，請跑 node build-game-index.js --select`);
+    }
+  }
+});
+
+/* 整份比對，不是只比首末筆：中間某筆在注入時被截斷或改壞，首末筆與筆數照樣對得上 */
+test("index.html 內嵌的遊戲索引與 data/game-index.json 完全一致", { skip: hasFile ? false : "尚未建置 game-index.json" }, () => {
   const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
   const m = /const GI=(\{.*?\});\n/s.exec(html);
   assert.ok(m, "index.html 找不到內嵌的 const GI=…，請跑 npm run build");
-  const inHtml = JSON.parse(m[1].replace(/\\u003c/g, "<"));
+  const inHtml = JSON.parse(m[1]);
   const onDisk = JSON.parse(fs.readFileSync(GI_FILE, "utf8"));
   assert.equal(inHtml.games.length, onDisk.games.length, "內嵌筆數與資料檔不一致，請重跑 npm run build");
-  assert.deepEqual(inHtml.games[0], onDisk.games[0]);
-  assert.deepEqual(inHtml.games[inHtml.games.length - 1], onDisk.games[onDisk.games.length - 1]);
+  assert.deepEqual(inHtml, onDisk, "內嵌索引與資料檔內容不一致，請重跑 npm run build");
 });

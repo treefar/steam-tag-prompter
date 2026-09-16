@@ -173,80 +173,41 @@ function clean(s) {
     .trim();
 }
 
-/* 絕大多數圖片網址共用這段前綴，存檔時砍掉、前端再接回去。
-   前綴以外的（例如 fastly 那組 CDN）就原樣存整串網址。 */
-const ASSET_PREFIX = "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/";
-
-/** 砍掉 ?t= 快取參數與共同前綴。認不出來的網址原樣保留，不猜。 */
-function shortUrl(u) {
-  const s = String(u || "").split("?")[0];
-  if (!s) return "";
-  return s.indexOf(ASSET_PREFIX) === 0 ? s.slice(ASSET_PREFIX.length) : s;
-}
-
-/** 課堂用工具，預設濾掉成人內容：18 禁，或 Steam 成人內容描述子 3／4。 */
-function isAdult(d) {
-  if (Number(d.required_age) >= 18) return true;
-  const ids = (d.content_descriptors && d.content_descriptors.ids) || [];
-  return ids.indexOf(3) >= 0 || ids.indexOf(4) >= 0;
-}
-
-/* 軟體類的 Steam 類別 id。2026-09-16 用 25 筆樣本實測歸納，判對 24 筆
-   （唯一不合的是 Bongo Cat，而 Steam 自己就把它列為 Casual／Indie／模擬，規則跟著 Steam 走）：
-     50 Accounting   51 Animation & Modeling  52 Audio Production  53 Design & Illustration
-     55 Photo Editing 56 Software Training    57 Utilities         58 Video Production
-     59 Web Publishing 60 Game Development
-   真遊戲用的是 1 Action／2 Strategy／3 RPG／4 Casual／9 Racing／18 Sports／23 Indie／
-   25 Adventure／28 Simulation／29 MMO／37 F2P／70 Early Access 這一組，兩邊不重疊。
-
-   為什麼不看 type：VEGAS Pro、Krita、3DMark、Aseprite 的 type 全都是 "game"，
-   Steam 把軟體也當商品賣，那個欄位分不出來。
-   為什麼不看標籤：標籤是玩家掛的，Tiny Glade、TOEM、Ryse 都被掛過軟體標籤。
-   genres 是發行商設定的，這才是可靠的訊號。 */
-const SOFT_GENRES = new Set([50, 51, 52, 53, 55, 56, 57, 58, 59, 60]);
-
-/** 這是軟體不是遊戲嗎？（Wallpaper Engine、RPG Maker、VEGAS Pro 這類） */
-function isSoftware(d) {
-  return (d.genres || []).some(x => SOFT_GENRES.has(Number(x.id)));
-}
+/* 判別規則（軟體、成人、圖片網址、續跑要不要重抓）放在 steam-filters.js，
+   tests/steam-filters.test.js 直接 require 同一份，測到的就是這裡實際跑的規則。 */
+const { ASSET_PREFIX, shortUrl, rejectReason, needsFetch } = require("./steam-filters");
 
 async function fetchDetails(appids, cache) {
   let n = 0, got = 0, skip = 0, fail = 0;
+  const why = {};
   for (const appid of appids) {
     n++;
-    // 沒有 img 欄位的是舊格式快取（當時以為圖片網址可以推導），必須重抓
-    if (cache[appid] && (cache[appid].bad || cache[appid].img !== undefined)) { skip++; continue; }
+    if (!needsFetch(cache[appid])) { skip++; continue; }
     const url = "https://store.steampowered.com/api/appdetails?appids=" + appid + "&l=tchinese&cc=tw";
     const j = await getJSON(url);
     const node = j && j[appid];
-    if (!node || !node.success || !node.data) {
-      cache[appid] = { bad: 1 };
+    const reason = rejectReason(node);
+    if (reason) {
+      // 記下原因：fetch 失敗的下次 --resume 會重抓，其他原因不再浪費請求
+      cache[appid] = { bad: 1, why: reason };
+      why[reason] = (why[reason] || 0) + 1;
       fail++;
     } else {
       const d = node.data;
-      if (d.type !== "game" || isAdult(d) || isSoftware(d)) {
-        cache[appid] = { bad: 1 };
-        fail++;
-      } else {
-        const movies = d.movies || [];
-        const mv = movies.find(m => m.highlight) || movies[0];
+      const movies = d.movies || [];
+      const mv = movies.find(m => m.highlight) || movies[0];
+      const dateStr = String((d.release_date || {}).date || "");
+      const ym = RE_YEAR.exec(dateStr);
+      cache[appid] = {
+        name: clean(d.name),
+        desc: clean(d.short_description).slice(0, DESC_MAX),
         // 優先用預告片封面幀（16:9，卡片好看），沒有預告片才退回商店頁封面圖
-        const img = shortUrl((mv && mv.thumbnail) || d.header_image || "");
-        const dateStr = String((d.release_date || {}).date || "");
-        const ym = RE_YEAR.exec(dateStr);
-        if (!img) { cache[appid] = { bad: 1 }; fail++; }
-        else {
-          cache[appid] = {
-            name: clean(d.name),
-            desc: clean(d.short_description).slice(0, DESC_MAX),
-            img: img,
-            year: ym ? Number(ym[0]) : 0,
-            // 存起來，日後改判別規則時不必再抓一次三千筆
-            gen: (d.genres || []).map(x => Number(x.id)).filter(Number.isFinite)
-          };
-          got++;
-        }
-      }
+        img: shortUrl((mv && mv.thumbnail) || d.header_image || ""),
+        year: ym ? Number(ym[0]) : 0,
+        // 存起來，日後改判別規則時不必再抓一次三千筆
+        gen: (d.genres || []).map(x => Number(x.id)).filter(Number.isFinite)
+      };
+      got++;
     }
     if (n % 25 === 0) {
       fs.writeFileSync(CACHE, JSON.stringify(cache));
@@ -258,6 +219,8 @@ async function fetchDetails(appids, cache) {
   fs.writeFileSync(CACHE, JSON.stringify(cache));
   console.log("\r明細抓取 " + n + "/" + appids.length
     + "（新增 " + got + "、沿用 " + skip + "、略過 " + fail + "）          ");
+  if (fail) console.log("  略過原因：" + JSON.stringify(why)
+    + (why.fetch ? "（fetch 的 " + why.fetch + " 筆下次 --resume 會重抓）" : ""));
 }
 
 /* ---------- 主流程 ---------- */
@@ -306,11 +269,23 @@ async function fetchDetails(appids, cache) {
 
   if (!SELECT_ONLY) await fetchDetails(picked, cache);
 
+  /* 人工排除清單：自動規則擋不到的（全年齡版上架的成人向、瞄準訓練工具、跑分、VR 影片）。
+     放在組裝階段，--select 不連網就能套用新清單。 */
+  const EXCLUDE_FILE = path.join(DIR, "game-exclude.json");
+  const excluded = new Set();
+  if (fs.existsSync(EXCLUDE_FILE)) {
+    const ex = JSON.parse(fs.readFileSync(EXCLUDE_FILE, "utf8"));
+    Object.keys(ex).filter(k => !k.startsWith("_")).forEach(k =>
+      (ex[k] || []).forEach(item => excluded.add(Number(item.appid))));
+  }
+  let excludedHit = 0;
+
   /* 組裝輸出：[appid, 名稱, 簡介, 圖片路徑, [tagid...], 年份] */
   const games = [];
   for (const appid of picked) {
     const c = cache[appid];
     if (!c || c.bad || !c.img) continue;
+    if (excluded.has(appid)) { excludedHit++; continue; }
     const e = pool.get(appid);
     const tags = Array.from(e.tags).filter(x => TAG_IDS.has(x)).sort((a, b) => a - b);
     if (!tags.length) continue;
@@ -320,6 +295,7 @@ async function fetchDetails(appids, cache) {
     (pool.get(b[0]).hits - pool.get(a[0]).hits) || (pool.get(a[0]).best - pool.get(b[0]).best));
 
   if (games.length < 200) die("只組出 " + games.length + " 款，明顯不足，不覆蓋既有資料");
+  if (excluded.size) console.log("人工排除清單 " + excluded.size + " 筆，實際擋下 " + excludedHit + " 筆");
 
   /* 覆蓋率檢查：每個標籤至少要有一款遊戲配得到，否則前端會出現查無結果 */
   const covered = new Set();

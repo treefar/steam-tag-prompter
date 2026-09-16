@@ -79,7 +79,14 @@ node build-game-index.js --limit 1500
 - `movies` 欄位**已經沒有 `mp4` / `webm` 直連**，只剩 DASH 與 HLS 串流網址。所以卡片只放預告片的封面幀，影片本身請到商店頁看。
 - 圖片網址**不能用 appid 推導**。Steam 已改成含內容雜湊的路徑（`.../apps/<appid>/<40位雜湊>/header.jpg`），連檔名都會變（某些遊戲是 `header_alt_assets_9_tchinese.jpg`）。舊式 `.../apps/<appid>/header.jpg` 只有 2023 年以前的舊作還通。資料檔存的是 API 回的實際網址，只砍掉共同前綴與 `?t=` 參數。
 
-簡介以 `l=tchinese` 取得，Steam 沒提供該語言的款別會是英文原文。非遊戲項目（DLC、軟體）與成人內容在抓取階段就濾掉。
+簡介以 `l=tchinese` 取得，Steam 沒提供該語言的款別會是英文原文。
+
+**過濾分兩層：**
+
+1. **自動規則**（`steam-filters.js`，爬蟲與測試共用同一份）：type 不是 game、18 禁或成人描述子 3／4、發行商類別屬軟體。軟體判別看 `genres` 不看 type 與標籤，25 筆實測樣本鎖在 `tests/steam-filters.test.js`。
+2. **人工排除清單**（`data/game-exclude.json`）：自動規則擋不到的。**成人向作品在 Steam 上架的是全年齡版**，匿名 appdetails 的年齡與描述子跟 Hades 完全相同（2026-09-16 實測 NUKITASHI、Tentacle Locker 2），沒有自動訊號可用，只能人工列。另列瞄準訓練工具、跑分展示、VR 影片。每筆要寫理由，改完跑 `node build-game-index.js --select` 不連網就能套用。
+
+**已知邊界**：人工清單只涵蓋 2026-09-16 抽檢時被規則標記過的項目（掛 Hentai／Sexual Content／軟體標籤等）。沒掛這些標籤的成人向作品不在審查範圍內。**不要用「標籤含 Hentai」當自動規則**——漫威爭鋒、蔚藍檔案、Muse Dash 都被玩家惡搞掛過。
 
 ## 十大維度覆蓋概覽
 
@@ -143,11 +150,14 @@ node build-tags.js --fetch
 | `data/games-tw.json` | 台灣通稱譯名（非官方） | 可 |
 | `verify-games.js` | 逐款到 Steam 查證代表作 | 可 |
 | `build-game-index.js` | 抓「依標籤找遊戲」的離線索引 | 可 |
+| `steam-filters.js` | 收不收一筆遊戲的判別規則（軟體、成人、續跑要不要重抓），爬蟲與測試共用 | 可 |
+| `data/game-exclude.json` | 人工排除清單，每筆附理由 | 可 |
 | `data/game-index.json` | 3000 款遊戲的標籤、簡介、縮圖 | **不要，是抓取產物** |
 | `data/raw/game-pool.json` | 標籤爬取階段的候選池，供 `--select` 重算 | 不要 |
 | `data/raw/game-details-cache.json` | 逐款明細快取，讓重跑不必再花 85 分鐘 | 不要 |
 | `tests/core.test.js` | `core.js` 與標籤資料的回歸測試 | 可 |
 | `tests/games.test.js` | 參考遊戲配對與索引資料的回歸測試 | 可 |
+| `tests/steam-filters.test.js` | 過濾規則的回歸測試（含 25 筆實測類別樣本） | 可 |
 | `MARKET-CHECK.md` | 同類工具市場查證 | 可 |
 | `LICENSE` | MIT，另註明 Steam 資料的授權範圍 | 可 |
 
@@ -159,7 +169,7 @@ node build-tags.js --fetch
 ```bash
 npm test               # 跑回歸測試（不需瀏覽器）
 node verify-games.js   # 代表作逐款到 Steam 查證 appid 與標題
-npm run build:games    # 重抓參考遊戲索引（約 85 分鐘，可中斷後續跑）
+npm run build:games    # 重抓參考遊戲索引（約 85 分鐘；中斷後用 node build-game-index.js --resume 續跑）
 npm run build          # 重新建置 index.html
 npm run verify         # 建置後跑測試
 ```
@@ -181,6 +191,18 @@ npm run verify         # 建置後跑測試
 **瀏覽器實測**（本機靜態伺服器，`file://` 因單檔已達 1 MB 無法用內嵌預覽）：卡片牆渲染、真實縮圖載入（新雜湊路徑與舊式路徑各抽驗過）、中英簡介與 `EN` 標示正確對應、命中與落空標籤、吻合百分比、Steam 連結 `href`／`target="_blank"`／`rel="noopener noreferrer"`、未選標籤時按鈕停用並顯示提示。
 
 **Steam 端點實測**（會變，變了就改 `build-game-index.js` 檔頭）：兩個端點都不回 `Access-Control-Allow-Origin`；`appdetails` 一次只吃一個 appid，多個回 `null`，`filters` 不生效；`movies` 已無 `mp4`／`webm` 直連；圖片網址含內容雜湊、不可由 appid 推導；`type` 對 VEGAS Pro、Krita、3DMark 等軟體同樣回 `"game"`，分不出來；`genres` 才是可靠訊號，25 筆人工標註樣本判對 24 筆（唯一不合的 Bongo Cat，Steam 自己也列為 Casual／Indie／模擬）。
+
+## 副戰力複驗（2026-09-16）
+
+派 agy 兩路唯讀複驗：`claude-opus-4-6-thinking` 做程式對抗式複審、`gemini-3.1-pro-high` 抽檢 246 筆資料（含 40 筆隨機對照，0 誤判）。主控逐條查真偽後修正：
+
+- 卡片縮圖、連結、年份插值改走 `esc()`；`esc()` 補跳脫單引號
+- 一致性測試由「只比首末筆」改為整份 `deepEqual`
+- 原「索引不含非遊戲軟體項目」測試實際只能抓到全掛禁抽標籤的項目，改名照實描述，另加用爬蟲同一條規則驗快取的測試
+- 快取記錄被擋原因，「一時抓不到」的下次續跑會重抓（抽 25 筆舊的被擋項目重抓，0 筆誤丟）
+- 新增人工排除清單 25 筆（成人向 11、工具 4、跑分 3、VR 影片 7）
+
+不成立而未修：注入正則可能換錯位置（實測佔位符唯一）。破壞實驗確認新測試會抓到錯：改壞資料檔中間一筆、把索引內遊戲加進排除清單，兩者都紅燈。自動測試 72 項全過。
 
 ## 已驗收（2026-08-05，瀏覽器實測）
 
