@@ -12,6 +12,8 @@
     "test": "node --test",
     "build": "node build-tags.js",
     "build:fetch": "node build-tags.js --fetch",
+    "build:games": "node build-game-index.js",
+    "build:games:select": "node build-game-index.js --select",
     "verify": "node build-tags.js && node --test"
   },
   "engines": {

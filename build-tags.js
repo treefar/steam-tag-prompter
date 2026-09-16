@@ -267,6 +267,23 @@ const ci = html.indexOf(CORE_START), cj = html.indexOf(CORE_END);
 if (ci < 0 || cj < 0 || cj < ci) die(`在 ${HTML} 找不到 core.js 注入標記；index.html 未更新`);
 html = html.slice(0, ci + CORE_START.length) + "\n" + coreSrc + "\n" + html.slice(cj);
 
+/* 參考遊戲索引（data/game-index.json，由 build-game-index.js 抓好）也內嵌進來。
+   Steam 的 store API 不回 CORS 標頭，執行期 fetch 一定失敗；而且工具要能離線單檔用。
+   資料檔不存在時注入空索引——前端會顯示「尚未建置」，不會壞掉。 */
+const GI_FILE = path.join(__dirname, "data", "game-index.json");
+let giObj = { _meta: { count: 0, built: "" }, games: [] };
+if (fs.existsSync(GI_FILE)) {
+  try { giObj = JSON.parse(fs.readFileSync(GI_FILE, "utf8")); }
+  catch (e) { die(`data/game-index.json 讀取失敗：${e.message}`); }
+  if (!Array.isArray(giObj.games)) die("data/game-index.json 缺少 games 陣列");
+}
+const GI_INJECT = /const GI=\{[\s\S]*?\};\n/;
+if (!GI_INJECT.test(html)) die(`在 ${HTML} 找不到注入點 const GI={...};；index.html 未更新`);
+const giJs = "const GI=" + JSON.stringify(giObj).replace(/</g, "\\u003c") + ";\n";
+html = html.replace(GI_INJECT, () => giJs);
+console.log(`參考遊戲索引 ${giObj.games.length} 款`
+  + (giObj.games.length ? `（建置日 ${giObj._meta.built || "未知"}）` : "（尚未建置，注入空索引）"));
+
 const out = html;
 fs.writeFileSync(HTML, out);
 

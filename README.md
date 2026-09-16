@@ -52,6 +52,35 @@
 5. **十大維度各自在問什麼**——每個維度的核心問題，附代表作幫你理解那個標籤是什麼感覺
 6. **常見錯誤**——七項對照表
 
+## 🎮 Steam 上像哪些遊戲？
+
+選完標籤，右側面板的「🎮 Steam 上像哪些遊戲？」會顯示有幾款相符，點開是一整面卡片：官方縮圖、繁中簡介、發行年、命中與落空的標籤、吻合百分比，點卡片直接開 Steam 商店頁。
+
+**完全吻合不保證存在，所以一律列最接近的。** 點超過四個標籤時，Steam 商店搜尋本身也常常回 0 筆——那是 AND 邏輯。這裡改用加權分數排序：核心 3 分、差異化 2 分、待抉擇 1 分，卡片上劃掉的標籤就是那款遊戲沒有的。一個標籤都沒共通的不列入，因為那不叫「接近」。
+
+資料是**建置時抓好的離線快取**，開啟本頁時完全不連網。原因有兩個：
+
+1. Steam 的 store API 不回 `Access-Control-Allow-Origin`（2026-09-16 實測），瀏覽器直接 `fetch` 一定被 CORS 擋。
+2. 這個工具要能離線雙擊執行，執行期不該依賴任何伺服器。
+
+抓取腳本是 `build-game-index.js`：
+
+```bash
+node build-game-index.js            # 完整跑（約 85 分鐘，可中斷後續跑）
+node build-game-index.js --select   # 不連網，只用既有快取重新挑選與輸出
+node build-game-index.js --limit 1500
+```
+
+流程分三段：依 430 個標籤各抓前 25 名建候選池 → 保障每個標籤的前 5 名、其餘按「被多少標籤收錄」補滿到 3000 款 → 逐款用 `appdetails` 補名稱、簡介、縮圖與年份。抓完會自己檢查覆蓋率並印出配不到遊戲的標籤。
+
+三個實測到的限制（會變，變了就改 `build-game-index.js` 的檔頭註解）：
+
+- `appdetails` **一次只吃一個 appid**，傳多個回 `null`，`filters` 參數也不生效——所以只能一款一款抓，速率抓每 1.6 秒一次。
+- `movies` 欄位**已經沒有 `mp4` / `webm` 直連**，只剩 DASH 與 HLS 串流網址。所以卡片只放預告片的封面幀，影片本身請到商店頁看。
+- 圖片網址**不能用 appid 推導**。Steam 已改成含內容雜湊的路徑（`.../apps/<appid>/<40位雜湊>/header.jpg`），連檔名都會變（某些遊戲是 `header_alt_assets_9_tchinese.jpg`）。舊式 `.../apps/<appid>/header.jpg` 只有 2023 年以前的舊作還通。資料檔存的是 API 回的實際網址，只砍掉共同前綴與 `?t=` 參數。
+
+簡介以 `l=tchinese` 取得，Steam 沒提供該語言的款別會是英文原文。非遊戲項目（DLC、軟體）與成人內容在抓取階段就濾掉。
+
 ## 十大維度覆蓋概覽
 
 不管是抽籤、套起手式、手動點選還是貼短碼還原，輪盤下方都會顯示十個維度的狀態：
@@ -113,7 +142,12 @@ node build-tags.js --fetch
 | `data/games.json` | 代表作的 Steam appid 與實際商店標題（由 `verify-games.js` 產生） | 不要 |
 | `data/games-tw.json` | 台灣通稱譯名（非官方） | 可 |
 | `verify-games.js` | 逐款到 Steam 查證代表作 | 可 |
-| `tests/core.test.js` | `core.js` 與標籤資料的回歸測試（45 項） | 可 |
+| `build-game-index.js` | 抓「依標籤找遊戲」的離線索引 | 可 |
+| `data/game-index.json` | 3000 款遊戲的標籤、簡介、縮圖 | **不要，是抓取產物** |
+| `data/raw/game-pool.json` | 標籤爬取階段的候選池，供 `--select` 重算 | 不要 |
+| `data/raw/game-details-cache.json` | 逐款明細快取，讓重跑不必再花 85 分鐘 | 不要 |
+| `tests/core.test.js` | `core.js` 與標籤資料的回歸測試 | 可 |
+| `tests/games.test.js` | 參考遊戲配對與索引資料的回歸測試 | 可 |
 | `MARKET-CHECK.md` | 同類工具市場查證 | 可 |
 | `LICENSE` | MIT，另註明 Steam 資料的授權範圍 | 可 |
 
@@ -123,10 +157,11 @@ node build-tags.js --fetch
 ## 開發
 
 ```bash
-npm test          # 跑 45 項回歸測試（不需瀏覽器）
+npm test               # 跑回歸測試（不需瀏覽器）
 node verify-games.js   # 代表作逐款到 Steam 查證 appid 與標題
-npm run build     # 重新建置 index.html
-npm run verify    # 建置後跑測試
+npm run build:games    # 重抓參考遊戲索引（約 85 分鐘，可中斷後續跑）
+npm run build          # 重新建置 index.html
+npm run verify         # 建置後跑測試
 ```
 
 測試用可注入的偽隨機源，所以「500 次抽籤都不出現互斥標籤」這種性質可以穩定重跑，失敗時輸出會附 seed 供重現。CI（GitHub Actions）在每次 push 與 PR 跑測試，並檢查 `index.html` 與 `data/tags.json` 是不是最新的建置結果。
@@ -134,6 +169,18 @@ npm run verify    # 建置後跑測試
 ## 授權
 
 程式碼與文件採 [MIT](LICENSE)。`data/raw/` 下的 Steam 標籤資料除外，說明見 LICENSE。
+
+## 已驗收（2026-09-16，參考遊戲功能）
+
+**自動測試 62 項全過**（`npm test`）。新增的 16 項涵蓋：加權排序（核心 3 分 > 差異化 2 分 > 待抉擇 1 分）、完全吻合標記、核心標籤落空數、落空標籤清單、一個標籤都沒共通的不列入、limit、重複選同一標籤不灌水、空索引不丟例外、縮圖網址組法（含已是完整網址與沒有圖片兩種）、資料檔結構（欄位型別、appid 不重複、tagid 都在標籤庫內、簡介不殘留 HTML、圖片路徑不帶查詢字串）、標籤覆蓋率、索引不含非遊戲軟體項目、`index.html` 內嵌索引與資料檔一致。
+
+**資料**：2620 款、899 KB。繁中簡介 1668 款（64%），其餘顯示英文原文並標 `EN`。98% 用官方預告片的封面幀，其餘用商店頁封面圖。年份 1998–2027。430 個標籤中只有 `Snooker` 配不到遊戲。
+
+**軟體誤收抽查**：VEGAS Pro、Krita、Aseprite、3DMark、Wallpaper Engine、RPG Maker MZ、Movavi、VTube Studio、Soundpad、Lossless Scaling、PCMark、Houdini、Substance 3D、Mouse X 共 14 個全數排除；Tiny Glade、TOEM、Ryse、Incredibox、破爛藝術家、PC Building Simulator、Turing Complete、SHINOBI、初音未來 Project DIVA、Rusty's Retirement、嘟嘟鴨與摺疊世界 共 11 個「帶軟體標籤的真遊戲」全數保留。
+
+**瀏覽器實測**（本機靜態伺服器，`file://` 因單檔已達 1 MB 無法用內嵌預覽）：卡片牆渲染、真實縮圖載入（新雜湊路徑與舊式路徑各抽驗過）、中英簡介與 `EN` 標示正確對應、命中與落空標籤、吻合百分比、Steam 連結 `href`／`target="_blank"`／`rel="noopener noreferrer"`、未選標籤時按鈕停用並顯示提示。
+
+**Steam 端點實測**（會變，變了就改 `build-game-index.js` 檔頭）：兩個端點都不回 `Access-Control-Allow-Origin`；`appdetails` 一次只吃一個 appid，多個回 `null`，`filters` 不生效；`movies` 已無 `mp4`／`webm` 直連；圖片網址含內容雜湊、不可由 appid 推導；`type` 對 VEGAS Pro、Krita、3DMark 等軟體同樣回 `"game"`，分不出來；`genres` 才是可靠訊號，25 筆人工標註樣本判對 24 筆（唯一不合的 Bongo Cat，Steam 自己也列為 Casual／Indie／模擬）。
 
 ## 已驗收（2026-08-05，瀏覽器實測）
 

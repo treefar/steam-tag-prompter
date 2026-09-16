@@ -194,9 +194,9 @@ const PLAYERS_SAFE = ["Singleplayer", "Singleplayer", "Singleplayer", "Singlepla
 const REQ = [1, 2, 3, 8], FILL = [4, 5, 7, 6];
 
 const MODE_TXT = {
-  safe: "🎯 保證可做：四個必要維度（類型／視角／風格／單多人）各補一個，自動避開互斥組與多人重工程，並刻意留一組「待抉擇」讓你自己決定。",
-  chaos: "🌀 完全隨機：不管維度也不管矛盾，抽到什麼算什麼。抽出無法並存的組合是正常的，那正是發想的起點。",
-  clash: "💥 刻意衝突：從反差配對表挑一組罕見組合當差異化核心，其餘照「保證可做」規則補齊。"
+  safe: "保證可做：四個必要維度（類型／視角／風格／單多人）各補一個，自動避開互斥組與多人重工程，並刻意留一組「待抉擇」讓你自己決定。",
+  chaos: "完全隨機：不管維度也不管矛盾，抽到什麼算什麼。抽出無法並存的組合是正常的，那正是發想的起點。",
+  clash: "刻意衝突：從反差配對表挑一組罕見組合當差異化核心，其餘照「保證可做」規則補齊。"
 };
 
 const CODE_VER = "S2", CODE_LEN = 6, CODE_MAX = 40;
@@ -373,10 +373,86 @@ function decodeSel(code, idx) {
   return out.length ? out : null;
 }
 
+/* ---- 參考遊戲配對 ----
+   資料來自建置時抓好的 data/game-index.json（見 build-game-index.js）。
+   之所以不即時查 Steam：store API 不回 Access-Control-Allow-Origin，瀏覽器 fetch 一定被 CORS 擋，
+   而且這個工具必須能離線單檔使用。 */
+
+/** 角色權重。核心標籤沒中，就不該排在只差一個差異化標籤的遊戲前面。 */
+const GAME_W = { core: 3, diff: 2, ask: 1 };
+
+/* 圖片網址的共同前綴。資料檔只存前綴之後那一段，這裡接回去。
+
+   別再試圖用 appid 推導圖片網址：2026-09-16 實測 Steam 已改成含內容雜湊的路徑
+   （.../apps/<appid>/<40位雜湊>/header.jpg），連檔名都會變
+   （某些遊戲是 header_alt_assets_9_tchinese.jpg）。舊式的 .../apps/<appid>/header.jpg
+   只有 2023 年以前的舊作還通，新作一律 404。 */
+const STEAM_ASSET = "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/";
+
+/** 由資料檔的欄位組出商店頁與縮圖網址。img 已是完整網址時原樣使用。 */
+function gameUrls(g) {
+  const img = String((g && g.img) || "");
+  return {
+    store: "https://store.steampowered.com/app/" + g.appid + "/",
+    thumb: !img ? "" : (img.slice(0, 4) === "http" ? img : STEAM_ASSET + img)
+  };
+}
+
+/**
+ * 依已選標籤，從離線索引裡找最接近的遊戲。
+ *
+ * 完全吻合不保證存在（點超過四個標籤時，Steam 商店搜尋本身也常常回 0 筆），
+ * 所以這裡一律回傳加權分數最高的前幾款，並附上命中與落空的標籤，
+ * 讓使用者自己判斷像不像——而不是假裝找到了。
+ *
+ * 排序：吻合度 → 核心標籤落空數少者優先 → 索引名次（人氣）。
+ * 一個標籤都沒共通的遊戲不列入，因為那不叫「接近」。
+ */
+function matchGames(sel, GI, idx, opts) {
+  opts = opts || {};
+  const limit = opts.limit || 6;
+  const games = (GI && GI.games) || [];
+  const want = [];
+  const seen = new Set();
+  (sel || []).forEach(s => {
+    const t = idx.byEn[s.en];
+    if (!t || !Number.isFinite(t[5]) || seen.has(t[5])) return;
+    seen.add(t[5]);
+    want.push({ id: t[5], en: t[1], zh: t[2], role: s.role, w: GAME_W[s.role] || 1 });
+  });
+  if (!want.length || !games.length) return { games: [], want: want, pool: games.length, matched: 0 };
+
+  const total = want.reduce((a, b) => a + b.w, 0);
+  const nCore = want.filter(w => w.role === "core").length;
+  const out = [];
+  for (let i = 0; i < games.length; i++) {
+    const g = games[i];
+    const tags = g[4] || [];
+    let score = 0;
+    const hit = [], miss = [];
+    for (const w of want) {
+      if (tags.indexOf(w.id) >= 0) { score += w.w; hit.push(w); }
+      else miss.push(w);
+    }
+    if (!score) continue;
+    const coreMiss = miss.filter(m => m.role === "core").length;
+    out.push({
+      appid: g[0], name: g[1], desc: g[2], img: g[3] || "", tags: tags, year: g[5] || 0,
+      score: score / total, rank: i, hit: hit, miss: miss,
+      coreMiss: coreMiss,
+      exact: miss.length === 0,
+      allCore: nCore > 0 && coreMiss === 0
+    });
+  }
+  out.sort((a, b) => (b.score - a.score) || (a.coreMiss - b.coreMiss) || (a.rank - b.rank));
+  return { games: out.slice(0, limit), want: want, pool: games.length, matched: out.length };
+}
+
 return {
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
   DIM_NAMES, DIM_NEED, coverage, blockedBy,
-  pairTags, findAskPair, makeIndex, rollTags, encodeSel, decodeSel
+  pairTags, findAskPair, makeIndex, rollTags, encodeSel, decodeSel,
+  GAME_W, STEAM_ASSET, gameUrls, matchGames
 };
 });
