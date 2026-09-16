@@ -43,6 +43,7 @@ const FLOOR = num("--floor", 5);           // 每個標籤至少保留前幾名�
 const SELECT_ONLY = has("--select");        // 完全不連網，只用既有快取重算
 const RESUME = has("--resume");             // 沿用既有候選池，但繼續抓還沒抓的明細
 const RECHECK = has("--recheck");           // 把可能是軟體、但快取裡沒有類別資料的項目丟掉重抓
+const REFRESH_GENRES = has("--refresh-genres"); // 所有收錄中但缺類別資料的項目都重抓（軟體過濾才完整覆蓋）
 const MAX_TAGS = num("--tags", 0);         // 只爬前 N 個標籤，煙霧測試用；0 表示全爬
 const DESC_MAX = 160;                      // 簡介截斷長度
 
@@ -265,6 +266,18 @@ async function fetchDetails(appids, cache) {
       if (Array.from(e.tags).some(t => softTagIds.has(t))) { delete cache[appid]; n++; }
     }
     console.log("--recheck：" + n + " 筆可疑項目已標記重抓（軟體標籤 " + softTagIds.size + " 種）");
+  }
+
+  /* --refresh-genres：2026-09-16 前抓的快取沒有 gen（發行商類別），軟體判別對它們沒生效。
+     --recheck 只重抓帶軟體標籤的；這個旗標把所有「收錄中且缺 gen」的都重抓，約一小時。
+     被擋的舊項目不動（抽驗 25 筆 0 筆誤丟）。 */
+  if (REFRESH_GENRES) {
+    let n = 0;
+    for (const appid of picked) {
+      const c = cache[appid];
+      if (c && !c.bad && c.gen === undefined) { delete cache[appid]; n++; }
+    }
+    console.log("--refresh-genres：" + n + " 筆缺類別資料的項目已標記重抓（約 " + Math.round(n * 1.6 / 60) + " 分鐘）");
   }
 
   if (!SELECT_ONLY) await fetchDetails(picked, cache);
