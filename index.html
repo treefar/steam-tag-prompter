@@ -276,6 +276,10 @@ aside.panel h3{font-size:14px;color:var(--green)}
 }
 .sel-item .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sel-item .nm .zh{color:var(--ink-dim);font-size:12px}
+.sel-item .gl{color:var(--ink-dim);text-decoration:none;font-size:13px;padding:0 3px;line-height:1}
+.sel-item .gl:hover{color:var(--blue)}
+.guidebtn.glossary{text-decoration:none;margin-left:8px;display:inline-block}
+.chip.flash{outline:2px solid var(--amber);outline-offset:2px}
 .sel-item button{
   background:none;border:1px solid var(--line2);color:var(--ink-dim);
   border-radius:6px;font-size:11px;cursor:pointer;padding:1px 6px;line-height:1.5;
@@ -338,6 +342,7 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
   <h1>用 Steam 標籤<span class="en">把你的遊戲定位想清楚</span></h1>
   <span class="sub">標籤抉擇就是設計決策——選完你會知道自己的特色在哪、哪些還沒決定</span>
   <button type="button" class="guidebtn" id="guideBtn">遊戲製作與選標籤指南</button>
+  <a class="guidebtn glossary" href="https://treefar.link/game-glossary/" target="_blank" rel="noopener" title="不懂某個標籤或名詞？到遊戲名詞大百科查">📖 遊戲名詞大百科</a>
   <div class="bound">
     <b>這個工具幫你做的：</b>用 430 個 Steam 官方標籤釐清定位，標出「已確定」「差異化」「還沒決定」，
     並把「還沒決定的」附上取捨後果讓你自己判斷。全部在你的瀏覽器離線完成，不連網、不呼叫 AI。<br>
@@ -1782,6 +1787,7 @@ function render(){
       return `<div class="sel-item">
         <button class="role ${s.role}" data-i="${i}" data-a="role" title="切換角色">${ROLE_TXT[s.role]}</button>
         <span class="nm"><b>${esc(t[1])}</b> <span class="zh">${esc(t[2])}</span></span>
+        <a class="gl" href="https://treefar.link/game-glossary/#tag-${t[5]}" target="_blank" rel="noopener" title="到遊戲名詞大百科看這個標籤的解釋與代表作">📖</a>
         <button data-i="${i}" data-a="lk" class="${s.lock?"lock":""}" title="${s.lock?"已鎖定：重抽時保留":"鎖定，重抽時保留"}">鎖</button>
         <button data-i="${i}" data-a="up" title="往前移">↑</button>
         <button data-i="${i}" data-a="dn" title="往後移">↓</button>
@@ -2247,6 +2253,30 @@ $("nAll").textContent=T.length;
 $("nCur").textContent=T.filter(t=>t[6]).length;
 
 buildDims();load();render();
+
+/* 深連結：#tag=<tagid>[,<tagid>…] 由「遊戲名詞大百科」等外部頁帶進來，把那些標籤設為核心並捲到第一顆。
+   tagid 只接受數字；不認得的 id 忽略。已選過的不重複加、也不改角色。 */
+function applyHashTags(){
+  const m=/^#tag=([0-9,]+)$/.exec(location.hash||"");
+  if(!m)return;
+  const ids=m[1].split(",").filter(Boolean);
+  let first=null,added=0;
+  ids.forEach(id=>{
+    const t=byId[id]; if(!t)return;
+    if(!sel.find(x=>x.en===t[1])){sel.push({en:t[1],role:"core",lock:false});added++}
+    if(!first)first=t[1];
+  });
+  if(!first)return;
+  render();
+  const chip=dimsEl.querySelector('.chip[data-en="'+first.replace(/"/g,'\\"')+'"]');
+  if(chip){
+    if(!chip.offsetParent){const sw=document.getElementById("showAll");if(sw&&!sw.checked){sw.checked=true;if(typeof applyFilter==="function")applyFilter();else sw.dispatchEvent(new Event("change"))}}
+    chip.scrollIntoView({block:"center"});chip.classList.add("flash");setTimeout(()=>chip.classList.remove("flash"),2500);
+  }
+  if(added)toast(`已從連結加入 ${added} 個標籤為核心`);
+}
+applyHashTags();
+window.addEventListener("hashchange",applyHashTags);
 </script>
 </body>
 </html>
