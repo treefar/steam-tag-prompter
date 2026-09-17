@@ -449,35 +449,18 @@ function matchGames(sel, GI, idx, opts) {
 }
 
 /* ---- 組合罕見度評估 ----
-   2026-09-17 實測：配對率的絕對值主要反映「選了幾個標籤」——保證可做模式選 4 個標籤時
-   低於 50% 的只有 1%，選 8 個時 79%，選 10 個時 98%。固定門檻會變成在罰選得多的人。
-   所以門檻改成相對的：跟「同樣標籤數的合理組合」比，落在最低 20% 才算罕見。 */
+   門檻定案（2026-09-17 老師選定）：最接近的遊戲吻合率低於 65% 才標記。
 
-const LOW_PCT = 0.2;          // 最低 20% 算罕見
-const BASELINE_N = [3, 12];   // 門檻涵蓋的標籤數範圍，超出就用端點
+   為什麼不用原本的相對門檻（跟同樣標籤數的隨機抽籤組合比，落在最低 20%）：
+   隨機抽出的組合本來就比學生實際會選的冷門。14 組起手式吻合率最低 84%，
+   抽籤組合的第 20 百分位卻只有 50～57%，結果兩位評審評最差的 3 題只標到 1 題。
+   固定 65% 在同樣 20 題上標到 C15、C16、C18、C20，最差的 3 題全中，起手式 0 題被標。
 
-/**
- * 建置時算門檻：每種標籤數用保證可做模式抽 samples 組，記第 1 名配對率的第 20 百分位。
- * 回傳 { "3": 0.67, ..., "12": 0.31 }。rng 要能注入，才能讓建置結果可重現。
- */
-function comboBaseline(o) {
-  const out = {};
-  const samples = o.samples || 300;
-  for (let n = BASELINE_N[0]; n <= BASELINE_N[1]; n++) {
-    const tops = [];
-    for (let i = 0; i < samples; i++) {
-      const r = rollTags({ T: o.T, idx: o.idx, mode: "safe", n: n, rng: o.rng, curatedOnly: true, locked: [] });
-      if (!r.sel) continue;
-      const m = matchGames(r.sel, o.GI, o.idx, { limit: 1 });
-      tops.push(m.games[0] ? m.games[0].score : 0);
-    }
-    tops.sort((a, b) => a - b);
-    // 存原始精度，不要四捨五入：配對率是 3/7 這種分數，0.428571 進位成 0.429 後，
-    // 剛好落在門檻上的組合會被誤判成「低於」（2026-09-17 實際發生）
-    out[n] = tops.length ? tops[Math.floor(tops.length * LOW_PCT)] : null;
-  }
-  return out;
-}
+   已知代價：選的標籤越多越容易被標。保證可做模式隨機抽 4 個標籤 13% 會被標，
+   6 個 51%，8 個 81%。試算資料在 eval/2026-09-17-army/README.md。 */
+
+const LOW_SCORE = 0.65;       // 最接近的遊戲吻合率低於這個值才提示
+const RARE_TAG_PCT = 0.2;     // Steam 總遊戲數落在標籤庫最低 20% 的標籤算少見
 
 /**
  * 評估一組標籤在收錄遊戲裡有多罕見，給「可能是創新、也可能市場很小」的提示用。
@@ -486,8 +469,8 @@ function comboBaseline(o) {
  * 回傳：
  *   n          參與評估的標籤數
  *   topScore   第 1 名配對率
- *   threshold  同標籤數的第 20 百分位（索引沒有門檻資料時為 null，不標記）
- *   low        topScore < threshold
+ *   threshold  固定門檻 LOW_SCORE
+ *   low        topScore < threshold（剛好等於不算）
  *   gaps       核心／差異化標籤中，從未同時出現在任何一款的配對 [[en, en], ...]（最多 3 組）
  *   rarestPair 沒有完全沒出現的配對時，一起出現次數最少的那組 {pair, count}
  *   rareTags   Steam 總遊戲數落在標籤庫最低 20% 的已選標籤 [{en, total}]
@@ -499,16 +482,11 @@ function assessCombo(sel, GI, idx) {
   const m = matchGames(sel, GI, idx, { limit: 1 });
   const want = m.want;
   const n = want.length;
-  const res = { n: n, topScore: m.games[0] ? m.games[0].score : 0, threshold: null, low: false,
+  const res = { n: n, topScore: m.games[0] ? m.games[0].score : 0, threshold: LOW_SCORE, low: false,
                 gaps: [], rarestPair: null, rareTags: [], rareCut: null };
   if (!n || !games.length) return res;
 
-  const low = meta.lowScore || null;
-  if (low) {
-    const key = Math.max(BASELINE_N[0], Math.min(BASELINE_N[1], n));
-    const thr = low[key];
-    if (typeof thr === "number") { res.threshold = thr; res.low = res.topScore < thr; }
-  }
+  res.low = res.topScore < LOW_SCORE;
 
   /* 缺口：只看核心與差異化，待抉擇本來就是還沒決定的，不拿來判斷組合 */
   const firm = want.filter(w => w.role === "core" || w.role === "diff");
@@ -531,7 +509,7 @@ function assessCombo(sel, GI, idx) {
   if (totals) {
     const all = Object.keys(totals).map(k => totals[k]).filter(Number.isFinite).sort((x, y) => x - y);
     if (all.length) {
-      res.rareCut = all[Math.floor(all.length * LOW_PCT)];
+      res.rareCut = all[Math.floor(all.length * RARE_TAG_PCT)];
       res.rareTags = want.filter(w => Number.isFinite(totals[w.id]) && totals[w.id] <= res.rareCut)
                          .map(w => ({ en: w.en, zh: w.zh, total: totals[w.id] }));
     }
@@ -540,7 +518,7 @@ function assessCombo(sel, GI, idx) {
 }
 
 return {
-  LOW_PCT, BASELINE_N, comboBaseline, assessCombo,
+  LOW_SCORE, RARE_TAG_PCT, assessCombo,
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
   DIM_NAMES, DIM_NEED, coverage, blockedBy,

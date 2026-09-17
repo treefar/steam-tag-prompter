@@ -131,11 +131,10 @@ test("matchGames 會把圖片路徑原封帶出來", () => {
 });
 
 /* ---------- 組合罕見度 ---------- */
-const { assessCombo, comboBaseline } = core;
+const { assessCombo, LOW_SCORE } = core;
 /* 合成索引：A+B 常一起出現，C 只跟 A 出現一次，D 從不跟 B 出現 */
 const GI2 = {
   _meta: {
-    lowScore: { 3: 0.6, 4: 0.5, 5: 0.5, 6: 0.45, 7: 0.4, 8: 0.35, 9: 0.35, 10: 0.35, 11: 0.35, 12: 0.35 },
     tagTotals: { [idA]: 5000, [idB]: 8000, [idC]: 12000, [idD]: 90000, 1: 10, 2: 20, 3: 30, 4: 40, 5: 50 }
   },
   games: [
@@ -146,22 +145,36 @@ const GI2 = {
   ]
 };
 
-test("罕見度：配對率低於同標籤數門檻才標記", () => {
-  // 選 A、B、C（3 個）：第 1 名只中 2/3＝0.667，門檻 0.6 → 不標記
+test("罕見度：門檻固定 65%（2026-09-17 定案，改之前先讀 eval/2026-09-17-army 的試算）", () => {
+  assert.equal(LOW_SCORE, 0.65);
+});
+
+test("罕見度：最接近的遊戲吻合率低於 65% 才標記", () => {
+  // 選 A、B、C：第 1 名中 2/3＝0.667 → 不標記
   const ok = assessCombo([{ en: A, role: "core" }, { en: B, role: "core" }, { en: C, role: "core" }], GI2, IDX);
   assert.equal(ok.n, 3);
-  assert.equal(ok.threshold, 0.6);
+  assert.equal(ok.threshold, 0.65);
   assert.equal(ok.low, false);
-  // 選 B、C、D：每款最多中 1 個 → 0.333 < 0.6 → 標記
+  // 選 B、C、D：每款最多中 1 個 → 0.333 → 標記
   const low = assessCombo([{ en: B, role: "core" }, { en: C, role: "core" }, { en: D, role: "core" }], GI2, IDX);
   assert.equal(low.low, true);
 });
 
-test("罕見度：配對率剛好等於門檻不標記（最低 20% 是嚴格低於）", () => {
-  const exact = { _meta: Object.assign({}, GI2._meta, { lowScore: { 3: 1 / 3 } }), games: GI2.games };
-  const a = assessCombo([{ en: B, role: "core" }, { en: C, role: "core" }, { en: D, role: "core" }], exact, IDX);
-  assert.equal(a.topScore, 1 / 3);
-  assert.equal(a.low, false, "3 個標籤中 1 個，配對率 1/3，門檻也是 1/3，不應標記");
+test("罕見度：吻合率剛好 65% 不標記（嚴格低於）", () => {
+  // 核心 4 個（各 3 分）＋差異化 4 個（各 2 分）＝20 分；遊戲中 3 核心＋2 差異化＝13 分＝0.65
+  const E = "Puzzle", F = "Strategy", G = "Casual", H = "Anime";
+  const ids = [A, B, C, D, E, F, G, H].map(idOf);
+  const gi = { games: [[301, "13 分", "", "x.jpg", [ids[0], ids[1], ids[2], ids[4], ids[5]], 2020, 1]] };
+  const sel = [A, B, C, D].map(en => ({ en, role: "core" })).concat([E, F, G, H].map(en => ({ en, role: "diff" })));
+  const a = assessCombo(sel, gi, IDX);
+  assert.equal(a.topScore, 0.65);
+  assert.equal(a.low, false);
+});
+
+test("罕見度：資料檔沒有門檻欄位也照樣判斷（門檻不再存在資料檔）", () => {
+  const a = assessCombo([{ en: B, role: "core" }, { en: C, role: "core" }, { en: D, role: "core" }], { games: GI2.games }, IDX);
+  assert.equal(a.low, true);
+  assert.deepEqual(a.rareTags, [], "沒有標籤總數就不判冷門標籤");
 });
 
 test("罕見度：列出從未同時出現的核心／差異化配對，待抉擇不算", () => {
@@ -171,22 +184,11 @@ test("罕見度：列出從未同時出現的核心／差異化配對，待抉�
 });
 
 test("罕見度：沒有完全缺口時，列出一起出現次數最少的配對", () => {
-  // A、B、C 三個：B＋C 從沒一起出現 → 有缺口
   const withGap = assessCombo([{ en: A, role: "core" }, { en: B, role: "core" }, { en: C, role: "core" }], GI2, IDX);
   assert.deepEqual(withGap.gaps, [[B, C]]);
-  // A、B、D：A＋B 2 款、A＋D 1 款、B＋D 0 款 → 仍有缺口；改用 A、C：只有一組且出現 1 次
   const noGap = assessCombo([{ en: A, role: "core" }, { en: C, role: "core" }], GI2, IDX);
   assert.deepEqual(noGap.gaps, []);
   assert.deepEqual(noGap.rarestPair, { pair: [A, C], count: 1 });
-});
-
-test("罕見度：標籤數超出門檻範圍時用端點；沒有門檻資料就不標記", () => {
-  const two = assessCombo([{ en: B, role: "core" }, { en: C, role: "core" }], GI2, IDX);
-  assert.equal(two.threshold, 0.6, "2 個標籤用 3 的門檻");
-  const noMeta = assessCombo([{ en: B, role: "core" }, { en: C, role: "core" }], { games: GI2.games }, IDX);
-  assert.equal(noMeta.threshold, null);
-  assert.equal(noMeta.low, false);
-  assert.deepEqual(noMeta.rareTags, []);
 });
 
 test("罕見度：Steam 總遊戲數落在標籤庫最低 20% 的算少見", () => {
@@ -200,16 +202,6 @@ test("罕見度：空選擇或空索引不丟例外", () => {
   assert.doesNotThrow(() => assessCombo([], GI2, IDX));
   assert.equal(assessCombo([], GI2, IDX).low, false);
   assert.equal(assessCombo([{ en: A, role: "core" }], { games: [] }, IDX).low, false);
-});
-
-/* 門檻計算用真實標籤庫與合成索引，只驗形狀與可重現性，不驗數值（數值隨資料變） */
-test("門檻計算：3～12 個標籤各有一個 0～1 的值，同種子結果相同", () => {
-  const mkRng = () => { let a = 42; return () => { a = (a * 1103515245 + 12345) % 2147483648; return a / 2147483648; }; };
-  const b1 = comboBaseline({ T: T, idx: IDX, GI: GI2, rng: mkRng(), samples: 30 });
-  const b2 = comboBaseline({ T: T, idx: IDX, GI: GI2, rng: mkRng(), samples: 30 });
-  assert.deepEqual(Object.keys(b1).map(Number), [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
-  Object.values(b1).forEach(v => assert.ok(v === null || (v >= 0 && v <= 1), "門檻值超出範圍：" + v));
-  assert.deepEqual(b1, b2);
 });
 
 /* ---------- 建置資料檔的結構檢查（檔案不存在就跳過） ---------- */
@@ -303,6 +295,34 @@ test("人工排除清單格式正確，且清單內項目都不在索引裡", { 
 });
 
 /* 整份比對，不是只比首末筆：中間某筆在注入時被截斷或改壞，首末筆與筆數照樣對得上 */
+/* 手動補收清單的遊戲都要真的進索引。紅燈常見原因：新增補收後沒帶 --store 重跑（沒有商店頁標籤就組不進去）。 */
+const INC_FILE = path.join(__dirname, "..", "data", "game-include.json");
+test("手動補收清單的遊戲都在索引裡，且每筆有理由與來源", { skip: hasFile && fs.existsSync(INC_FILE) ? false : "缺索引或補收清單" }, () => {
+  const real = JSON.parse(fs.readFileSync(GI_FILE, "utf8"));
+  const ids = new Set(real.games.map(g => g[0]));
+  const inc = JSON.parse(fs.readFileSync(INC_FILE, "utf8"));
+  const items = Object.keys(inc).filter(k => !k.startsWith("_")).flatMap(k => inc[k]);
+  assert.ok(items.length > 0, "補收清單是空的");
+  for (const it of items) {
+    assert.ok(Number.isInteger(it.appid), "appid 必須是整數：" + JSON.stringify(it));
+    assert.ok(it.reason && it.source, it.name + " 缺理由或來源");
+    assert.ok(ids.has(it.appid), it.name + "（" + it.appid + "）沒有進索引");
+  }
+});
+
+/* 門檻校準的回歸測試：用 eval/2026-09-17-army 的 20 題與真實索引。
+   起手式是學生最常用的組合，被標就是門檻太嚴；C15、C16、C18 是兩位評審評最差的 3 題，沒被標就是門檻太鬆。
+   重抓索引後這條紅了，先重跑評測再決定改門檻還是改這裡的預期。 */
+const Q_FILE = path.join(__dirname, "..", "eval", "2026-09-17-army", "questions.json");
+test("罕見度校準：14 組起手式都不標記，評審評最差的 C15、C16、C18 都標記", { skip: hasFile && fs.existsSync(Q_FILE) ? false : "缺索引或評測題目" }, () => {
+  const real = JSON.parse(fs.readFileSync(GI_FILE, "utf8"));
+  const qs = JSON.parse(fs.readFileSync(Q_FILE, "utf8"));
+  const flagged = qs.filter(q => assessCombo(q.sel, real, IDX).low).map(q => q.id);
+  const presets = qs.filter(q => q.source.startsWith("起手式")).map(q => q.id);
+  assert.deepEqual(flagged.filter(id => presets.includes(id)), [], "起手式被標記");
+  ["C15", "C16", "C18"].forEach(id => assert.ok(flagged.includes(id), id + " 沒被標記，實際標記：" + flagged.join(",")));
+});
+
 test("index.html 內嵌的遊戲索引與 data/game-index.json 完全一致", { skip: hasFile ? false : "尚未建置 game-index.json" }, () => {
   const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
   const m = /const GI=(\{.*?\});\n/s.exec(html);

@@ -265,7 +265,6 @@ function clean(s) {
 /* 判別規則（軟體、圖片網址、續跑要不要重抓）放在 steam-filters.js；收錄方針忠於 Steam，不以成人過濾。
    tests/steam-filters.test.js 直接 require 同一份，測到的就是這裡實際跑的規則。 */
 const { ASSET_PREFIX, shortUrl, rejectReason, needsFetch, parseStoreTags, needsStore, parseAppReviews } = require("./steam-filters");
-const core = require("./core.js");
 const TAG_TOTALS_FILE = path.join(RAW, "tag-totals.json");
 
 /** 抓 HTML，退避重試同 getJSON。連續失敗回 null。 */
@@ -460,46 +459,62 @@ async function fetchDetails(appids, cache) {
     console.log("決選第 " + (pass + 1) + " 輪：拿掉 " + out + " 款已知收不進來的，遞補後 " + picked.length + " 款");
     if (SELECT_ONLY) break;
   }
+  /* 手動補收清單：收錄規則撈不到、但教學上該有的名作（免費遊戲不在熱銷榜、評論數偏少的經典）。
+     不佔 LIMIT 名額，一樣要過明細判定與排除清單。來源與理由寫在 data/game-include.json。 */
+  const INCLUDE_FILE = path.join(DIR, "game-include.json");
+  const includeIds = [];
+  if (fs.existsSync(INCLUDE_FILE)) {
+    const inc = JSON.parse(fs.readFileSync(INCLUDE_FILE, "utf8"));
+    Object.keys(inc).filter(k => !k.startsWith("_")).forEach(k =>
+      (inc[k] || []).forEach(item => includeIds.push(Number(item.appid))));
+  }
+  const pickedSet = new Set(picked);
+  const extra = includeIds.filter(a => !pickedSet.has(a) && !excluded.has(a));
+  if (!SELECT_ONLY && extra.length) {
+    await fetchReviewCounts(extra, rev);
+    await fetchDetails(extra, cache);
+  }
+  const all = picked.concat(extra);
+
   if (!SELECT_ONLY) await fetchDetails(picked, cache);   // 第 3 輪遞補的也要有明細；已抓過的會直接略過
-  if (!SELECT_ONLY && STORE) await fetchStore(picked, cache);
+  if (!SELECT_ONLY && STORE) await fetchStore(all, cache);
   if (!SELECT_ONLY && TAG_TOTALS) await fetchTagTotals();
 
   /* 組裝輸出：[appid, 名稱, 簡介, 圖片路徑, [tagid...], 年份, 總評論數]
      標籤順序：有商店頁資料時依玩家票數由高到低，再補上搜尋階段拿到、商店頁前 20 名沒列到的 */
   const games = [];
-  for (const appid of picked) {
+  const includeMiss = [];
+  for (const appid of all) {
     const c = cache[appid];
-    if (!c || c.bad || !c.img) continue;
+    const isExtra = !pickedSet.has(appid);
+    if (!c || c.bad || !c.img) { if (isExtra) includeMiss.push(appid + (c && c.bad ? "（" + c.why + "）" : "（沒有明細）")); continue; }
     if (excluded.has(appid)) { excludedHit++; continue; }
-    const e = pool.get(appid);
+    const e = pool.get(appid);   // 補收的遊戲可能不在候選池，只有商店頁標籤
     const fromStore = Array.isArray(c.stags) ? c.stags.map(t => t[0]).filter(x => TAG_IDS.has(x)) : [];
     const seen = new Set(fromStore);
-    const fromPool = Array.from(e.tags).filter(x => TAG_IDS.has(x) && !seen.has(x)).sort((a, b) => a - b);
+    const fromPool = Array.from(e ? e.tags : []).filter(x => TAG_IDS.has(x) && !seen.has(x)).sort((a, b) => a - b);
     const tags = fromStore.concat(fromPool);
-    if (!tags.length) continue;
+    if (!tags.length) { if (isExtra) includeMiss.push(appid + "（沒有標籤，補收的要帶 --store 抓商店頁）"); continue; }
     // 評論數用評論 API 的所有語言總數；商店頁與搜尋列表的數字都按語言篩過，不可靠（2026-09-17 實測）
     games.push([appid, c.name, c.desc, c.img, tags, c.year || 0, rev[appid] || 0]);
   }
   // 同分時前端依索引順序決勝，所以索引依評論數排：評論多的遊戲當參考比較有代表性
-  games.sort((a, b) => ((b[6] || 0) - (a[6] || 0)) || (pool.get(b[0]).hits - pool.get(a[0]).hits));
+  const hitsOf = a => (pool.get(a) || { hits: 0 }).hits;
+  games.sort((a, b) => ((b[6] || 0) - (a[6] || 0)) || (hitsOf(b[0]) - hitsOf(a[0])) || (a[0] - b[0]));
 
   if (games.length < 200) die("只組出 " + games.length + " 款，明顯不足，不覆蓋既有資料");
   if (excluded.size) console.log("人工排除清單 " + excluded.size + " 筆，實際擋下 " + excludedHit + " 筆");
+  if (includeIds.length) console.log("手動補收清單 " + includeIds.length + " 筆：決選已收 " + (includeIds.length - extra.length)
+    + "、補進 " + (extra.length - includeMiss.length) + (includeMiss.length ? "、收不進來 " + includeMiss.join("、") : ""));
 
   /* 覆蓋率檢查：每個標籤至少要有一款遊戲配得到，否則前端會出現查無結果 */
   const covered = new Set();
   games.forEach(g => g[4].forEach(t => covered.add(t)));
   const empty = Array.from(TAG_IDS).filter(t => !covered.has(t));
 
-  /* 罕見度門檻：用同一份索引，對每種標籤數抽 300 組保證可做組合，記第 1 名配對率的第 20 百分位。
-     固定種子，同一份資料重建結果相同。 */
+  /* 罕見組合提示的門檻是 core.js 的固定值 LOW_SCORE，不存在資料檔裡；這裡只帶標籤總遊戲數給冷門標籤判定用 */
   const tagTotals = fs.existsSync(TAG_TOTALS_FILE) ? JSON.parse(fs.readFileSync(TAG_TOTALS_FILE, "utf8")) : null;
-  let seed = 20260917;
-  const rng = () => { seed = (seed + 0x6D2B79F5) >>> 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-  const lowScore = core.comboBaseline({ T: T, idx: core.makeIndex(T), GI: { games: games }, rng: rng, samples: 300 });
   const withStore = games.filter(g => Array.isArray((cache[g[0]] || {}).stags) && cache[g[0]].stags.length).length;
-  console.log("罕見度門檻（標籤數→第 20 百分位配對率）：" + JSON.stringify(lowScore));
   console.log("有商店頁完整標籤 " + withStore + "/" + games.length + "；標籤總遊戲數 " + (tagTotals ? Object.keys(tagTotals).length + " 個" : "無"));
 
   const out = {
@@ -507,7 +522,6 @@ async function fetchDetails(appids, cache) {
       built: new Date().toISOString().slice(0, 10),
       count: games.length,
       fields: "[appid, name, desc, img, tagIds(依票數), year, reviews]",
-      lowScore: lowScore,
       tagTotals: tagTotals,
 
       imgPrefix: ASSET_PREFIX,
