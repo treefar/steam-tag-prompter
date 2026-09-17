@@ -276,9 +276,11 @@ aside.panel h3{font-size:14px;color:var(--green)}
 }
 .sel-item .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sel-item .nm .zh{color:var(--ink-dim);font-size:12px}
-.sel-item .gl{color:var(--ink-dim);text-decoration:none;font-size:13px;padding:0 3px;line-height:1}
+.sel-item .gl{color:var(--ink-dim);text-decoration:none;font-size:13px;padding:0 3px;line-height:1;display:inline-flex;align-items:center}
 .sel-item .gl:hover{color:var(--blue)}
-.guidebtn.glossary{text-decoration:none;margin-left:8px;display:inline-block}
+.guidebtn.glossary{text-decoration:none;margin-left:8px;display:inline-flex;align-items:center}
+.guidebtn.glossary .ic,.sel-item .gl .ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.guidebtn.glossary .ic{margin-right:6px}
 .chip.flash{outline:2px solid var(--amber);outline-offset:2px}
 .sel-item button{
   background:none;border:1px solid var(--line2);color:var(--ink-dim);
@@ -342,7 +344,7 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
   <h1>用 Steam 標籤<span class="en">把你的遊戲定位想清楚</span></h1>
   <span class="sub">標籤抉擇就是設計決策——選完你會知道自己的特色在哪、哪些還沒決定</span>
   <button type="button" class="guidebtn" id="guideBtn">遊戲製作與選標籤指南</button>
-  <a class="guidebtn glossary" href="https://treefar.link/game-glossary/" target="_blank" rel="noopener" title="不懂某個標籤或名詞？到遊戲名詞大百科查">📖 遊戲名詞大百科</a>
+  <a class="guidebtn glossary" href="https://treefar.link/game-glossary/" target="_blank" rel="noopener" title="不懂某個標籤或名詞？到遊戲名詞大百科查"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c2.4-1.3 5.4-1.3 8 .2v14.3c-2.6-1.5-5.6-1.5-8-.2Z"/><path d="M21 5c-2.4-1.3-5.4-1.3-8 .2v14.3c2.6-1.5 5.6-1.5 8-.2Z"/></svg>遊戲名詞大百科</a>
   <div class="bound">
     <b>這個工具幫你做的：</b>用 430 個 Steam 官方標籤釐清定位，標出「已確定」「差異化」「還沒決定」，
     並把「還沒決定的」附上取捨後果讓你自己判斷。全部在你的瀏覽器離線完成，不連網、不呼叫 AI。<br>
@@ -1787,7 +1789,7 @@ function render(){
       return `<div class="sel-item">
         <button class="role ${s.role}" data-i="${i}" data-a="role" title="切換角色">${ROLE_TXT[s.role]}</button>
         <span class="nm"><b>${esc(t[1])}</b> <span class="zh">${esc(t[2])}</span></span>
-        <a class="gl" href="https://treefar.link/game-glossary/#tag-${t[5]}" target="_blank" rel="noopener" title="到遊戲名詞大百科看這個標籤的解釋與代表作">📖</a>
+        <a class="gl" href="https://treefar.link/game-glossary/#tag-${t[5]}" target="_blank" rel="noopener" title="到遊戲名詞大百科看這個標籤的解釋與代表作"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c2.4-1.3 5.4-1.3 8 .2v14.3c-2.6-1.5-5.6-1.5-8-.2Z"/><path d="M21 5c-2.4-1.3-5.4-1.3-8 .2v14.3c2.6-1.5 5.6-1.5 8-.2Z"/></svg></a>
         <button data-i="${i}" data-a="lk" class="${s.lock?"lock":""}" title="${s.lock?"已鎖定：重抽時保留":"鎖定，重抽時保留"}">鎖</button>
         <button data-i="${i}" data-a="up" title="往前移">↑</button>
         <button data-i="${i}" data-a="dn" title="往後移">↓</button>
