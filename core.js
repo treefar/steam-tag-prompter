@@ -437,7 +437,7 @@ function matchGames(sel, GI, idx, opts) {
     if (!score) continue;
     const coreMiss = miss.filter(m => m.role === "core").length;
     out.push({
-      appid: g[0], name: g[1], desc: g[2], img: g[3] || "", tags: tags, year: g[5] || 0,
+      appid: g[0], name: g[1], desc: g[2], img: g[3] || "", tags: tags, year: g[5] || 0, reviews: g[6] || 0,
       score: score / total, rank: i, hit: hit, miss: miss,
       coreMiss: coreMiss,
       exact: miss.length === 0,
@@ -448,7 +448,99 @@ function matchGames(sel, GI, idx, opts) {
   return { games: out.slice(0, limit), want: want, pool: games.length, matched: out.length };
 }
 
+/* ---- 組合罕見度評估 ----
+   2026-09-17 實測：配對率的絕對值主要反映「選了幾個標籤」——保證可做模式選 4 個標籤時
+   低於 50% 的只有 1%，選 8 個時 79%，選 10 個時 98%。固定門檻會變成在罰選得多的人。
+   所以門檻改成相對的：跟「同樣標籤數的合理組合」比，落在最低 20% 才算罕見。 */
+
+const LOW_PCT = 0.2;          // 最低 20% 算罕見
+const BASELINE_N = [3, 12];   // 門檻涵蓋的標籤數範圍，超出就用端點
+
+/**
+ * 建置時算門檻：每種標籤數用保證可做模式抽 samples 組，記第 1 名配對率的第 20 百分位。
+ * 回傳 { "3": 0.67, ..., "12": 0.31 }。rng 要能注入，才能讓建置結果可重現。
+ */
+function comboBaseline(o) {
+  const out = {};
+  const samples = o.samples || 300;
+  for (let n = BASELINE_N[0]; n <= BASELINE_N[1]; n++) {
+    const tops = [];
+    for (let i = 0; i < samples; i++) {
+      const r = rollTags({ T: o.T, idx: o.idx, mode: "safe", n: n, rng: o.rng, curatedOnly: true, locked: [] });
+      if (!r.sel) continue;
+      const m = matchGames(r.sel, o.GI, o.idx, { limit: 1 });
+      tops.push(m.games[0] ? m.games[0].score : 0);
+    }
+    tops.sort((a, b) => a - b);
+    // 存原始精度，不要四捨五入：配對率是 3/7 這種分數，0.428571 進位成 0.429 後，
+    // 剛好落在門檻上的組合會被誤判成「低於」（2026-09-17 實際發生）
+    out[n] = tops.length ? tops[Math.floor(tops.length * LOW_PCT)] : null;
+  }
+  return out;
+}
+
+/**
+ * 評估一組標籤在收錄遊戲裡有多罕見，給「可能是創新、也可能市場很小」的提示用。
+ * 只陳述事實，不下創新或冷門的結論——那要學生看評論數自己判斷。
+ *
+ * 回傳：
+ *   n          參與評估的標籤數
+ *   topScore   第 1 名配對率
+ *   threshold  同標籤數的第 20 百分位（索引沒有門檻資料時為 null，不標記）
+ *   low        topScore < threshold
+ *   gaps       核心／差異化標籤中，從未同時出現在任何一款的配對 [[en, en], ...]（最多 3 組）
+ *   rarestPair 沒有完全沒出現的配對時，一起出現次數最少的那組 {pair, count}
+ *   rareTags   Steam 總遊戲數落在標籤庫最低 20% 的已選標籤 [{en, total}]
+ *   rareCut    冷門的判定線（遊戲數）
+ */
+function assessCombo(sel, GI, idx) {
+  const games = (GI && GI.games) || [];
+  const meta = (GI && GI._meta) || {};
+  const m = matchGames(sel, GI, idx, { limit: 1 });
+  const want = m.want;
+  const n = want.length;
+  const res = { n: n, topScore: m.games[0] ? m.games[0].score : 0, threshold: null, low: false,
+                gaps: [], rarestPair: null, rareTags: [], rareCut: null };
+  if (!n || !games.length) return res;
+
+  const low = meta.lowScore || null;
+  if (low) {
+    const key = Math.max(BASELINE_N[0], Math.min(BASELINE_N[1], n));
+    const thr = low[key];
+    if (typeof thr === "number") { res.threshold = thr; res.low = res.topScore < thr; }
+  }
+
+  /* 缺口：只看核心與差異化，待抉擇本來就是還沒決定的，不拿來判斷組合 */
+  const firm = want.filter(w => w.role === "core" || w.role === "diff");
+  const sets = games.map(g => new Set(g[4] || []));
+  let rarest = null;
+  for (let i = 0; i < firm.length; i++) {
+    for (let j = i + 1; j < firm.length; j++) {
+      const a = firm[i].id, b = firm[j].id;
+      let count = 0;
+      for (const s of sets) if (s.has(a) && s.has(b)) count++;
+      if (count === 0) res.gaps.push([firm[i].en, firm[j].en]);
+      if (!rarest || count < rarest.count) rarest = { pair: [firm[i].en, firm[j].en], count: count };
+    }
+  }
+  res.gaps = res.gaps.slice(0, 3);
+  if (!res.gaps.length && rarest) res.rarestPair = rarest;
+
+  /* 冷門標籤：跟整個標籤庫比 Steam 總遊戲數，落在最低 20% 的 */
+  const totals = meta.tagTotals || null;
+  if (totals) {
+    const all = Object.keys(totals).map(k => totals[k]).filter(Number.isFinite).sort((x, y) => x - y);
+    if (all.length) {
+      res.rareCut = all[Math.floor(all.length * LOW_PCT)];
+      res.rareTags = want.filter(w => Number.isFinite(totals[w.id]) && totals[w.id] <= res.rareCut)
+                         .map(w => ({ en: w.en, zh: w.zh, total: totals[w.id] }));
+    }
+  }
+  return res;
+}
+
 return {
+  LOW_PCT, BASELINE_N, comboBaseline, assessCombo,
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
   DIM_NAMES, DIM_NEED, coverage, blockedBy,

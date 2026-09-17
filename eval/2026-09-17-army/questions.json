@@ -1,0 +1,626 @@
+[
+ {
+  "id": "C01",
+  "source": "起手式：日系校園（戀愛／恐怖）",
+  "sel": [
+   {
+    "en": "Anime",
+    "role": "core"
+   },
+   {
+    "en": "Story Rich",
+    "role": "core"
+   },
+   {
+    "en": "First-Person",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Multiple Endings",
+    "role": "diff"
+   },
+   {
+    "en": "Visual Novel",
+    "role": "ask"
+   },
+   {
+    "en": "Psychological Horror",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C02",
+  "source": "起手式：像素農場",
+  "sel": [
+   {
+    "en": "Farming Sim",
+    "role": "core"
+   },
+   {
+    "en": "Pixel Graphics",
+    "role": "core"
+   },
+   {
+    "en": "Life Sim",
+    "role": "core"
+   },
+   {
+    "en": "Top-Down",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Relaxing",
+    "role": "diff"
+   },
+   {
+    "en": "Cozy",
+    "role": "diff"
+   }
+  ]
+ },
+ {
+  "id": "C03",
+  "source": "起手式：恐怖探索",
+  "sel": [
+   {
+    "en": "Horror",
+    "role": "core"
+   },
+   {
+    "en": "Atmospheric",
+    "role": "core"
+   },
+   {
+    "en": "First-Person",
+    "role": "core"
+   },
+   {
+    "en": "Exploration",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Psychological Horror",
+    "role": "diff"
+   }
+  ]
+ },
+ {
+  "id": "C04",
+  "source": "起手式：動作肉鴿",
+  "sel": [
+   {
+    "en": "Roguelite",
+    "role": "core"
+   },
+   {
+    "en": "Action",
+    "role": "core"
+   },
+   {
+    "en": "Procedural Generation",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Difficult",
+    "role": "diff"
+   },
+   {
+    "en": "Top-Down",
+    "role": "ask"
+   },
+   {
+    "en": "2D",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C05",
+  "source": "起手式：王道 JRPG",
+  "sel": [
+   {
+    "en": "JRPG",
+    "role": "core"
+   },
+   {
+    "en": "Turn-Based Combat",
+    "role": "core"
+   },
+   {
+    "en": "Story Rich",
+    "role": "core"
+   },
+   {
+    "en": "Fantasy",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Anime",
+    "role": "ask"
+   },
+   {
+    "en": "Pixel Graphics",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C06",
+  "source": "起手式：魂系動作",
+  "sel": [
+   {
+    "en": "Souls-like",
+    "role": "core"
+   },
+   {
+    "en": "Action RPG",
+    "role": "core"
+   },
+   {
+    "en": "Dark Fantasy",
+    "role": "core"
+   },
+   {
+    "en": "Third Person",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Difficult",
+    "role": "diff"
+   },
+   {
+    "en": "Atmospheric",
+    "role": "diff"
+   }
+  ]
+ },
+ {
+  "id": "C07",
+  "source": "起手式：生存建造",
+  "sel": [
+   {
+    "en": "Survival",
+    "role": "core"
+   },
+   {
+    "en": "Open World Survival Craft",
+    "role": "core"
+   },
+   {
+    "en": "Crafting",
+    "role": "core"
+   },
+   {
+    "en": "Base Building",
+    "role": "core"
+   },
+   {
+    "en": "Multiplayer",
+    "role": "ask"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C08",
+  "source": "起手式：溫馨小品",
+  "sel": [
+   {
+    "en": "Cozy",
+    "role": "core"
+   },
+   {
+    "en": "Wholesome",
+    "role": "core"
+   },
+   {
+    "en": "Cute",
+    "role": "core"
+   },
+   {
+    "en": "Relaxing",
+    "role": "core"
+   },
+   {
+    "en": "Casual",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Short",
+    "role": "diff"
+   }
+  ]
+ },
+ {
+  "id": "C09",
+  "source": "起手式：科幻射擊",
+  "sel": [
+   {
+    "en": "Sci-fi",
+    "role": "core"
+   },
+   {
+    "en": "Action",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Atmospheric",
+    "role": "core"
+   },
+   {
+    "en": "FPS",
+    "role": "ask"
+   },
+   {
+    "en": "Third-Person Shooter",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C10",
+  "source": "起手式：戰棋",
+  "sel": [
+   {
+    "en": "Turn-Based Tactics",
+    "role": "core"
+   },
+   {
+    "en": "Strategy",
+    "role": "core"
+   },
+   {
+    "en": "Tactical",
+    "role": "core"
+   },
+   {
+    "en": "Fantasy",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Hex Grid",
+    "role": "ask"
+   },
+   {
+    "en": "Grid-Based Movement",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C11",
+  "source": "起手式：塔防",
+  "sel": [
+   {
+    "en": "Tower Defense",
+    "role": "core"
+   },
+   {
+    "en": "Strategy",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Casual",
+    "role": "ask"
+   },
+   {
+    "en": "Difficult",
+    "role": "ask"
+   },
+   {
+    "en": "Fantasy",
+    "role": "ask"
+   },
+   {
+    "en": "Sci-fi",
+    "role": "ask"
+   }
+  ]
+ },
+ {
+  "id": "C12",
+  "source": "起手式：視覺小說",
+  "sel": [
+   {
+    "en": "Visual Novel",
+    "role": "core"
+   },
+   {
+    "en": "Story Rich",
+    "role": "core"
+   },
+   {
+    "en": "Choices Matter",
+    "role": "core"
+   },
+   {
+    "en": "Multiple Endings",
+    "role": "core"
+   },
+   {
+    "en": "Anime",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C13",
+  "source": "起手式：派對同樂",
+  "sel": [
+   {
+    "en": "Party Game",
+    "role": "core"
+   },
+   {
+    "en": "Local Co-Op",
+    "role": "core"
+   },
+   {
+    "en": "4 Player Local",
+    "role": "core"
+   },
+   {
+    "en": "Funny",
+    "role": "core"
+   },
+   {
+    "en": "Casual",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C14",
+  "source": "起手式：卡牌構築",
+  "sel": [
+   {
+    "en": "Deckbuilding",
+    "role": "core"
+   },
+   {
+    "en": "Roguelike Deckbuilder",
+    "role": "core"
+   },
+   {
+    "en": "Card Game",
+    "role": "core"
+   },
+   {
+    "en": "Strategy",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C15",
+  "source": "抽籤：保證可做（種子 11）",
+  "sel": [
+   {
+    "en": "Farming Sim",
+    "role": "ask"
+   },
+   {
+    "en": "Life Sim",
+    "role": "ask"
+   },
+   {
+    "en": "Third Person",
+    "role": "core"
+   },
+   {
+    "en": "Retro",
+    "role": "core"
+   },
+   {
+    "en": "Co-op",
+    "role": "core"
+   },
+   {
+    "en": "Bullet Time",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C16",
+  "source": "抽籤：保證可做（種子 12）",
+  "sel": [
+   {
+    "en": "Isometric",
+    "role": "ask"
+   },
+   {
+    "en": "Top-Down",
+    "role": "ask"
+   },
+   {
+    "en": "Roguelike Deckbuilder",
+    "role": "core"
+   },
+   {
+    "en": "Retro",
+    "role": "core"
+   },
+   {
+    "en": "4 Player Local",
+    "role": "core"
+   },
+   {
+    "en": "Supernatural",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C17",
+  "source": "抽籤：保證可做（種子 13）",
+  "sel": [
+   {
+    "en": "Souls-like",
+    "role": "ask"
+   },
+   {
+    "en": "Action RPG",
+    "role": "ask"
+   },
+   {
+    "en": "2.5D",
+    "role": "core"
+   },
+   {
+    "en": "Pixel Graphics",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   },
+   {
+    "en": "Cyberpunk",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C18",
+  "source": "抽籤：刻意衝突（種子 21）",
+  "sel": [
+   {
+    "en": "Wholesome",
+    "role": "diff"
+   },
+   {
+    "en": "Zombies",
+    "role": "diff"
+   },
+   {
+    "en": "Story Rich",
+    "role": "ask"
+   },
+   {
+    "en": "Fast-Paced",
+    "role": "ask"
+   },
+   {
+    "en": "Automobile Sim",
+    "role": "core"
+   },
+   {
+    "en": "Stylized",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C19",
+  "source": "抽籤：刻意衝突（種子 22）",
+  "sel": [
+   {
+    "en": "Visual Novel",
+    "role": "diff"
+   },
+   {
+    "en": "Roguelite",
+    "role": "diff"
+   },
+   {
+    "en": "Top-Down",
+    "role": "ask"
+   },
+   {
+    "en": "Side Scroller",
+    "role": "ask"
+   },
+   {
+    "en": "Cartoon",
+    "role": "core"
+   },
+   {
+    "en": "Singleplayer",
+    "role": "core"
+   }
+  ]
+ },
+ {
+  "id": "C20",
+  "source": "抽籤：刻意衝突（種子 23）",
+  "sel": [
+   {
+    "en": "Psychological Horror",
+    "role": "diff"
+   },
+   {
+    "en": "Relaxing",
+    "role": "diff"
+   },
+   {
+    "en": "Turn-Based Combat",
+    "role": "ask"
+   },
+   {
+    "en": "Real Time Tactics",
+    "role": "ask"
+   },
+   {
+    "en": "Shoot 'Em Up",
+    "role": "core"
+   },
+   {
+    "en": "Hand-drawn",
+    "role": "core"
+   }
+  ]
+ }
+]

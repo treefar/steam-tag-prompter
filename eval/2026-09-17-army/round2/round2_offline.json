@@ -1,0 +1,72 @@
+{
+ "索引款數": {
+  "基準": 2709,
+  "新": 3000
+ },
+ "前6名與基準重疊": "29/120",
+ "提名回收": {
+  "題目與遊戲組合": 43,
+  "不重複遊戲": 41,
+  "基準收錄": 19,
+  "新收錄": 31,
+  "基準進前6": 0,
+  "新進前6": 10,
+  "仍未收錄": [
+   "Amnesia: The Dark Descent",
+   "Layers of Fear",
+   "CLANNAD",
+   "My Friend Pedro",
+   "Death Road to Canada",
+   "Griftlands",
+   "Doki Doki Literature Club!",
+   "Orcs Must Die! 2",
+   "Defense Grid: The Awakening",
+   "ANNO: Mutationem"
+  ]
+ },
+ "T1b第7到12名標籤": {
+  "基準": {
+   "可測": 40,
+   "不在索引": 0,
+   "第1名": 3,
+   "前6名": 5,
+   "名次中位數": 367
+  },
+  "新": {
+   "可測": 40,
+   "不在索引": 12,
+   "第1名": 22,
+   "前6名": 28,
+   "名次中位數": 1
+  }
+ },
+ "T1前6名標籤_新索引": {
+  "可測": 40,
+  "不在索引": 12,
+  "第1名": 14,
+  "前6名": 25,
+  "名次中位數": 1
+ },
+ "罕見提示": [
+  "C01 — 吻合94%／門檻53%",
+  "C02 — 吻合84%／門檻53% 缺口:Farming Sim+Top-Down",
+  "C03 — 吻合100%／門檻57%",
+  "C04 — 吻合100%／門檻53%",
+  "C05 — 吻合100%／門檻53%",
+  "C06 — 吻合100%／門檻53%",
+  "C07 — 吻合100%／門檻57%",
+  "C08 — 吻合100%／門檻53%",
+  "C09 — 吻合100%／門檻57%",
+  "C10 — 吻合94%／門檻53%",
+  "C11 — 吻合92%／門檻53%",
+  "C12 — 吻合100%／門檻57%",
+  "C13 — 吻合100%／門檻64%",
+  "C14 — 吻合100%／門檻64%",
+  "C15 — 吻合64%／門檻57%",
+  "C16 標記 吻合50%／門檻57% 缺口:Roguelike Deckbuilder+4 Player Local、Roguelike Deckbuilder+Supernatural、4 Player Local+Supernatural",
+  "C17 — 吻合86%／門檻57%",
+  "C18 — 吻合58%／門檻57% 缺口:Wholesome+Zombies、Wholesome+Automobile Sim",
+  "C19 — 吻合67%／門檻57%",
+  "C20 — 吻合58%／門檻57% 缺口:Psychological Horror+Shoot 'Em Up、Relaxing+Shoot 'Em Up"
+ ]
+}

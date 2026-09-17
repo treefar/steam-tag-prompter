@@ -71,4 +71,47 @@ function needsFetch(entry) {
   return entry.img === undefined;
 }
 
-module.exports = { SOFT_GENRES, ASSET_PREFIX, isSoftware, shortUrl, rejectReason, needsFetch };
+/* ---------- 商店頁解析（2026-09-17 實測格式） ----------
+   appdetails API 不含玩家標籤，要從商店頁 HTML 取：
+     InitAppTagModal( <appid>, [{"tagid":42804,"name":"Action Roguelike","count":1453,"browseable":true}, ...], ...
+   通常 20 個，依票數由高到低。 */
+const RE_TAG_MODAL = /InitAppTagModal\(\s*\d+\s*,\s*(\[[\s\S]*?\])\s*,/;
+
+/**
+ * 解析商店頁的玩家標籤，只留標籤庫裡有的，依票數由高到低。
+ * 回傳 [[tagid, 票數], ...]；頁面裡找不到標籤段回 null（跟「有頁面但沒標籤」的空陣列分開）。
+ */
+function parseStoreTags(html, libraryIds) {
+  const m = RE_TAG_MODAL.exec(String(html || ""));
+  if (!m) return null;
+  let arr;
+  try { arr = JSON.parse(m[1]); } catch (e) { return null; }
+  if (!Array.isArray(arr)) return null;
+  return arr
+    .filter(t => t && Number.isFinite(Number(t.tagid)) && (!libraryIds || libraryIds.has(Number(t.tagid))))
+    .map(t => [Number(t.tagid), Number(t.count) || 0])
+    .sort((a, b) => (b[1] - a[1]) || (a[0] - b[0]));
+}
+
+/**
+ * 評論 API（/appreviews/<appid>?json=1&language=all）回傳的所有語言總評論數。
+ * 商店頁 itemprop="reviewCount" 與搜尋列表提示框都依瀏覽者語言篩過，不能用：
+ * 2026-09-17 實測 Hades 商店頁 142,444、評論 API 308,520；Monster Train 搜尋提示框 331、評論 API 22,948。
+ * 取不到或格式不對回 null（跟真的 0 則評論分開）。
+ */
+function parseAppReviews(json) {
+  const q = json && json.success === 1 && json.query_summary;
+  if (!q || !Number.isFinite(Number(q.total_reviews))) return null;
+  return Number(q.total_reviews);
+}
+
+/**
+ * 收錄中的項目，要不要去抓商店頁補完整標籤與評論數？
+ * 被擋的不抓；已經有 stags（含空陣列）就不抓。
+ */
+function needsStore(entry) {
+  return !!entry && !entry.bad && !Array.isArray(entry.stags);
+}
+
+module.exports = { SOFT_GENRES, ASSET_PREFIX, isSoftware, shortUrl, rejectReason, needsFetch,
+  parseStoreTags, parseAppReviews, needsStore };

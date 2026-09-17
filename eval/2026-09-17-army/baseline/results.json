@@ -1,0 +1,1985 @@
+{
+ "generatedAt": "2026-09-16T16:25:00.604Z",
+ "offline": true,
+ "summary": {
+  "n": 40,
+  "hitAt1": 0.9,
+  "hitAt6": 1,
+  "medianRank": 1,
+  "medianRecorded": 6,
+  "byRecorded": {
+   "0": {
+    "count": 0,
+    "hitAt6": null
+   },
+   "1": {
+    "count": 0,
+    "hitAt6": null
+   },
+   "2": {
+    "count": 0,
+    "hitAt6": null
+   },
+   "3": {
+    "count": 0,
+    "hitAt6": null
+   },
+   "4": {
+    "count": 0,
+    "hitAt6": null
+   },
+   "5": {
+    "count": 0,
+    "hitAt6": null
+   },
+   "6": {
+    "count": 40,
+    "hitAt6": 1
+   },
+   "null": {
+    "count": 0,
+    "hitAt6": null
+   }
+  },
+  "bySegment": {
+   "1": {
+    "count": 10,
+    "hitAt6": 1
+   },
+   "2": {
+    "count": 10,
+    "hitAt6": 1
+   },
+   "3": {
+    "count": 10,
+    "hitAt6": 1
+   },
+   "4": {
+    "count": 10,
+    "hitAt6": 1
+   }
+  }
+ },
+ "rows": [
+  {
+   "appid": 108600,
+   "name": "Project Zomboid",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 1662,
+     "name": "Survival",
+     "count": 5292,
+     "en": "Survival"
+    },
+    {
+     "tagid": 1659,
+     "name": "Zombies",
+     "count": 4284,
+     "en": "Zombies"
+    },
+    {
+     "tagid": 1695,
+     "name": "Open World",
+     "count": 3636,
+     "en": "Open World"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 3224,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 1100689,
+     "name": "Open World Survival Craft",
+     "count": 3153,
+     "en": "Open World Survival Craft"
+    },
+    {
+     "tagid": 3810,
+     "name": "Sandbox",
+     "count": 2699,
+     "en": "Sandbox"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Project Zomboid"
+  },
+  {
+   "appid": 3337380,
+   "name": "Tabletop Tavern",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 9,
+     "name": "Strategy",
+     "count": 259,
+     "en": "Strategy"
+    },
+    {
+     "tagid": 1716,
+     "name": "Roguelike",
+     "count": 254,
+     "en": "Roguelike"
+    },
+    {
+     "tagid": 1676,
+     "name": "RTS",
+     "count": 247,
+     "en": "RTS"
+    },
+    {
+     "tagid": 4684,
+     "name": "Wargame",
+     "count": 244,
+     "en": "Wargame"
+    },
+    {
+     "tagid": 3813,
+     "name": "Real Time Tactics",
+     "count": 239,
+     "en": "Real Time Tactics"
+    },
+    {
+     "tagid": 3959,
+     "name": "Roguelite",
+     "count": 227,
+     "en": "Roguelite"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Tabletop Tavern"
+  },
+  {
+   "appid": 311210,
+   "name": "Call of Duty®: Black Ops III",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 3853,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 1659,
+     "name": "Zombies",
+     "count": 2650,
+     "en": "Zombies"
+    },
+    {
+     "tagid": 1663,
+     "name": "FPS",
+     "count": 2623,
+     "en": "FPS"
+    },
+    {
+     "tagid": 1774,
+     "name": "Shooter",
+     "count": 2252,
+     "en": "Shooter"
+    },
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 2082,
+     "en": "Action"
+    },
+    {
+     "tagid": 3839,
+     "name": "First-Person",
+     "count": 1973,
+     "en": "First-Person"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Call of Duty®: Black Ops III"
+  },
+  {
+   "appid": 1030300,
+   "name": "Hollow Knight: Silksong",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 1628,
+     "name": "Metroidvania",
+     "count": 5404,
+     "en": "Metroidvania"
+    },
+    {
+     "tagid": 4026,
+     "name": "Difficult",
+     "count": 4621,
+     "en": "Difficult"
+    },
+    {
+     "tagid": 492,
+     "name": "Indie",
+     "count": 4437,
+     "en": "Indie"
+    },
+    {
+     "tagid": 1756,
+     "name": "Great Soundtrack",
+     "count": 4271,
+     "en": "Great Soundtrack"
+    },
+    {
+     "tagid": 29482,
+     "name": "Souls-like",
+     "count": 4222,
+     "en": "Souls-like"
+    },
+    {
+     "tagid": 3871,
+     "name": "2D",
+     "count": 4164,
+     "en": "2D"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 2,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Hollow Knight"
+  },
+  {
+   "appid": 1245620,
+   "name": "艾爾登法環",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 29482,
+     "name": "Souls-like",
+     "count": 7611,
+     "en": "Souls-like"
+    },
+    {
+     "tagid": 1695,
+     "name": "Open World",
+     "count": 5580,
+     "en": "Open World"
+    },
+    {
+     "tagid": 4604,
+     "name": "Dark Fantasy",
+     "count": 5312,
+     "en": "Dark Fantasy"
+    },
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 5080,
+     "en": "RPG"
+    },
+    {
+     "tagid": 4026,
+     "name": "Difficult",
+     "count": 4981,
+     "en": "Difficult"
+    },
+    {
+     "tagid": 4231,
+     "name": "Action RPG",
+     "count": 3866,
+     "en": "Action RPG"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "艾爾登法環"
+  },
+  {
+   "appid": 4069520,
+   "name": "超級高爾夫大亂鬥",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 207,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 3843,
+     "name": "Online Co-Op",
+     "count": 176,
+     "en": "Online Co-Op"
+    },
+    {
+     "tagid": 1685,
+     "name": "Co-op",
+     "count": 168,
+     "en": "Co-op"
+    },
+    {
+     "tagid": 701,
+     "name": "Sports",
+     "count": 161,
+     "en": "Sports"
+    },
+    {
+     "tagid": 3968,
+     "name": "Physics",
+     "count": 153,
+     "en": "Physics"
+    },
+    {
+     "tagid": 1719,
+     "name": "Comedy",
+     "count": 149,
+     "en": "Comedy"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "超級高爾夫大亂鬥"
+  },
+  {
+   "appid": 1478500,
+   "name": "Big Walk",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 4508,
+     "name": "Co-op Campaign",
+     "count": 532,
+     "en": "Co-op Campaign"
+    },
+    {
+     "tagid": 1695,
+     "name": "Open World",
+     "count": 525,
+     "en": "Open World"
+    },
+    {
+     "tagid": 1664,
+     "name": "Puzzle",
+     "count": 522,
+     "en": "Puzzle"
+    },
+    {
+     "tagid": 3834,
+     "name": "Exploration",
+     "count": 518,
+     "en": "Exploration"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 509,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 1654,
+     "name": "Relaxing",
+     "count": 481,
+     "en": "Relaxing"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Big Walk"
+  },
+  {
+   "appid": 2807960,
+   "name": "戰地風雲™ 6",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 468,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 1663,
+     "name": "FPS",
+     "count": 457,
+     "en": "FPS"
+    },
+    {
+     "tagid": 4168,
+     "name": "Military",
+     "count": 390,
+     "en": "Military"
+    },
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 386,
+     "en": "Action"
+    },
+    {
+     "tagid": 1774,
+     "name": "Shooter",
+     "count": 383,
+     "en": "Shooter"
+    },
+    {
+     "tagid": 4182,
+     "name": "Singleplayer",
+     "count": 382,
+     "en": "Singleplayer"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 2,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "戰地風雲™ 禁區衝突"
+  },
+  {
+   "appid": 1217060,
+   "name": "槍火重生",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 3959,
+     "name": "Roguelite",
+     "count": 691,
+     "en": "Roguelite"
+    },
+    {
+     "tagid": 1663,
+     "name": "FPS",
+     "count": 616,
+     "en": "FPS"
+    },
+    {
+     "tagid": 1716,
+     "name": "Roguelike",
+     "count": 614,
+     "en": "Roguelike"
+    },
+    {
+     "tagid": 3843,
+     "name": "Online Co-Op",
+     "count": 580,
+     "en": "Online Co-Op"
+    },
+    {
+     "tagid": 1685,
+     "name": "Co-op",
+     "count": 551,
+     "en": "Co-op"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 494,
+     "en": "Multiplayer"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "槍火重生"
+  },
+  {
+   "appid": 1682970,
+   "name": "Uncrashed : FPV Drone Simulator",
+   "segment": 1,
+   "top6": [
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 108,
+     "en": "Simulation"
+    },
+    {
+     "tagid": 15045,
+     "name": "Flight",
+     "count": 94,
+     "en": "Flight"
+    },
+    {
+     "tagid": 701,
+     "name": "Sports",
+     "count": 73,
+     "en": "Sports"
+    },
+    {
+     "tagid": 699,
+     "name": "Racing",
+     "count": 60,
+     "en": "Racing"
+    },
+    {
+     "tagid": 3968,
+     "name": "Physics",
+     "count": 57,
+     "en": "Physics"
+    },
+    {
+     "tagid": 4182,
+     "name": "Singleplayer",
+     "count": 50,
+     "en": "Singleplayer"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Uncrashed : FPV Drone Simulator"
+  },
+  {
+   "appid": 1041320,
+   "name": "王國紀元 (Lords Mobile)：全面戰爭",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 113,
+     "name": "Free to Play",
+     "count": 296,
+     "en": "Free to Play"
+    },
+    {
+     "tagid": 9,
+     "name": "Strategy",
+     "count": 246,
+     "en": "Strategy"
+    },
+    {
+     "tagid": 128,
+     "name": "Massively Multiplayer",
+     "count": 227,
+     "en": "Massively Multiplayer"
+    },
+    {
+     "tagid": 1678,
+     "name": "War",
+     "count": 164,
+     "en": "War"
+    },
+    {
+     "tagid": 44868,
+     "name": "LGBTQ+",
+     "count": 162,
+     "en": "LGBTQ+"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 139,
+     "en": "Multiplayer"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "王國紀元 (Lords Mobile)：全面戰爭"
+  },
+  {
+   "appid": 3549020,
+   "name": "Caribbean Legend: Age of Pirates",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 255,
+     "en": "RPG"
+    },
+    {
+     "tagid": 1681,
+     "name": "Pirates",
+     "count": 239,
+     "en": "Pirates"
+    },
+    {
+     "tagid": 6910,
+     "name": "Naval",
+     "count": 233,
+     "en": "Naval"
+    },
+    {
+     "tagid": 3810,
+     "name": "Sandbox",
+     "count": 232,
+     "en": "Sandbox"
+    },
+    {
+     "tagid": 4231,
+     "name": "Action RPG",
+     "count": 213,
+     "en": "Action RPG"
+    },
+    {
+     "tagid": 3987,
+     "name": "Historical",
+     "count": 202,
+     "en": "Historical"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Caribbean Legend: Age of Pirates"
+  },
+  {
+   "appid": 3357960,
+   "name": "KuloNiku: Bowl Up!",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 3920,
+     "name": "Cooking",
+     "count": 466,
+     "en": "Cooking"
+    },
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 450,
+     "en": "Simulation"
+    },
+    {
+     "tagid": 12472,
+     "name": "Management",
+     "count": 445,
+     "en": "Management"
+    },
+    {
+     "tagid": 35079,
+     "name": "Job Simulator",
+     "count": 439,
+     "en": "Job Simulator"
+    },
+    {
+     "tagid": 9204,
+     "name": "Immersive Sim",
+     "count": 433,
+     "en": "Immersive Sim"
+    },
+    {
+     "tagid": 492,
+     "name": "Indie",
+     "count": 429,
+     "en": "Indie"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "KuloNiku: Bowl Up!"
+  },
+  {
+   "appid": 2626940,
+   "name": "Life Makeover",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 7208,
+     "name": "Female Protagonist",
+     "count": 419,
+     "en": "Female Protagonist"
+    },
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 409,
+     "en": "Simulation"
+    },
+    {
+     "tagid": 597,
+     "name": "Casual",
+     "count": 384,
+     "en": "Casual"
+    },
+    {
+     "tagid": 3799,
+     "name": "Visual Novel",
+     "count": 362,
+     "en": "Visual Novel"
+    },
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 337,
+     "en": "RPG"
+    },
+    {
+     "tagid": 10235,
+     "name": "Life Sim",
+     "count": 328,
+     "en": "Life Sim"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Life Makeover"
+  },
+  {
+   "appid": 55140,
+   "name": "MX vs. ATV Reflex",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 699,
+     "name": "Racing",
+     "count": 145,
+     "en": "Racing"
+    },
+    {
+     "tagid": 15868,
+     "name": "Motocross",
+     "count": 71,
+     "en": "Motocross"
+    },
+    {
+     "tagid": 7622,
+     "name": "Offroad",
+     "count": 70,
+     "en": "Offroad"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 56,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 198913,
+     "name": "Motorbike",
+     "count": 51,
+     "en": "Motorbike"
+    },
+    {
+     "tagid": 1695,
+     "name": "Open World",
+     "count": 51,
+     "en": "Open World"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "MX vs. ATV Reflex"
+  },
+  {
+   "appid": 2005010,
+   "name": "Warhammer 40,000: Boltgun",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 1023537,
+     "name": "Boomer Shooter",
+     "count": 275,
+     "en": "Boomer Shooter"
+    },
+    {
+     "tagid": 1663,
+     "name": "FPS",
+     "count": 206,
+     "en": "FPS"
+    },
+    {
+     "tagid": 4004,
+     "name": "Retro",
+     "count": 161,
+     "en": "Retro"
+    },
+    {
+     "tagid": 3964,
+     "name": "Pixel Graphics",
+     "count": 145,
+     "en": "Pixel Graphics"
+    },
+    {
+     "tagid": 1774,
+     "name": "Shooter",
+     "count": 141,
+     "en": "Shooter"
+    },
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 130,
+     "en": "Action"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Warhammer 40,000: Boltgun"
+  },
+  {
+   "appid": 2243710,
+   "name": "符文工廠3豪華版",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 316,
+     "en": "RPG"
+    },
+    {
+     "tagid": 87918,
+     "name": "Farming Sim",
+     "count": 304,
+     "en": "Farming Sim"
+    },
+    {
+     "tagid": 4947,
+     "name": "Romance",
+     "count": 289,
+     "en": "Romance"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 282,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 1684,
+     "name": "Fantasy",
+     "count": 273,
+     "en": "Fantasy"
+    },
+    {
+     "tagid": 4231,
+     "name": "Action RPG",
+     "count": 264,
+     "en": "Action RPG"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "符文工廠3豪華版"
+  },
+  {
+   "appid": 1911610,
+   "name": "Windblown",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 42804,
+     "name": "Action Roguelike",
+     "count": 613,
+     "en": "Action Roguelike"
+    },
+    {
+     "tagid": 1646,
+     "name": "Hack and Slash",
+     "count": 604,
+     "en": "Hack and Slash"
+    },
+    {
+     "tagid": 3843,
+     "name": "Online Co-Op",
+     "count": 601,
+     "en": "Online Co-Op"
+    },
+    {
+     "tagid": 3959,
+     "name": "Roguelite",
+     "count": 596,
+     "en": "Roguelite"
+    },
+    {
+     "tagid": 3993,
+     "name": "Combat",
+     "count": 587,
+     "en": "Combat"
+    },
+    {
+     "tagid": 1628,
+     "name": "Metroidvania",
+     "count": 584,
+     "en": "Metroidvania"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Windblown"
+  },
+  {
+   "appid": 1401590,
+   "name": "迪士尼夢光谷",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 1654,
+     "name": "Relaxing",
+     "count": 447,
+     "en": "Relaxing"
+    },
+    {
+     "tagid": 10235,
+     "name": "Life Sim",
+     "count": 430,
+     "en": "Life Sim"
+    },
+    {
+     "tagid": 4747,
+     "name": "Character Customization",
+     "count": 417,
+     "en": "Character Customization"
+    },
+    {
+     "tagid": 3834,
+     "name": "Exploration",
+     "count": 399,
+     "en": "Exploration"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 384,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 373,
+     "en": "Simulation"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "迪士尼夢光谷"
+  },
+  {
+   "appid": 3039500,
+   "name": "萬象群俠傳",
+   "segment": 2,
+   "top6": [
+    {
+     "tagid": 25959,
+     "name": "Wuxia",
+     "count": 103,
+     "en": "Wuxia"
+    },
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 97,
+     "en": "RPG"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 93,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 1742,
+     "name": "Story Rich",
+     "count": 90,
+     "en": "Story Rich"
+    },
+    {
+     "tagid": 6915,
+     "name": "Martial Arts",
+     "count": 85,
+     "en": "Martial Arts"
+    },
+    {
+     "tagid": 4325,
+     "name": "Turn-Based Combat",
+     "count": 77,
+     "en": "Turn-Based Combat"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "萬象群俠傳"
+  },
+  {
+   "appid": 2162820,
+   "name": "無限的迷宮城",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 247,
+     "en": "Action"
+    },
+    {
+     "tagid": 42804,
+     "name": "Action Roguelike",
+     "count": 223,
+     "en": "Action Roguelike"
+    },
+    {
+     "tagid": 1646,
+     "name": "Hack and Slash",
+     "count": 221,
+     "en": "Hack and Slash"
+    },
+    {
+     "tagid": 7208,
+     "name": "Female Protagonist",
+     "count": 219,
+     "en": "Female Protagonist"
+    },
+    {
+     "tagid": 916648,
+     "name": "Creature Collector",
+     "count": 214,
+     "en": "Creature Collector"
+    },
+    {
+     "tagid": 4777,
+     "name": "Spectacle fighter",
+     "count": 203,
+     "en": "Spectacle fighter"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "無限的迷宮城"
+  },
+  {
+   "appid": 1138190,
+   "name": "Poker Championship",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 6835,
+     "name": "Poker",
+     "count": 113,
+     "en": "Poker"
+    },
+    {
+     "tagid": 1666,
+     "name": "Card Game",
+     "count": 107,
+     "en": "Card Game"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 103,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 1775,
+     "name": "PvP",
+     "count": 100,
+     "en": "PvP"
+    },
+    {
+     "tagid": 113,
+     "name": "Free to Play",
+     "count": 97,
+     "en": "Free to Play"
+    },
+    {
+     "tagid": 9,
+     "name": "Strategy",
+     "count": 76,
+     "en": "Strategy"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Poker Championship"
+  },
+  {
+   "appid": 535930,
+   "name": "Two Point Hospital",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 673,
+     "en": "Simulation"
+    },
+    {
+     "tagid": 12472,
+     "name": "Management",
+     "count": 577,
+     "en": "Management"
+    },
+    {
+     "tagid": 1100688,
+     "name": "Medical Sim",
+     "count": 544,
+     "en": "Medical Sim"
+    },
+    {
+     "tagid": 1643,
+     "name": "Building",
+     "count": 454,
+     "en": "Building"
+    },
+    {
+     "tagid": 4136,
+     "name": "Funny",
+     "count": 260,
+     "en": "Funny"
+    },
+    {
+     "tagid": 4182,
+     "name": "Singleplayer",
+     "count": 257,
+     "en": "Singleplayer"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Two Point Hospital"
+  },
+  {
+   "appid": 1454400,
+   "name": "Cookie Clicker",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 560542,
+     "name": "Incremental",
+     "count": 984,
+     "en": "Incremental"
+    },
+    {
+     "tagid": 615955,
+     "name": "Idler",
+     "count": 701,
+     "en": "Idler"
+    },
+    {
+     "tagid": 1667,
+     "name": "Horror",
+     "count": 536,
+     "en": "Horror"
+    },
+    {
+     "tagid": 597,
+     "name": "Casual",
+     "count": 535,
+     "en": "Casual"
+    },
+    {
+     "tagid": 492,
+     "name": "Indie",
+     "count": 529,
+     "en": "Indie"
+    },
+    {
+     "tagid": 3964,
+     "name": "Pixel Graphics",
+     "count": 421,
+     "en": "Pixel Graphics"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Cookie Clicker"
+  },
+  {
+   "appid": 1164690,
+   "name": "Wigmund",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 400,
+     "en": "RPG"
+    },
+    {
+     "tagid": 4231,
+     "name": "Action RPG",
+     "count": 395,
+     "en": "Action RPG"
+    },
+    {
+     "tagid": 1695,
+     "name": "Open World",
+     "count": 392,
+     "en": "Open World"
+    },
+    {
+     "tagid": 4046,
+     "name": "Dragons",
+     "count": 388,
+     "en": "Dragons"
+    },
+    {
+     "tagid": 4182,
+     "name": "Singleplayer",
+     "count": 388,
+     "en": "Singleplayer"
+    },
+    {
+     "tagid": 1646,
+     "name": "Hack and Slash",
+     "count": 385,
+     "en": "Hack and Slash"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Wigmund"
+  },
+  {
+   "appid": 3907880,
+   "name": "Thunder Spikes Volleyball",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 847164,
+     "name": "Volleyball",
+     "count": 88,
+     "en": "Volleyball"
+    },
+    {
+     "tagid": 701,
+     "name": "Sports",
+     "count": 83,
+     "en": "Sports"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 77,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 3871,
+     "name": "2D",
+     "count": 74,
+     "en": "2D"
+    },
+    {
+     "tagid": 1773,
+     "name": "Arcade",
+     "count": 71,
+     "en": "Arcade"
+    },
+    {
+     "tagid": 4004,
+     "name": "Retro",
+     "count": 65,
+     "en": "Retro"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Thunder Spikes Volleyball"
+  },
+  {
+   "appid": 331600,
+   "name": "One Piece Pirate Warriors 3",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 4085,
+     "name": "Anime",
+     "count": 552,
+     "en": "Anime"
+    },
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 367,
+     "en": "Action"
+    },
+    {
+     "tagid": 1646,
+     "name": "Hack and Slash",
+     "count": 280,
+     "en": "Hack and Slash"
+    },
+    {
+     "tagid": 1681,
+     "name": "Pirates",
+     "count": 279,
+     "en": "Pirates"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 274,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 1743,
+     "name": "Fighting",
+     "count": 226,
+     "en": "Fighting"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "One Piece Pirate Warriors 3"
+  },
+  {
+   "appid": 541930,
+   "name": "Panoptic",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 21978,
+     "name": "VR",
+     "count": 270,
+     "en": "VR"
+    },
+    {
+     "tagid": 856791,
+     "name": "Asymmetric VR",
+     "count": 264,
+     "en": "Asymmetric VR"
+    },
+    {
+     "tagid": 492,
+     "name": "Indie",
+     "count": 261,
+     "en": "Indie"
+    },
+    {
+     "tagid": 7368,
+     "name": "Local Multiplayer",
+     "count": 257,
+     "en": "Local Multiplayer"
+    },
+    {
+     "tagid": 7178,
+     "name": "Party Game",
+     "count": 253,
+     "en": "Party Game"
+    },
+    {
+     "tagid": 1687,
+     "name": "Stealth",
+     "count": 244,
+     "en": "Stealth"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Panoptic"
+  },
+  {
+   "appid": 790740,
+   "name": "Tick Tock: A Tale for Two",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 1664,
+     "name": "Puzzle",
+     "count": 290,
+     "en": "Puzzle"
+    },
+    {
+     "tagid": 1685,
+     "name": "Co-op",
+     "count": 252,
+     "en": "Co-op"
+    },
+    {
+     "tagid": 3843,
+     "name": "Online Co-Op",
+     "count": 190,
+     "en": "Online Co-Op"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 159,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 492,
+     "name": "Indie",
+     "count": 155,
+     "en": "Indie"
+    },
+    {
+     "tagid": 597,
+     "name": "Casual",
+     "count": 147,
+     "en": "Casual"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Tick Tock: A Tale for Two"
+  },
+  {
+   "appid": 3935420,
+   "name": "Hotdangle",
+   "segment": 3,
+   "top6": [
+    {
+     "tagid": 701,
+     "name": "Sports",
+     "count": 64,
+     "en": "Sports"
+    },
+    {
+     "tagid": 324176,
+     "name": "Hockey",
+     "count": 50,
+     "en": "Hockey"
+    },
+    {
+     "tagid": 1752,
+     "name": "Rhythm",
+     "count": 41,
+     "en": "Rhythm"
+    },
+    {
+     "tagid": 4486,
+     "name": "Choose Your Own Adventure",
+     "count": 38,
+     "en": "Choose Your Own Adventure"
+    },
+    {
+     "tagid": 9204,
+     "name": "Immersive Sim",
+     "count": 35,
+     "en": "Immersive Sim"
+    },
+    {
+     "tagid": 4175,
+     "name": "Realistic",
+     "count": 29,
+     "en": "Realistic"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Hotdangle"
+  },
+  {
+   "appid": 2383130,
+   "name": "迷霧計畫",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 493,
+     "name": "Early Access",
+     "count": 808,
+     "en": "Early Access"
+    },
+    {
+     "tagid": 1667,
+     "name": "Horror",
+     "count": 734,
+     "en": "Horror"
+    },
+    {
+     "tagid": 3978,
+     "name": "Survival Horror",
+     "count": 703,
+     "en": "Survival Horror"
+    },
+    {
+     "tagid": 1695,
+     "name": "Open World",
+     "count": 654,
+     "en": "Open World"
+    },
+    {
+     "tagid": 3835,
+     "name": "Post-apocalyptic",
+     "count": 641,
+     "en": "Post-apocalyptic"
+    },
+    {
+     "tagid": 1100689,
+     "name": "Open World Survival Craft",
+     "count": 629,
+     "en": "Open World Survival Craft"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "迷霧計畫"
+  },
+  {
+   "appid": 2598800,
+   "name": "靈能哨衛 : 無限 Psionic Sentry : Infinite",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 7208,
+     "name": "Female Protagonist",
+     "count": 275,
+     "en": "Female Protagonist"
+    },
+    {
+     "tagid": 4085,
+     "name": "Anime",
+     "count": 266,
+     "en": "Anime"
+    },
+    {
+     "tagid": 492,
+     "name": "Indie",
+     "count": 258,
+     "en": "Indie"
+    },
+    {
+     "tagid": 3814,
+     "name": "Third-Person Shooter",
+     "count": 257,
+     "en": "Third-Person Shooter"
+    },
+    {
+     "tagid": 13382,
+     "name": "Archery",
+     "count": 252,
+     "en": "Archery"
+    },
+    {
+     "tagid": 1697,
+     "name": "Third Person",
+     "count": 246,
+     "en": "Third Person"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "靈能哨衛 : 無限 Psionic Sentry : Infinite"
+  },
+  {
+   "appid": 4249120,
+   "name": "Resident Evil 3 Nemesis (1999)",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 3978,
+     "name": "Survival Horror",
+     "count": 76,
+     "en": "Survival Horror"
+    },
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 66,
+     "en": "Action"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 62,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 1667,
+     "name": "Horror",
+     "count": 61,
+     "en": "Horror"
+    },
+    {
+     "tagid": 1659,
+     "name": "Zombies",
+     "count": 56,
+     "en": "Zombies"
+    },
+    {
+     "tagid": 1662,
+     "name": "Survival",
+     "count": 56,
+     "en": "Survival"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 3,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Resident Evil 4"
+  },
+  {
+   "appid": 1701380,
+   "name": "Cricket 22",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 133,
+     "en": "Simulation"
+    },
+    {
+     "tagid": 701,
+     "name": "Sports",
+     "count": 129,
+     "en": "Sports"
+    },
+    {
+     "tagid": 4191,
+     "name": "3D",
+     "count": 112,
+     "en": "3D"
+    },
+    {
+     "tagid": 4175,
+     "name": "Realistic",
+     "count": 109,
+     "en": "Realistic"
+    },
+    {
+     "tagid": 5350,
+     "name": "Family Friendly",
+     "count": 107,
+     "en": "Family Friendly"
+    },
+    {
+     "tagid": 7481,
+     "name": "Controller",
+     "count": 99,
+     "en": "Controller"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "Cricket 22"
+  },
+  {
+   "appid": 2523770,
+   "name": "The Lord of the Rings: War in the North™ - Legacy Edition",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 82,
+     "en": "Action"
+    },
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 80,
+     "en": "RPG"
+    },
+    {
+     "tagid": 1646,
+     "name": "Hack and Slash",
+     "count": 49,
+     "en": "Hack and Slash"
+    },
+    {
+     "tagid": 4231,
+     "name": "Action RPG",
+     "count": 49,
+     "en": "Action RPG"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 45,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 1697,
+     "name": "Third Person",
+     "count": 43,
+     "en": "Third Person"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 3,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "龍之劍:覺醒"
+  },
+  {
+   "appid": 2739630,
+   "name": "of the Devil",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 3799,
+     "name": "Visual Novel",
+     "count": 578,
+     "en": "Visual Novel"
+    },
+    {
+     "tagid": 7208,
+     "name": "Female Protagonist",
+     "count": 565,
+     "en": "Female Protagonist"
+    },
+    {
+     "tagid": 4115,
+     "name": "Cyberpunk",
+     "count": 542,
+     "en": "Cyberpunk"
+    },
+    {
+     "tagid": 6052,
+     "name": "Noir",
+     "count": 537,
+     "en": "Noir"
+    },
+    {
+     "tagid": 5613,
+     "name": "Detective",
+     "count": 528,
+     "en": "Detective"
+    },
+    {
+     "tagid": 1751,
+     "name": "Comic Book",
+     "count": 507,
+     "en": "Comic Book"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "of the Devil"
+  },
+  {
+   "appid": 4211900,
+   "name": "棒球觀測者",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 5727,
+     "name": "Baseball",
+     "count": 47,
+     "en": "Baseball"
+    },
+    {
+     "tagid": 12472,
+     "name": "Management",
+     "count": 41,
+     "en": "Management"
+    },
+    {
+     "tagid": 4182,
+     "name": "Singleplayer",
+     "count": 38,
+     "en": "Singleplayer"
+    },
+    {
+     "tagid": 599,
+     "name": "Simulation",
+     "count": 35,
+     "en": "Simulation"
+    },
+    {
+     "tagid": 122,
+     "name": "RPG",
+     "count": 31,
+     "en": "RPG"
+    },
+    {
+     "tagid": 24003,
+     "name": "Word Game",
+     "count": 26,
+     "en": "Word Game"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "棒球觀測者"
+  },
+  {
+   "appid": 366250,
+   "name": "METAL SLUG",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 19,
+     "name": "Action",
+     "count": 162,
+     "en": "Action"
+    },
+    {
+     "tagid": 1773,
+     "name": "Arcade",
+     "count": 156,
+     "en": "Arcade"
+    },
+    {
+     "tagid": 3871,
+     "name": "2D",
+     "count": 131,
+     "en": "2D"
+    },
+    {
+     "tagid": 3798,
+     "name": "Side Scroller",
+     "count": 102,
+     "en": "Side Scroller"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 100,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 4255,
+     "name": "Shoot 'Em Up",
+     "count": 100,
+     "en": "Shoot 'Em Up"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "METAL SLUG"
+  },
+  {
+   "appid": 1455630,
+   "name": "THE GAME OF LIFE 2",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 1770,
+     "name": "Board Game",
+     "count": 261,
+     "en": "Board Game"
+    },
+    {
+     "tagid": 3859,
+     "name": "Multiplayer",
+     "count": 193,
+     "en": "Multiplayer"
+    },
+    {
+     "tagid": 7108,
+     "name": "Party",
+     "count": 164,
+     "en": "Party"
+    },
+    {
+     "tagid": 17389,
+     "name": "Tabletop",
+     "count": 159,
+     "en": "Tabletop"
+    },
+    {
+     "tagid": 1666,
+     "name": "Card Game",
+     "count": 147,
+     "en": "Card Game"
+    },
+    {
+     "tagid": 5350,
+     "name": "Family Friendly",
+     "count": 146,
+     "en": "Family Friendly"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "THE GAME OF LIFE 2"
+  },
+  {
+   "appid": 1331670,
+   "name": "International Space Banana",
+   "segment": 4,
+   "top6": [
+    {
+     "tagid": 16598,
+     "name": "Space Sim",
+     "count": 739,
+     "en": "Space Sim"
+    },
+    {
+     "tagid": 14906,
+     "name": "Intentionally Awkward Controls",
+     "count": 672,
+     "en": "Intentionally Awkward Controls"
+    },
+    {
+     "tagid": 9204,
+     "name": "Immersive Sim",
+     "count": 588,
+     "en": "Immersive Sim"
+    },
+    {
+     "tagid": 21,
+     "name": "Adventure",
+     "count": 572,
+     "en": "Adventure"
+    },
+    {
+     "tagid": 597,
+     "name": "Casual",
+     "count": 559,
+     "en": "Casual"
+    },
+    {
+     "tagid": 4136,
+     "name": "Funny",
+     "count": 537,
+     "en": "Funny"
+    }
+   ],
+   "recorded": 6,
+   "selfRank": 1,
+   "selfScore": 1,
+   "top1Score": 1,
+   "top1Name": "International Space Banana"
+  }
+ ]
+}

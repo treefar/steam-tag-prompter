@@ -1,0 +1,962 @@
+[
+ {
+  "q": "C01",
+  "rank": 1,
+  "appid": 466130,
+  "name": "白色情人節：恐怖學校",
+  "score": 0.9375,
+  "exact": false
+ },
+ {
+  "q": "C01",
+  "rank": 2,
+  "appid": 2527500,
+  "name": "MiSide",
+  "score": 0.8125,
+  "exact": false
+ },
+ {
+  "q": "C01",
+  "rank": 3,
+  "appid": 385800,
+  "name": "NEKOPARA Vol. 0",
+  "score": 0.8125,
+  "exact": false
+ },
+ {
+  "q": "C01",
+  "rank": 4,
+  "appid": 1406990,
+  "name": "NEKOPARA Vol. 4",
+  "score": 0.8125,
+  "exact": false
+ },
+ {
+  "q": "C01",
+  "rank": 5,
+  "appid": 868520,
+  "name": "killer7",
+  "score": 0.8125,
+  "exact": false
+ },
+ {
+  "q": "C01",
+  "rank": 6,
+  "appid": 2593370,
+  "name": "餓殍：明末千里行",
+  "score": 0.8125,
+  "exact": false
+ },
+ {
+  "q": "C02",
+  "rank": 1,
+  "appid": 2274620,
+  "name": "Discounty : 打骨折超市日記",
+  "score": 0.8421052631578947,
+  "exact": false
+ },
+ {
+  "q": "C02",
+  "rank": 2,
+  "appid": 413150,
+  "name": "Stardew Valley",
+  "score": 0.7368421052631579,
+  "exact": false
+ },
+ {
+  "q": "C02",
+  "rank": 3,
+  "appid": 1432860,
+  "name": "Sun Haven",
+  "score": 0.7368421052631579,
+  "exact": false
+ },
+ {
+  "q": "C02",
+  "rank": 4,
+  "appid": 1700870,
+  "name": "族人 Clanfolk",
+  "score": 0.7368421052631579,
+  "exact": false
+ },
+ {
+  "q": "C02",
+  "rank": 5,
+  "appid": 758870,
+  "name": "Kynseed",
+  "score": 0.7368421052631579,
+  "exact": false
+ },
+ {
+  "q": "C02",
+  "rank": 6,
+  "appid": 2238470,
+  "name": "Grimshire",
+  "score": 0.7368421052631579,
+  "exact": false
+ },
+ {
+  "q": "C03",
+  "rank": 1,
+  "appid": 1962700,
+  "name": "Subnautica 2",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C03",
+  "rank": 2,
+  "appid": 418370,
+  "name": "Resident Evil 7 Biohazard",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C03",
+  "rank": 3,
+  "appid": 753640,
+  "name": "Outer Wilds",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C03",
+  "rank": 4,
+  "appid": 383870,
+  "name": "Firewatch",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C03",
+  "rank": 5,
+  "appid": 480490,
+  "name": "Prey",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C03",
+  "rank": 6,
+  "appid": 282140,
+  "name": "SOMA",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C04",
+  "rank": 1,
+  "appid": 113200,
+  "name": "The Binding of Isaac",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C04",
+  "rank": 2,
+  "appid": 603960,
+  "name": "Star of Providence",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C04",
+  "rank": 3,
+  "appid": 250900,
+  "name": "The Binding of Isaac: Rebirth",
+  "score": 0.9375,
+  "exact": false
+ },
+ {
+  "q": "C04",
+  "rank": 4,
+  "appid": 588650,
+  "name": "Dead Cells",
+  "score": 0.9375,
+  "exact": false
+ },
+ {
+  "q": "C04",
+  "rank": 5,
+  "appid": 247080,
+  "name": "Crypt of the NecroDancer",
+  "score": 0.9375,
+  "exact": false
+ },
+ {
+  "q": "C04",
+  "rank": 6,
+  "appid": 445980,
+  "name": "Wizard of Legend",
+  "score": 0.9375,
+  "exact": false
+ },
+ {
+  "q": "C05",
+  "rank": 1,
+  "appid": 1984270,
+  "name": "數碼寶貝物語 時空異客",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C05",
+  "rank": 2,
+  "appid": 1971650,
+  "name": "歧路旅人 II",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C05",
+  "rank": 3,
+  "appid": 921570,
+  "name": "歧路旅人",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C05",
+  "rank": 4,
+  "appid": 613830,
+  "name": "CHRONO TRIGGER®",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C05",
+  "rank": 5,
+  "appid": 1173770,
+  "name": "FINAL FANTASY",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C05",
+  "rank": 6,
+  "appid": 1229240,
+  "name": "Chained Echoes",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C06",
+  "rank": 1,
+  "appid": 2358720,
+  "name": "黑神話：悟空",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C06",
+  "rank": 2,
+  "appid": 1245620,
+  "name": "艾爾登法環",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C06",
+  "rank": 3,
+  "appid": 374320,
+  "name": "DARK SOULS™ III",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C06",
+  "rank": 4,
+  "appid": 335300,
+  "name": "DARK SOULS™ II: Scholar of the First Sin",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C06",
+  "rank": 5,
+  "appid": 2277560,
+  "name": "明末：淵虛之羽",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C06",
+  "rank": 6,
+  "appid": 1627720,
+  "name": "Lies of P",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C07",
+  "rank": 1,
+  "appid": 346110,
+  "name": "ARK: Survival Evolved",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C07",
+  "rank": 2,
+  "appid": 892970,
+  "name": "Valheim",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C07",
+  "rank": 3,
+  "appid": 1623730,
+  "name": "Palworld / 幻獸帕魯",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C07",
+  "rank": 4,
+  "appid": 264710,
+  "name": "Subnautica",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C07",
+  "rank": 5,
+  "appid": 648800,
+  "name": "Raft",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C07",
+  "rank": 6,
+  "appid": 526870,
+  "name": "滿意工廠",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C08",
+  "rank": 1,
+  "appid": 1586800,
+  "name": "Lil Gator Game",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C08",
+  "rank": 2,
+  "appid": 2240080,
+  "name": "Spilled!",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C08",
+  "rank": 3,
+  "appid": 1629520,
+  "name": "A Little to the Left",
+  "score": 0.9,
+  "exact": false
+ },
+ {
+  "q": "C08",
+  "rank": 4,
+  "appid": 2113850,
+  "name": "Spirit City: Lofi Sessions",
+  "score": 0.9,
+  "exact": false
+ },
+ {
+  "q": "C08",
+  "rank": 5,
+  "appid": 1307580,
+  "name": "TOEM: A Photo Adventure",
+  "score": 0.9,
+  "exact": false
+ },
+ {
+  "q": "C08",
+  "rank": 6,
+  "appid": 3035120,
+  "name": "這位子形不形？",
+  "score": 0.9,
+  "exact": false
+ },
+ {
+  "q": "C09",
+  "rank": 1,
+  "appid": 377160,
+  "name": "Fallout 4",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C09",
+  "rank": 2,
+  "appid": 1237980,
+  "name": "《星際大戰：戰場前線™》",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C09",
+  "rank": 3,
+  "appid": 1091500,
+  "name": "Cyberpunk 2077",
+  "score": 0.9285714285714286,
+  "exact": false
+ },
+ {
+  "q": "C09",
+  "rank": 4,
+  "appid": 620,
+  "name": "Portal 2",
+  "score": 0.9285714285714286,
+  "exact": false
+ },
+ {
+  "q": "C09",
+  "rank": 5,
+  "appid": 275850,
+  "name": "No Man's Sky 無人深空",
+  "score": 0.9285714285714286,
+  "exact": false
+ },
+ {
+  "q": "C09",
+  "rank": 6,
+  "appid": 220,
+  "name": "Half-Life 2",
+  "score": 0.9285714285714286,
+  "exact": false
+ },
+ {
+  "q": "C10",
+  "rank": 1,
+  "appid": 1652250,
+  "name": "傳說與戰術自走棋",
+  "score": 0.9411764705882353,
+  "exact": false
+ },
+ {
+  "q": "C10",
+  "rank": 2,
+  "appid": 1025440,
+  "name": "Fantasy General II",
+  "score": 0.9411764705882353,
+  "exact": false
+ },
+ {
+  "q": "C10",
+  "rank": 3,
+  "appid": 1449850,
+  "name": "Yu-Gi-Oh! Master Duel",
+  "score": 0.8823529411764706,
+  "exact": false
+ },
+ {
+  "q": "C10",
+  "rank": 4,
+  "appid": 368260,
+  "name": "漫威午夜之子",
+  "score": 0.8823529411764706,
+  "exact": false
+ },
+ {
+  "q": "C10",
+  "rank": 5,
+  "appid": 237990,
+  "name": "The Banner Saga",
+  "score": 0.8823529411764706,
+  "exact": false
+ },
+ {
+  "q": "C10",
+  "rank": 6,
+  "appid": 1105670,
+  "name": "最後的咒語",
+  "score": 0.8823529411764706,
+  "exact": false
+ },
+ {
+  "q": "C11",
+  "rank": 1,
+  "appid": 246420,
+  "name": "Kingdom Rush - Tower Defense",
+  "score": 0.9230769230769231,
+  "exact": false
+ },
+ {
+  "q": "C11",
+  "rank": 2,
+  "appid": 458710,
+  "name": "Kingdom Rush Frontiers - Tower Defense",
+  "score": 0.9230769230769231,
+  "exact": false
+ },
+ {
+  "q": "C11",
+  "rank": 3,
+  "appid": 816340,
+  "name": "Kingdom Rush Origins - Tower Defense",
+  "score": 0.9230769230769231,
+  "exact": false
+ },
+ {
+  "q": "C11",
+  "rank": 4,
+  "appid": 960090,
+  "name": "Bloons TD 6",
+  "score": 0.8461538461538461,
+  "exact": false
+ },
+ {
+  "q": "C11",
+  "rank": 5,
+  "appid": 2187290,
+  "name": "牆世界",
+  "score": 0.8461538461538461,
+  "exact": false
+ },
+ {
+  "q": "C11",
+  "rank": 6,
+  "appid": 306020,
+  "name": "Bloons TD 5",
+  "score": 0.8461538461538461,
+  "exact": false
+ },
+ {
+  "q": "C12",
+  "rank": 1,
+  "appid": 1669980,
+  "name": "Volcano Princess",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C12",
+  "rank": 2,
+  "appid": 412830,
+  "name": "STEINS;GATE",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C12",
+  "rank": 3,
+  "appid": 1604000,
+  "name": "Milk outside a bag of milk outside a bag of milk",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C12",
+  "rank": 4,
+  "appid": 914800,
+  "name": "Coffee Talk",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C12",
+  "rank": 5,
+  "appid": 893180,
+  "name": "Catherine Classic",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C12",
+  "rank": 6,
+  "appid": 648100,
+  "name": "Raging Loop",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C13",
+  "rank": 1,
+  "appid": 1260320,
+  "name": "猛獸派對",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C13",
+  "rank": 2,
+  "appid": 285900,
+  "name": "Gang Beasts",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C13",
+  "rank": 3,
+  "appid": 880940,
+  "name": "Pummel Party",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C13",
+  "rank": 4,
+  "appid": 386940,
+  "name": "超級雞馬",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C13",
+  "rank": 5,
+  "appid": 323850,
+  "name": "Move or Die",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C13",
+  "rank": 6,
+  "appid": 437920,
+  "name": "Tricky Towers",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C14",
+  "rank": 1,
+  "appid": 646570,
+  "name": "Slay the Spire",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C14",
+  "rank": 2,
+  "appid": 2868840,
+  "name": "Slay the Spire 2",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C14",
+  "rank": 3,
+  "appid": 2379780,
+  "name": "Balatro",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C14",
+  "rank": 4,
+  "appid": 2784470,
+  "name": "九王 9 Kings",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C14",
+  "rank": 5,
+  "appid": 3265700,
+  "name": "吸血鬼爬行者: 屠戮地牢的吸血鬼倖存者",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C14",
+  "rank": 6,
+  "appid": 1188930,
+  "name": "超時空方舟",
+  "score": 1,
+  "exact": true
+ },
+ {
+  "q": "C15",
+  "rank": 1,
+  "appid": 204100,
+  "name": "Max Payne 3",
+  "score": 0.6428571428571429,
+  "exact": false
+ },
+ {
+  "q": "C15",
+  "rank": 2,
+  "appid": 63380,
+  "name": "Sniper Elite V2",
+  "score": 0.6428571428571429,
+  "exact": false
+ },
+ {
+  "q": "C15",
+  "rank": 3,
+  "appid": 953880,
+  "name": "First Class Trouble",
+  "score": 0.6428571428571429,
+  "exact": false
+ },
+ {
+  "q": "C15",
+  "rank": 4,
+  "appid": 1248130,
+  "name": "Farming Simulator 22",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C15",
+  "rank": 5,
+  "appid": 447020,
+  "name": "Farming Simulator 17",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C15",
+  "rank": 6,
+  "appid": 1812450,
+  "name": "Bellwright",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C16",
+  "rank": 1,
+  "appid": 2328760,
+  "name": "Pinball FX",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C16",
+  "rank": 2,
+  "appid": 274190,
+  "name": "Broforce",
+  "score": 0.42857142857142855,
+  "exact": false
+ },
+ {
+  "q": "C16",
+  "rank": 3,
+  "appid": 312530,
+  "name": "Duck Game",
+  "score": 0.42857142857142855,
+  "exact": false
+ },
+ {
+  "q": "C16",
+  "rank": 4,
+  "appid": 383980,
+  "name": "Rivals of Aether",
+  "score": 0.42857142857142855,
+  "exact": false
+ },
+ {
+  "q": "C16",
+  "rank": 5,
+  "appid": 1404850,
+  "name": "租戶賭財運",
+  "score": 0.42857142857142855,
+  "exact": false
+ },
+ {
+  "q": "C16",
+  "rank": 6,
+  "appid": 2106840,
+  "name": "靈視異聞 FILE23 本所七大不可思議",
+  "score": 0.42857142857142855,
+  "exact": false
+ },
+ {
+  "q": "C17",
+  "rank": 1,
+  "appid": 1663850,
+  "name": "REPLACED",
+  "score": 0.8571428571428571,
+  "exact": false
+ },
+ {
+  "q": "C17",
+  "rank": 2,
+  "appid": 3110760,
+  "name": "Alabaster Dawn",
+  "score": 0.7857142857142857,
+  "exact": false
+ },
+ {
+  "q": "C17",
+  "rank": 3,
+  "appid": 1876890,
+  "name": "逸劍風雲決",
+  "score": 0.7142857142857143,
+  "exact": false
+ },
+ {
+  "q": "C17",
+  "rank": 4,
+  "appid": 986130,
+  "name": "Shadows of Doubt",
+  "score": 0.7142857142857143,
+  "exact": false
+ },
+ {
+  "q": "C17",
+  "rank": 5,
+  "appid": 1658280,
+  "name": "《百英雄傳》Eiyuden Chronicle: Hundred Heroes",
+  "score": 0.7142857142857143,
+  "exact": false
+ },
+ {
+  "q": "C17",
+  "rank": 6,
+  "appid": 1658290,
+  "name": "《百英雄傳: 崛起》Eiyuden Chronicle: Rising",
+  "score": 0.7142857142857143,
+  "exact": false
+ },
+ {
+  "q": "C18",
+  "rank": 1,
+  "appid": 550320,
+  "name": "art of rally",
+  "score": 0.5833333333333334,
+  "exact": false
+ },
+ {
+  "q": "C18",
+  "rank": 2,
+  "appid": 1249970,
+  "name": "Test Drive Unlimited Solar Crown",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C18",
+  "rank": 3,
+  "appid": 563840,
+  "name": "LOST EMBER",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C18",
+  "rank": 4,
+  "appid": 2891020,
+  "name": "塵封往事：信影流年",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C18",
+  "rank": 5,
+  "appid": 552100,
+  "name": "Brick Rigs",
+  "score": 0.4166666666666667,
+  "exact": false
+ },
+ {
+  "q": "C18",
+  "rank": 6,
+  "appid": 220440,
+  "name": "DmC: Devil May Cry",
+  "score": 0.4166666666666667,
+  "exact": false
+ },
+ {
+  "q": "C19",
+  "rank": 1,
+  "appid": 2445690,
+  "name": "失落城堡2",
+  "score": 0.6666666666666666,
+  "exact": false
+ },
+ {
+  "q": "C19",
+  "rank": 2,
+  "appid": 1740720,
+  "name": "Have a Nice Death",
+  "score": 0.6666666666666666,
+  "exact": false
+ },
+ {
+  "q": "C19",
+  "rank": 3,
+  "appid": 2336220,
+  "name": "Feed the Cups",
+  "score": 0.6666666666666666,
+  "exact": false
+ },
+ {
+  "q": "C19",
+  "rank": 4,
+  "appid": 3444020,
+  "name": "我在地府打麻将 - Demonic Mahjong",
+  "score": 0.6666666666666666,
+  "exact": false
+ },
+ {
+  "q": "C19",
+  "rank": 5,
+  "appid": 1776970,
+  "name": "近月少女的禮儀",
+  "score": 0.6666666666666666,
+  "exact": false
+ },
+ {
+  "q": "C19",
+  "rank": 6,
+  "appid": 3561220,
+  "name": "風暴怕死隊",
+  "score": 0.6666666666666666,
+  "exact": false
+ },
+ {
+  "q": "C20",
+  "rank": 1,
+  "appid": 1889040,
+  "name": "Birth",
+  "score": 0.5833333333333334,
+  "exact": false
+ },
+ {
+  "q": "C20",
+  "rank": 2,
+  "appid": 268910,
+  "name": "Cuphead",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C20",
+  "rank": 3,
+  "appid": 397740,
+  "name": "Hylics",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C20",
+  "rank": 4,
+  "appid": 1677310,
+  "name": "In Stars And Time",
+  "score": 0.5,
+  "exact": false
+ },
+ {
+  "q": "C20",
+  "rank": 5,
+  "appid": 683320,
+  "name": "GRIS",
+  "score": 0.4166666666666667,
+  "exact": false
+ },
+ {
+  "q": "C20",
+  "rank": 6,
+  "appid": 1150690,
+  "name": "OMORI",
+  "score": 0.4166666666666667,
+  "exact": false
+ }
+]

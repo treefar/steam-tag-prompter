@@ -86,6 +86,47 @@ test("擋下原因：成人的軟體照樣以軟體擋", () => {
   assert.equal(F.rejectReason(ok({ required_age: 18, genres: [{ id: "57" }] })), "software");
 });
 
+/* 商店頁片段取自 2026-09-17 實抓的 Hades（appid 1145360）頁面，只留標籤段。
+   頁面上的 reviewCount meta 按語言篩過、不採用，片段裡保留它是為了確認解析不會誤取 */
+const STORE_SNIPPET = `<script>InitAppTagModal( 1145360, [{"tagid":42804,"name":"Action Roguelike","count":1453,"browseable":true},{"tagid":3959,"name":"Roguelite","count":1059,"browseable":true},{"tagid":1646,"name":"Hack and Slash","count":1036,"browseable":true},{"tagid":99999999,"name":"Not In Library","count":2000,"browseable":true}], [], "#app_tagging_modal", true );</script>
+<meta itemprop="reviewCount" content="142444">`;
+
+test("商店頁標籤：只留標籤庫有的，依票數排序", () => {
+  const lib = new Set([42804, 3959, 1646]);
+  assert.deepEqual(F.parseStoreTags(STORE_SNIPPET, lib), [[42804, 1453], [3959, 1059], [1646, 1036]]);
+  assert.equal(F.parseStoreTags(STORE_SNIPPET, lib).some(t => t[0] === 99999999), false, "標籤庫沒有的要濾掉");
+});
+
+test("商店頁標籤：找不到標籤段回 null，不回空陣列冒充", () => {
+  assert.equal(F.parseStoreTags("<html>年齡驗證頁</html>", new Set([1])), null);
+  assert.equal(F.parseStoreTags("InitAppTagModal( 1, [壞掉的 JSON], [] )", new Set([1])), null);
+  assert.deepEqual(F.parseStoreTags('InitAppTagModal( 1, [], [], "x" )', new Set([1])), []);
+});
+
+/* 評論 API 回應格式取自 2026-09-17 實測（Hades，language=all） */
+test("評論數：取評論 API 的所有語言總數", () => {
+  assert.equal(F.parseAppReviews({ success: 1, query_summary: { num_reviews: 0, review_score_desc: "Overwhelmingly Positive", total_reviews: 308520 } }), 308520);
+  assert.equal(F.parseAppReviews({ success: 1, query_summary: { total_reviews: 0 } }), 0, "真的 0 則要回 0");
+});
+
+test("評論數：取不到或格式不對回 null，不跟 0 則混在一起", () => {
+  assert.equal(F.parseAppReviews(null), null);
+  assert.equal(F.parseAppReviews({ success: 2 }), null);
+  assert.equal(F.parseAppReviews({ success: 1 }), null);
+  assert.equal(F.parseAppReviews({ success: 1, query_summary: { total_reviews: "abc" } }), null);
+});
+
+test("評論數：不再從商店頁 HTML 取（那個數字按語言篩過）", () => {
+  assert.equal(F.parseReviewCount, undefined);
+});
+
+test("要不要抓商店頁：只抓收錄中、還沒有完整標籤的", () => {
+  assert.equal(F.needsStore({ name: "x", img: "a.jpg" }), true);
+  assert.equal(F.needsStore({ name: "x", img: "a.jpg", stags: [] }), false, "空陣列代表抓過了");
+  assert.equal(F.needsStore({ bad: 1, why: "software" }), false);
+  assert.equal(F.needsStore(undefined), false);
+});
+
 test("續跑判斷：抓不到、舊方針擋的、沒記原因的要重抓", () => {
   assert.equal(F.needsFetch(undefined), true, "沒紀錄要抓");
   assert.equal(F.needsFetch({ bad: 1, why: "fetch" }), true, "抓不到的要重抓（A-3）");
