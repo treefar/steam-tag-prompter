@@ -76,6 +76,64 @@ header.top .sub{color:var(--ink-dim);font-size:13px}
   padding:3px 9px;border-radius:20px}
 .gtoc a:hover{color:var(--amber);border-color:var(--amber)}
 
+/* 模式切換：極簡／引導／完整。Steam 風的分段按鈕，直角、選中用藍色漸層 */
+.modes{display:inline-flex;border:1px solid var(--line2);border-radius:var(--radius);overflow:hidden;flex-shrink:0}
+.modes button{background:transparent;border:none;border-right:1px solid var(--line2);color:var(--ink-dim);
+  font-family:inherit;font-size:13px;padding:5px 14px;cursor:pointer;line-height:1.3;text-align:center}
+.modes button:last-child{border-right:none}
+.modes button:hover{color:#fff;background:rgba(255,255,255,.05)}
+.modes button.on{background:var(--btn-blue);color:#fff}
+.modes button .d{display:block;font-size:10.5px;opacity:.75;letter-spacing:.3px}
+/* 各模式藏什麼。三種模式共用同一組已選標籤，只改畫面露出多少 */
+body[data-mode=simple] .roller,body[data-mode=simple] #navdims,body[data-mode=simple] .tgl.showall,
+body[data-mode=simple] .grid2,body[data-mode=simple] .aibox,body[data-mode=simple] #gen,
+body[data-mode=simple] footer.src,body[data-mode=simple] .bound{display:none}
+body[data-mode=guide] .roller,body[data-mode=guide] .presets,body[data-mode=guide] .toolbar,
+body[data-mode=guide] #dims,body[data-mode=guide] footer.src,body[data-mode=guide] .bound{display:none}
+body[data-mode=guide]:not(.gfinal) #ideaBox,body[data-mode=guide]:not(.gfinal) .grid2,
+body[data-mode=guide]:not(.gfinal) .aibox,body[data-mode=guide]:not(.gfinal) #genBrief,
+body[data-mode=guide]:not(.gfinal) #gen{display:none}
+body:not([data-mode=guide]) #guide,body:not([data-mode=guide]) #gmini{display:none}
+.simplehint{background:var(--panel2);border-left:3px solid var(--blue);padding:12px 14px;
+  font-size:13.5px;color:var(--ink);line-height:1.8;margin:0 0 16px}
+.simplehint b{color:var(--blue)}
+
+/* 引導模式 */
+.guide{margin:0 0 16px;scroll-margin-top:12px}
+.gprog{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.gprog button{font-family:inherit;font-size:12px;padding:4px 10px;border:1px solid var(--line2);border-radius:20px;
+  background:var(--bg2);color:var(--ink-dim);cursor:pointer;display:inline-flex;gap:5px;align-items:center}
+.gprog button .n{opacity:.7}
+.gprog button.done{border-color:var(--core);color:var(--core)}
+.gprog button.ask{border-color:var(--ask);color:var(--ask)}
+.gprog button.miss{border-color:var(--red);color:var(--red)}
+.gprog button.cur{background:var(--btn-blue);color:#fff;border-color:transparent}
+.gstep{background:var(--panel2);border-left:3px solid var(--blue);padding:14px 16px 12px}
+.gk{font-size:12px;color:var(--ink-dim);letter-spacing:1px}
+.gk .must{color:var(--red)}
+.gstep h2{font-size:18px;color:#fff;font-weight:400;margin:4px 0 4px;letter-spacing:.5px}
+.ghint{font-size:13px;color:var(--ink-dim);line-height:1.7;margin-bottom:8px}
+.ghint.miss{color:var(--red)}
+.gpick{font-size:12.5px;color:var(--ink);min-height:20px;margin-bottom:4px;line-height:1.7}
+.gpick b{color:var(--core)}
+#gchips section.dim{margin-bottom:10px}
+#gchips section.dim h2{font-size:12.5px;letter-spacing:1px;color:var(--ink-dim);border-bottom:none;padding-bottom:0;margin-bottom:0}
+.gnav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)}
+.gnav .gsp{flex:1}
+.gfin ul{margin:8px 0 8px 18px;font-size:13px;line-height:1.9}
+.gfin ul b{color:var(--core);font-weight:400}
+.gfin .miss{color:var(--red)}
+.gfin .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+/* 引導模式右側：即時前 3 款 */
+.gmini{display:flex;flex-direction:column;gap:6px}
+.gmini .t{font-size:12px;color:var(--ink-dim);line-height:1.6}
+.gmini a{display:flex;gap:8px;align-items:center;background:var(--panel2);text-decoration:none;color:var(--ink);
+  padding:5px;border-radius:var(--radius)}
+.gmini a:hover{background:#3d6d8e}
+.gmini img{width:88px;aspect-ratio:293/165;object-fit:cover;background:#0e1620;flex-shrink:0;display:block}
+.gmini .nm{font-size:12.5px;color:#fff;line-height:1.3;flex:1;min-width:0}
+.gmini .sc{font-size:11px;color:var(--blue);white-space:nowrap}
+
 .bound{width:100%;margin:6px 0 0;padding:9px 12px;border-left:3px solid var(--blue);
   background:rgba(102,192,244,.08);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink-dim);line-height:1.7}
 .bound b{color:var(--ink)}
@@ -351,6 +409,11 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
   <span class="sub">標籤抉擇就是設計決策——選完你會知道自己的特色在哪、哪些還沒決定</span>
   <button type="button" class="guidebtn" id="guideBtn">遊戲製作與選標籤指南</button>
   <a class="guidebtn glossary" href="https://treefar.link/game-glossary/" target="_blank" rel="noopener" title="不懂某個標籤或名詞？到遊戲名詞大百科查"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5c2.4-1.3 5.4-1.3 8 .2v14.3c-2.6-1.5-5.6-1.5-8-.2Z"/><path d="M21 5c-2.4-1.3-5.4-1.3-8 .2v14.3c2.6-1.5 5.6-1.5 8-.2Z"/></svg>遊戲名詞大百科</a>
+  <div class="modes" id="modes" aria-label="操作模式">
+    <button type="button" data-m="simple" title="只留起手式、搜尋、參考遊戲與定位單">極簡<span class="d">快速看方向</span></button>
+    <button type="button" data-m="guide" title="一次問一個維度，帶你走完定位">引導<span class="d">一步一步問</span></button>
+    <button type="button" data-m="full" title="所有功能：輪盤、十大維度、AI 工單設定">完整<span class="d">所有功能</span></button>
+  </div>
   <div class="bound">
     <b>這個工具幫你做的：</b>用 430 個 Steam 官方標籤釐清定位，標出「已確定」「差異化」「還沒決定」，
     並把「還沒決定的」附上取捨後果讓你自己判斷。全部在你的瀏覽器離線完成，不連網、不呼叫 AI。<br>
@@ -361,12 +424,33 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
 
 <div class="toolbar">
   <input type="search" id="q" placeholder="搜尋標籤（中英文、說明皆可）…">
-  <label class="tgl"><input type="checkbox" id="showAll"><span>顯示全部官方標籤</span></label>
+  <label class="tgl showall"><input type="checkbox" id="showAll"><span>顯示全部官方標籤</span></label>
   <nav class="navdims" id="navdims"></nav>
 </div>
 
 <div class="layout">
 <main id="main">
+  <div class="guide" id="guide">
+    <div class="gprog" id="gprog"></div>
+    <div class="gstep" id="gstepBox">
+      <div class="gk" id="gk"></div>
+      <h2 id="gq"></h2>
+      <div class="ghint" id="ghint"></div>
+      <div class="gpick" id="gpick"></div>
+      <div id="gchips"></div>
+      <div class="gnav">
+        <button class="btn sec" id="gprev" type="button">上一步</button>
+        <label class="tgl"><input type="checkbox" id="gall"><span>顯示全部官方標籤</span></label>
+        <span class="gsp"></span>
+        <button class="btn" id="gnext" type="button">下一步</button>
+      </div>
+    </div>
+    <div class="gstep gfin" id="gfin"></div>
+  </div>
+  <div class="simplehint" id="simpleHint">
+    <b>三步驟：</b>選一組起手式，或在上方搜尋標籤（例如「恐怖」「像素」「多人」）→ 右側看已選的標籤 → 按「Steam 上像哪些遊戲？」看最接近的作品。
+    要抽籤、看十大維度或設定 AI 工單，切到上方的「完整」。
+  </div>
   <div class="roller">
     <div class="lbl">靈感輪盤——抽一組標籤當命題。抽完可在右側鎖住喜歡的，再按同一顆按鈕只重抽沒鎖的。</div>
     <div class="row">
@@ -406,8 +490,9 @@ footer.src{margin-top:26px;font-size:12px;color:var(--ink-dim);border-top:1px so
   <div id="asks"></div>
 
   <button class="btn sec" id="gamesBtn" type="button">Steam 上像哪些遊戲？</button>
+  <div class="gmini" id="gmini"></div>
 
-  <div>
+  <div id="ideaBox">
     <label class="f">一句話構想（可留白，之後由你或 AI 依標籤反推）</label>
     <textarea id="idea" placeholder="例：在深夜的學校裡經營一間給幽靈的拉麵店"></textarea>
   </div>
@@ -1628,7 +1713,64 @@ function assessCombo(sel, GI, idx) {
   return res;
 }
 
+/* ---- 操作模式與引導步驟（2026-09-18 老師定案） ----
+   三種模式共用同一組已選標籤，只差畫面露出多少：
+     simple 極簡：起手式、搜尋、參考遊戲、定位單
+     guide  引導：一次問一個維度，必要四維先，選配五維可跳過；右側即時列最接近的 3 款
+     full   完整：所有功能
+   第一次開啟預設極簡；選過就存在瀏覽器裡；網址 ?mode= 可以指定（Moodle 各週放不同連結）。 */
+const MODES = ["simple", "guide", "full"];
+
+/** 決定要進哪個模式：網址參數 > 瀏覽器記住的 > 極簡。不認得的值一律當沒給。 */
+function resolveMode(param, stored) {
+  if (MODES.indexOf(param) >= 0) return param;
+  if (MODES.indexOf(stored) >= 0) return stored;
+  return "simple";
+}
+
+/* 引導模式的步驟。dims 是 DIM_NAMES 的索引；「類型」一步同時列子類型與大類型，任一有選就算填了。
+   順序：必要四維先（缺了無法定位），再問五個選配。 */
+const GUIDE_STEPS = [
+  { key: "type", label: "類型", dims: [1, 0], need: "must",
+    q: "你的遊戲是哪一種？",
+    hint: "子類型才是方向的心臟，先從上面選 1～2 個；大類型是商店頁門面，可以不選。" },
+  { key: "view", label: "視角", dims: [2], need: "must",
+    q: "玩家從哪裡看這個世界？",
+    hint: "2D 或 3D 是最先決定成本的一項：3D 一開始就要面對鏡頭、光照、模型、動畫。選 1～2 個。" },
+  { key: "art", label: "美術風格", dims: [3], need: "must",
+    q: "畫面看起來像什麼？",
+    hint: "風格決定你要找什麼素材、要做多久。選 1～2 個。" },
+  { key: "players", label: "玩家結構", dims: [8], need: "must",
+    q: "一個人玩，還是跟別人一起？",
+    hint: "多人是重工程：網路同步、配對、作弊防護都要做。學期專題以單人為主。" },
+  { key: "theme", label: "題材", dims: [4], need: "opt",
+    q: "故事發生在哪個世界？",
+    hint: "選配。題材決定美術參考與受眾，選 2～3 個；還沒想到可以跳過。" },
+  { key: "mood", label: "情緒", dims: [5], need: "opt",
+    q: "玩起來是什麼感覺？",
+    hint: "選配。情緒是玩家記住你的方式，選 1～3 個。" },
+  { key: "story", label: "敘事", dims: [6], need: "opt",
+    q: "劇情重不重要？",
+    hint: "選配。敘事向遊戲選 2～4 個；玩法為主的可以跳過。" },
+  { key: "mech", label: "機制", dims: [7], need: "opt",
+    q: "有什麼特別的玩法元素？",
+    hint: "選配。這裡最容易貪心，選 3～6 個就好。" },
+  { key: "scope", label: "範疇", dims: [9], need: "opt",
+    q: "還有什麼要補充的受眾或範疇？",
+    hint: "選配。視情況選 0～2 個。" }
+];
+
+/** 每一步填了哪些標籤。純函式，回傳 [{key,label,need,filled:[{en,role}]}] */
+function guideProgress(sel, idx) {
+  return GUIDE_STEPS.map(st => ({
+    key: st.key, label: st.label, need: st.need,
+    filled: (sel || []).filter(s => idx.byEn[s.en] && st.dims.indexOf(idx.byEn[s.en][0]) >= 0)
+                       .map(s => ({ en: s.en, role: s.role }))
+  }));
+}
+
 return {
+  MODES, resolveMode, GUIDE_STEPS, guideProgress,
   LOW_SCORE, RARE_TAG_PCT, assessCombo,
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,
@@ -1667,7 +1809,7 @@ function lsRead(key){
 }
 function save(){lsWrite(LS_STATE,{sel,idea:idea.value,time:timeEl.value,
   team:teamEl.value,aud:aud(),all:showAll.checked,rollN:rollNEl.value,curOnly:curOnly.checked,
-  m:[mA.checked,mB.checked,mC.checked,mD.checked,mE.checked]})}
+  m:[mA.checked,mB.checked,mC.checked,mD.checked,mE.checked],gs:gstep})}
 function load(){
   const h=lsRead(LS_HIST);
   hist=Array.isArray(h)?h.filter(x=>x&&typeof x.code==="string"&&typeof x.mode==="string"
@@ -1687,6 +1829,7 @@ function load(){
     const rn=parseInt(s.rollN);if(rn>=3&&rn<=10)rollNEl.value=rn;
     if(s.curOnly!==undefined)curOnly.checked=!!s.curOnly;
     if(Array.isArray(s.m))[mA,mB,mC,mD,mE].forEach((el,i)=>el.checked=!!s.m[i]);
+    const g=parseInt(s.gs);if(g>=0&&g<=GUIDE_STEPS.length)gstep=g;
   }catch(e){}
 }
 const aud=()=>document.querySelector("input[name=aud]:checked").value;
@@ -1705,6 +1848,19 @@ const dimsEl=$("dims"), selEl=$("sel"), countsEl=$("counts"), idea=$("idea"),
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
                       .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 
+/* 一顆標籤按鈕的 HTML。完整模式的維度區與引導模式的每一步都用這個，兩邊長得一樣、行為一樣。 */
+function chipHtml(t){
+  const mk=(t[3].includes("h")?"熱":"")+(t[3].includes("n")?"利":"")+(t[3].includes("w")?"注":"");
+  const eg=(t[7]||[]).map(x=>x.tw?`${x.en}（${x.tw}）`:x.en).join("、");
+  const tip=[t[4]||"",eg?`代表作：${eg}`:"",`Steam 官方標籤 ID ${t[5]}`]
+            .filter(Boolean).join("　·　");
+  // 用 <button> 而非 <span>：鍵盤可 Tab 進入、Enter／Space 可切換，螢幕閱讀器也讀得出狀態
+  return `<button type="button" class="chip" data-en="${esc(t[1])}" data-cur="${t[6]}"`+
+         ` data-tip="${esc(tip)}" aria-pressed="false" title="${esc(tip)}">`+
+         `<b>${esc(t[1])}</b><span class="zh">${esc(t[2])}</span>`+
+         (mk?`<span class="mk">${mk}</span>`:"")+
+         `<span class="badge"></span></button>`;
+}
 function buildDims(){
   let nav="";
   DIMS.forEach((d,i)=>{nav+=`<a href="#dim${i}">${i+1} ${d[0].split(" ")[0]}</a>`});
@@ -1712,18 +1868,7 @@ function buildDims(){
   let h="";
   DIMS.forEach((d,i)=>{
     h+=`<section class="dim" id="dim${i}"><h2>維度 ${i+1}：${d[0]}<span class="hint">${d[1]}</span></h2><div class="chips">`;
-    T.filter(t=>t[0]===i).forEach(t=>{
-      const mk=(t[3].includes("h")?"熱":"")+(t[3].includes("n")?"利":"")+(t[3].includes("w")?"注":"");
-      const eg=(t[7]||[]).map(x=>x.tw?`${x.en}（${x.tw}）`:x.en).join("、");
-      const tip=[t[4]||"",eg?`代表作：${eg}`:"",`Steam 官方標籤 ID ${t[5]}`]
-                .filter(Boolean).join("　·　");
-      // 用 <button> 而非 <span>：鍵盤可 Tab 進入、Enter／Space 可切換，螢幕閱讀器也讀得出狀態
-      h+=`<button type="button" class="chip" data-en="${esc(t[1])}" data-cur="${t[6]}"`+
-         ` data-tip="${esc(tip)}" aria-pressed="false" title="${esc(tip)}">`+
-         `<b>${esc(t[1])}</b><span class="zh">${esc(t[2])}</span>`+
-         (mk?`<span class="mk">${mk}</span>`:"")+
-         `<span class="badge"></span></button>`;
-    });
+    T.filter(t=>t[0]===i).forEach(t=>{h+=chipHtml(t)});
     h+=`</div></section>`;
   });
   dimsEl.innerHTML=h;
@@ -1839,7 +1984,8 @@ function applyPreset(p){
   render();
 }
 function render(){
-  dimsEl.querySelectorAll(".chip").forEach(c=>{
+  // 整頁的標籤按鈕一起更新：完整模式的維度區與引導模式當前一步的按鈕是同一套
+  document.querySelectorAll(".chip").forEach(c=>{
     const s=sel.find(x=>x.en===c.dataset.en);
     // 與已選標籤互斥的標籤變灰不可點，並說明是被誰擋住（已選中的永遠不擋，否則無法取消）
     const blk=blockedBy(c.dataset.en,sel);
@@ -1886,6 +2032,7 @@ function render(){
   countsEl.innerHTML=`核心 <b>${nC}</b>（建議 5～8）｜差異化 <b>${nD}</b>｜待抉擇 <b>${nQ}</b>｜商店頁計數 <b class="${store>20?"over":""}">${store}</b>／20${store>20?"　超過上限":""}`;
   drawCov();
   drawAsks();
+  drawGuide();
   drawGames();
   // render() 只在選擇或設定變動時被呼叫，所以此時畫面上的舊工單已過期。
   // 不標示的話學生會複製到與目前標籤不符的工單，這是最容易造成實際誤用的一點。
@@ -1991,6 +2138,10 @@ function applyFilter(){
     s.style.display=s.querySelectorAll(".chip:not(.hidden)").length?"":"none";
   });
   document.getElementById("shown").textContent=shown;
+  // 極簡模式：沒在搜尋時不攤開 430 顆標籤，只留提示；打了字才顯示搜到的
+  const idle=mode==="simple"&&!q;
+  dimsEl.style.display=idle?"none":"";
+  $("simpleHint").style.display=idle?"":"none";
 }
 qEl.addEventListener("input",applyFilter);
 showAll.addEventListener("change",()=>{applyFilter();save()});
@@ -2169,7 +2320,7 @@ document.getElementById("dl").addEventListener("click",()=>{
 });
 document.getElementById("clear").addEventListener("click",()=>{
   if(!confirm("清空所有選擇、構想與抽籤歷史？"))return;
-  sel=[];hist=[];idea.value="";
+  sel=[];hist=[];idea.value="";gstep=0;gBuilt=-1;
   outbox.style.display="none";staleBar.style.display="none";
   histBox.classList.remove("open");codeBox.classList.remove("open");
   showAll.checked=false;qEl.value="";
@@ -2248,10 +2399,25 @@ function drawGames(){
     return;
   }
   gamesBtn.disabled=!sel.length;
-  if(!sel.length){gamesBtn.textContent="Steam 上像哪些遊戲？（先選幾個標籤）";return}
+  if(!sel.length){gamesBtn.textContent="Steam 上像哪些遊戲？（先選幾個標籤）";drawMini({games:[]});return}
   const r=matchGames(sel,GI,IDX,{limit:GM_LIMIT});
   gamesBtn.textContent=`Steam 上像哪些遊戲？（${r.matched} 款相符）`;
+  drawMini(r);
   if(gmask2.classList.contains("open"))renderGames();   // 開著的時候跟著標籤一起更新
+}
+/* 引導模式右側：每選一個標籤就即時更新最接近的 3 款，讓學生看到自己的選擇怎麼改變結果 */
+const gmini=$("gmini");
+function drawMini(r){
+  if(mode!=="guide")return;
+  if(!sel.length){gmini.innerHTML=`<div class="t">選了標籤，這裡會即時列出 Steam 上最接近的 3 款。</div>`;return}
+  if(!r.games.length){gmini.innerHTML=`<div class="t">這組標籤在收錄的遊戲裡沒有任何一款共通到，先拿掉幾個再試。</div>`;return}
+  gmini.innerHTML=`<div class="t">目前最接近的 3 款（隨你的選擇即時更新，點開看全部）</div>`+r.games.slice(0,3).map(g=>{
+    const u=gameUrls(g);
+    return `<a href="${esc(u.store)}" target="_blank" rel="noopener noreferrer" title="在 Steam 商店頁開啟：${esc(u.store)}">`+
+      (u.thumb?`<img loading="lazy" alt="" src="${esc(u.thumb)}">`:"")+
+      `<span class="nm">${esc(g.name)}</span><span class="sc">吻合 ${Math.round(g.score*100)}%</span></a>`;
+  }).join("");
+  gmini.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.visibility="hidden"}));
 }
 
 /* 評論數：有商店頁資料才顯示（舊索引全是 0，顯示「尚無評分」會誤導） */
@@ -2368,7 +2534,107 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&gmask2.classList.co
 $("nAll").textContent=T.length;
 $("nCur").textContent=T.filter(t=>t[6]).length;
 
-buildDims();load();render();
+/* ---- 操作模式：極簡／引導／完整（規則與步驟資料在 core.js） ----
+   三種模式共用同一組已選標籤，只改畫面露出多少。模式存在瀏覽器裡，網址 ?mode=simple|guide|full 可以指定。 */
+const LS_MODE="steamTagPrompter.v1.mode";
+let mode="simple",gstep=0,gBuilt=-1;   // gBuilt：引導模式目前畫出來的是第幾步，換步才重建按鈕（不然點一下就失去鍵盤焦點）
+const guideEl=$("guide"),gchips=$("gchips");
+function setMode(m,byUser){
+  mode=MODES.includes(m)?m:"simple";
+  document.body.dataset.mode=mode;
+  document.querySelectorAll("#modes button").forEach(b=>b.classList.toggle("on",b.dataset.m===mode));
+  lsWrite(LS_MODE,mode);
+  // 使用者手動切換後，把網址上的 ?mode= 拿掉，不然重新整理又被蓋回去
+  if(byUser&&/[?&]mode=/.test(location.search))history.replaceState(null,"",location.pathname+location.hash);
+  gBuilt=-1;
+  drawGuide();applyFilter();drawGames();
+}
+function initMode(){
+  let p=null;try{p=new URLSearchParams(location.search).get("mode")}catch(e){}
+  setMode(resolveMode(p,lsRead(LS_MODE)));
+}
+document.querySelectorAll("#modes button").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.m,true)));
+
+function drawGuide(){
+  if(mode!=="guide")return;
+  const prog=guideProgress(sel,IDX),N=GUIDE_STEPS.length;
+  if(!(gstep>=0&&gstep<=N))gstep=0;
+  const final=gstep===N;
+  document.body.classList.toggle("gfinal",final);
+  // 進度列：每一步一顆，填了藍、含待抉擇黃、必要卻跳過紅
+  const pb=$("gprog");pb.textContent="";
+  const mkBtn=(cls,html,title,go)=>{
+    const b=document.createElement("button");b.type="button";b.className=cls;b.innerHTML=html;b.title=title;
+    b.addEventListener("click",()=>{gstep=go;gBuilt=-1;drawGuide();save()});pb.appendChild(b);
+  };
+  prog.forEach((p,i)=>{
+    const state=p.filled.length?(p.filled.some(f=>f.role==="ask")?"ask":"done"):(p.need==="must"&&i<gstep?"miss":"");
+    mkBtn((i===gstep?"cur ":"")+state,`<span class="n">${i+1}</span>${esc(p.label)}`,
+      p.filled.length?p.filled.map(f=>f.en).join("、"):(p.need==="must"?"必要，還沒選":"選配"),i);
+  });
+  mkBtn(final?"cur":"",`<span class="n">${N+1}</span>完成`,"看整體定位、產生定位單",N);
+  const stepBox=$("gstepBox"),fin=$("gfin");
+  if(final){stepBox.style.display="none";fin.style.display="";drawGuideFinal(prog);return}
+  stepBox.style.display="";fin.style.display="none";
+  const st=GUIDE_STEPS[gstep],p=prog[gstep];
+  if(gBuilt!==gstep){
+    $("gk").innerHTML=`第 ${gstep+1} 步／共 ${N} 步　<span class="${st.need}">${st.need==="must"?"必要維度：缺了無法定位":"選配：可以跳過"}</span>`;
+    $("gq").textContent=st.q;
+    $("ghint").textContent=st.hint;
+    let h="";
+    st.dims.forEach(d=>{
+      h+=`<section class="dim"><h2>${esc(DIMS[d][0])}<span class="hint">${esc(DIMS[d][1])}</span></h2><div class="chips">`;
+      T.filter(t=>t[0]===d).forEach(t=>{h+=chipHtml(t)});
+      h+=`</div></section>`;
+    });
+    gchips.innerHTML=h;
+    gchips.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>cycle(c.dataset.en)));
+    gBuilt=gstep;
+    render();return;   // 新建的按鈕要套上選取狀態；render() 會再回到這裡走下面的更新
+  }
+  // 精選或已選的才顯示；勾「顯示全部」才攤開該維度的全部官方標籤
+  const all=$("gall").checked;
+  gchips.querySelectorAll(".chip").forEach(c=>{const t=byEn[c.dataset.en];
+    c.classList.toggle("hidden",!(all||t[6]||sel.some(s=>s.en===t[1])))});
+  $("gpick").innerHTML=p.filled.length
+    ?`這一步已選：${p.filled.map(f=>`<b>${esc(f.en)}</b>（${ROLE_TXT[f.role]}）`).join("、")}`
+    :`<span style="color:var(--ink-dim)">還沒選。點下面的標籤；再點一次會變成差異化、待抉擇，第四次取消。</span>`;
+  $("gprev").disabled=gstep===0;
+  const nx=$("gnext");
+  if(st.need==="must"&&!p.filled.length){nx.disabled=true;nx.textContent="下一步（先選一個）"}
+  else{nx.disabled=false;nx.textContent=p.filled.length?"下一步":"跳過這步"}
+}
+function drawGuideFinal(prog){
+  const {missing}=coverage(sel,IDX);
+  const rows=prog.map(p=>`<li>${esc(p.label)}：${p.filled.length
+    ?p.filled.map(f=>`<b>${esc(f.en)}</b>（${ROLE_TXT[f.role]}）`).join("、")
+    :(p.need==="must"?'<span class="miss">還沒選（必要）</span>':'<span style="color:var(--ink-dim)">跳過</span>')}</li>`).join("");
+  $("gfin").innerHTML=`<div class="gk">第 ${GUIDE_STEPS.length+1} 步／完成</div><h2>${sel.length?"這是你目前的定位":"還沒選任何標籤"}</h2>
+    ${missing.length?`<div class="ghint miss">還缺必要的 ${esc(missing.join("、"))}，回去補了定位才成立。</div>`
+                    :`<div class="ghint">必要維度都齊了，其餘是加分項。</div>`}
+    <ul>${rows}</ul>
+    <div class="ghint">接下來：右側填「一句話構想」、製作時間與人數，再按「產生定位單」；要看參考遊戲按「Steam 上像哪些遊戲？」。想細調標籤角色，切到完整模式。</div>
+    <div class="row">
+      <button class="btn" id="gfBrief" type="button">產生定位單</button>
+      <button class="btn sec" id="gfGames" type="button">Steam 上像哪些遊戲？</button>
+      <button class="btn sec" id="gfFull" type="button">切到完整模式微調</button>
+      <button class="btn sec" id="gfRestart" type="button">回到第一步</button>
+    </div>`;
+  $("gfBrief").addEventListener("click",()=>$("genBrief").click());
+  $("gfGames").addEventListener("click",()=>{if(sel.length)openGames();else toast("先選幾個標籤")});
+  $("gfFull").addEventListener("click",()=>setMode("full",true));
+  $("gfRestart").addEventListener("click",()=>{gstep=0;gBuilt=-1;drawGuide();save();guideEl.scrollIntoView({block:"start"})});
+}
+function guideGo(delta){
+  const n=gstep+delta;
+  if(n<0||n>GUIDE_STEPS.length)return;
+  gstep=n;gBuilt=-1;drawGuide();save();guideEl.scrollIntoView({block:"start"});
+}
+$("gprev").addEventListener("click",()=>guideGo(-1));
+$("gnext").addEventListener("click",()=>guideGo(1));
+$("gall").addEventListener("change",drawGuide);
+
+buildDims();load();initMode();render();
 
 /* 深連結：#tag=<tagid>[,<tagid>…] 由「遊戲名詞大百科」等外部頁帶進來，把那些標籤設為核心並捲到第一顆。
    tagid 只接受數字；不認得的 id 忽略。已選過的不重複加、也不改角色。 */

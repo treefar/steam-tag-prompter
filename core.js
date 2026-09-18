@@ -517,7 +517,64 @@ function assessCombo(sel, GI, idx) {
   return res;
 }
 
+/* ---- 操作模式與引導步驟（2026-09-18 老師定案） ----
+   三種模式共用同一組已選標籤，只差畫面露出多少：
+     simple 極簡：起手式、搜尋、參考遊戲、定位單
+     guide  引導：一次問一個維度，必要四維先，選配五維可跳過；右側即時列最接近的 3 款
+     full   完整：所有功能
+   第一次開啟預設極簡；選過就存在瀏覽器裡；網址 ?mode= 可以指定（Moodle 各週放不同連結）。 */
+const MODES = ["simple", "guide", "full"];
+
+/** 決定要進哪個模式：網址參數 > 瀏覽器記住的 > 極簡。不認得的值一律當沒給。 */
+function resolveMode(param, stored) {
+  if (MODES.indexOf(param) >= 0) return param;
+  if (MODES.indexOf(stored) >= 0) return stored;
+  return "simple";
+}
+
+/* 引導模式的步驟。dims 是 DIM_NAMES 的索引；「類型」一步同時列子類型與大類型，任一有選就算填了。
+   順序：必要四維先（缺了無法定位），再問五個選配。 */
+const GUIDE_STEPS = [
+  { key: "type", label: "類型", dims: [1, 0], need: "must",
+    q: "你的遊戲是哪一種？",
+    hint: "子類型才是方向的心臟，先從上面選 1～2 個；大類型是商店頁門面，可以不選。" },
+  { key: "view", label: "視角", dims: [2], need: "must",
+    q: "玩家從哪裡看這個世界？",
+    hint: "2D 或 3D 是最先決定成本的一項：3D 一開始就要面對鏡頭、光照、模型、動畫。選 1～2 個。" },
+  { key: "art", label: "美術風格", dims: [3], need: "must",
+    q: "畫面看起來像什麼？",
+    hint: "風格決定你要找什麼素材、要做多久。選 1～2 個。" },
+  { key: "players", label: "玩家結構", dims: [8], need: "must",
+    q: "一個人玩，還是跟別人一起？",
+    hint: "多人是重工程：網路同步、配對、作弊防護都要做。學期專題以單人為主。" },
+  { key: "theme", label: "題材", dims: [4], need: "opt",
+    q: "故事發生在哪個世界？",
+    hint: "選配。題材決定美術參考與受眾，選 2～3 個；還沒想到可以跳過。" },
+  { key: "mood", label: "情緒", dims: [5], need: "opt",
+    q: "玩起來是什麼感覺？",
+    hint: "選配。情緒是玩家記住你的方式，選 1～3 個。" },
+  { key: "story", label: "敘事", dims: [6], need: "opt",
+    q: "劇情重不重要？",
+    hint: "選配。敘事向遊戲選 2～4 個；玩法為主的可以跳過。" },
+  { key: "mech", label: "機制", dims: [7], need: "opt",
+    q: "有什麼特別的玩法元素？",
+    hint: "選配。這裡最容易貪心，選 3～6 個就好。" },
+  { key: "scope", label: "範疇", dims: [9], need: "opt",
+    q: "還有什麼要補充的受眾或範疇？",
+    hint: "選配。視情況選 0～2 個。" }
+];
+
+/** 每一步填了哪些標籤。純函式，回傳 [{key,label,need,filled:[{en,role}]}] */
+function guideProgress(sel, idx) {
+  return GUIDE_STEPS.map(st => ({
+    key: st.key, label: st.label, need: st.need,
+    filled: (sel || []).filter(s => idx.byEn[s.en] && st.dims.indexOf(idx.byEn[s.en][0]) >= 0)
+                       .map(s => ({ en: s.en, role: s.role }))
+  }));
+}
+
 return {
+  MODES, resolveMode, GUIDE_STEPS, guideProgress,
   LOW_SCORE, RARE_TAG_PCT, assessCombo,
   VERSION, ROLES, BAN, HEAVY, CONFLICT, CFL, REQ_SKIP, CLASH, ASK_PAIRS, PLAYERS_SAFE,
   REQ, FILL, MODE_TXT, CODE_VER, CODE_LEN, CODE_MAX,

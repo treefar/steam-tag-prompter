@@ -500,6 +500,47 @@ test("抽籤結果可經短碼完整往返", () => {
   }
 });
 
+/* ---------------- 操作模式與引導步驟 ---------------- */
+
+test("模式判定：網址參數優先，其次瀏覽器記住的，都沒有就極簡；不認得的值當沒給", () => {
+  const { resolveMode, MODES } = core;
+  assert.deepEqual(MODES, ["simple", "guide", "full"]);
+  assert.equal(resolveMode("guide", "full"), "guide");
+  assert.equal(resolveMode(null, "full"), "full");
+  assert.equal(resolveMode(undefined, undefined), "simple");
+  assert.equal(resolveMode("hacker", "guide"), "guide", "網址亂寫要退回記住的");
+  assert.equal(resolveMode("hacker", { evil: 1 }), "simple", "localStorage 被寫壞也要退回極簡");
+  assert.equal(resolveMode("", ""), "simple");
+});
+
+test("引導步驟：十個維度各出現一次，必要四維在前且與 DIM_NEED 一致", () => {
+  const { GUIDE_STEPS, DIM_NEED, DIM_NAMES } = core;
+  const all = GUIDE_STEPS.flatMap(s => s.dims).sort((a, b) => a - b);
+  assert.deepEqual(all, DIM_NAMES.map((_, i) => i), "每個維度恰好被一步涵蓋");
+  const mustSteps = GUIDE_STEPS.filter(s => s.need === "must");
+  assert.deepEqual(GUIDE_STEPS.slice(0, mustSteps.length).map(s => s.need), mustSteps.map(() => "must"), "必要步驟要排在前面");
+  for (const s of GUIDE_STEPS) {
+    const needs = new Set(s.dims.map(d => DIM_NEED[d]));
+    if (s.need === "must") assert.ok([...needs].every(n => n === "must" || n === "type"), s.label + " 標必要但含選配維度");
+    else assert.ok([...needs].every(n => n === "opt"), s.label + " 標選配但含必要維度");
+    assert.ok(s.q && s.hint && s.label && s.key, s.key + " 缺文案");
+  }
+  assert.equal(new Set(GUIDE_STEPS.map(s => s.key)).size, GUIDE_STEPS.length, "key 不可重複");
+});
+
+test("引導進度：類型一步大類型或子類型任一有選就算填，其他維度各歸各步", () => {
+  const { guideProgress } = core;
+  const p = guideProgress([{ en: "Action", role: "core" }, { en: "Pixel Graphics", role: "diff" }, { en: "Horror", role: "ask" }], IDX);
+  const by = Object.fromEntries(p.map(x => [x.key, x]));
+  assert.deepEqual(by.type.filled, [{ en: "Action", role: "core" }], "Action 是大類型，歸類型步");
+  assert.deepEqual(by.art.filled, [{ en: "Pixel Graphics", role: "diff" }]);
+  assert.deepEqual(by.mood.filled, [{ en: "Horror", role: "ask" }], "Horror 在標籤庫歸情緒維度");
+  assert.deepEqual(by.view.filled, []);
+  assert.deepEqual(by.theme.filled, []);
+  assert.deepEqual(guideProgress([], IDX).map(x => x.filled.length), core.GUIDE_STEPS.map(() => 0));
+  assert.deepEqual(guideProgress([{ en: "不存在的標籤", role: "core" }], IDX).map(x => x.filled.length), core.GUIDE_STEPS.map(() => 0), "不認得的標籤不丟例外");
+});
+
 /* ---------------- 建置產物一致性 ---------------- */
 
 test("index.html 內嵌的 core.js 與原始檔一致（避免手改 index.html 造成分歧）", () => {
